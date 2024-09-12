@@ -4,11 +4,10 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
-import app from "./App.vue";
 import router from "./router/router.ts";
 
 
-createApp(App).mount('#app')
+const app = createApp(App)
 app.use(ElementPlus)
 app.use(router)
-
+app.mount('#app')
