@@ -49,5 +49,5 @@ const onSubmit = () => {
 </script>
 
 <style scoped>
-@import "../style/Login.css";
+@import "../style/RootLogin.css";
 </style>

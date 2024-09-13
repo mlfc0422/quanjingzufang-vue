@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Login from "../components/Login.vue";
 import UserRegister from "../components/UserRegister.vue";
 import UserLogin from "../components/UserLogin.vue";
+import RootLogin from "../components/RootLogin.vue";
 
 
 const router = createRouter({
@@ -12,8 +12,8 @@ const router = createRouter({
             redirect: '/UserLogin'
         },
         {
-            path:'/Login',
-            component : Login
+            path:'/RootLogin',
+            component : RootLogin
         },
         {
             path:'/UserRegister',
