@@ -16,18 +16,18 @@ const router = createRouter({
     routes: [
         {
             path:'/',
-            redirect:'/UserLogin'
+            redirect:'/userLogin'
         },
         {
-            path:'/RootLogin',
+            path:'/rootLogin',
             component : RootLogin
         },
         {
-            path:'/UserRegister',
+            path:'/userRegister',
             component : UserRegister
         },
         {
-            path:'/UserLogin',
+            path:'/userLogin',
             component : UserLogin
         },
         {
@@ -48,7 +48,7 @@ const router = createRouter({
                     component:Users
                 },
                 {
-                    path:'orders/info',
+                    path:'info',
                     component:OrdersInfo
                 }
             ]
