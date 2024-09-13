@@ -28,7 +28,6 @@ const router = createRouter({
             component : UserLogin
         },
         {
-
             path:'/rootIndex',
             name:'rootIndex',
             component:rootIndex,
