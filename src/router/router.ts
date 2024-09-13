@@ -1,19 +1,16 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import rootIndex from "../components/RootIndex.vue";
-import Login from "../components/Login.vue";
 import Availability from "../views/Availability.vue";
 import Orders from "../views/Orders.vue";
 import Users from "../views/Users.vue";
-
+import UserRegister from "../components/UserRegister.vue";
+import UserLogin from "../components/UserLogin.vue";
+import RootLogin from "../components/RootLogin.vue";
 
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
-        {
-            path:'/',
-            redirect: '/rootIndex'
-        },
         {
             path:'/rootIndex',
             name:'rootIndex',
@@ -34,9 +31,18 @@ const router = createRouter({
             ]
         },
         {
-            path:'/login',
-            component: Login
-        }
+            path:'/RootLogin',
+            component : RootLogin
+        },
+        {
+            path:'/UserRegister',
+            component : UserRegister
+        },
+        {
+            path:'/UserLogin',
+            component : UserLogin
+        },
+
     ]
 })
 
