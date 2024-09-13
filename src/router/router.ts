@@ -4,6 +4,7 @@ import Login from "../components/Login.vue";
 import Availability from "../views/Availability.vue";
 import Orders from "../views/Orders.vue";
 import Users from "../views/Users.vue";
+import OrdersInfo from "../views/OrdersDetail.vue";
 
 
 
@@ -30,6 +31,10 @@ const router = createRouter({
                 {
                     path:'users',
                     component:Users
+                },
+                {
+                    path:'orders/info',
+                    component:OrdersInfo
                 }
             ]
         },
