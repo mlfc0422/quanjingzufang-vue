@@ -4,9 +4,11 @@
       <el-header style="padding: 0">
         <div class="nav-header">
           <span class="nav-header-font">全景租房后台管理系统</span>
-          <div class="nav-header-logout">
-            <span class="nav-header-logout-font" @click="RootLogout">登出</span>
-          </div>
+          <router-link to="" class="logout-link">
+            <div class="nav-header-logout">
+              <span class="nav-header-logout-font">登出</span>
+            </div>
+          </router-link>
         </div>
       </el-header>
       <el-container>
@@ -66,14 +68,27 @@
 }
 
 /*登出*/
+.logout-link{
+  text-decoration: none;
+}
 .nav-header-logout{
   color:white;
   position: absolute; /* 修改 */
   right: 20px; /* 根据需要调整 */
   top: 50%;
   transform: translateY(-50%);
+  padding: 2px 15px 2px 15px;
+  background-color: rgba(159, 138, 138, 0.58);
+  border-radius: 4px;
+  margin-right: 5px;
 }
-
+.nav-header-logout:hover{
+  background-color: rgba(158, 56, 56, 0.58);
+  transition: background-color 0.3s;
+}
+.nav-header-logout-font{
+  text-decoration: none;
+}
 /*导航*/
 .navigate {
   background-color: rgba(218, 218, 218, 0.58);
