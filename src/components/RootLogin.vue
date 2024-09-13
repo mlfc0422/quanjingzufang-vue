@@ -36,10 +36,6 @@ const loginForm = reactive({
   password: '',
 })
 
-const toRegister = () =>{
-  console.log('UserRegister.vue')
-}
-
 const onSubmit = () => {
   console.log('submit!')
 }

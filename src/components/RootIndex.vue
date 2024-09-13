@@ -12,21 +12,26 @@
       <el-container>
         <el-aside width="300px;">
           <el-menu style="padding: 2px 2px 2px 0;background-color: rgba(205,205,205,0.27)">
-            <router-link to="/rootIndex/availability" class="navigate-a ">
               <el-menu-item index="1" class="navigate" style="padding: 0 0 0 30px;">
+                <router-link to="/rootIndex/availability" class="navigate-a ">
                 <span class="navigate-font">房源管理</span>
-              </el-menu-item>
-            </router-link>
-            <router-link to="/rootIndex/orders" class="navigate-a ">
+              </router-link>
+            </el-menu-item>
+            <el-menu-item index="2" class="navigate">
+              <router-link to="" class="navigate-a ">
+                <span class="navigate-font" @click="toOrders" >订单管理</span>
+              </router-link>
+            </el-menu-item>
               <el-menu-item index="2" class="navigate" style="margin-top: 2px;padding: 0 0 0 30px;">
+                <router-link to="/rootIndex/orders" class="navigate-a ">
                 <span class="navigate-font">订单管理</span>
+                </router-link>
               </el-menu-item>
-            </router-link>
-            <router-link to="/rootIndex/users" class="navigate-a ">
               <el-menu-item index="3" class="navigate" style="margin-top: 2px;padding: 0 0 0 30px;">
+                <router-link to="/rootIndex/users" class="navigate-a ">
                 <span class="navigate-font">用户管理</span>
-              </el-menu-item>
-            </router-link>
+              </router-link>
+            </el-menu-item>
           </el-menu>
         </el-aside>
         <el-container>
