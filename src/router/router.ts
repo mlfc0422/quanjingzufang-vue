@@ -7,6 +7,7 @@ import UserRegister from "../components/UserRegister.vue";
 import UserLogin from "../components/UserLogin.vue";
 import RootLogin from "../components/RootLogin.vue";
 import OrdersInfo from "../views/OrdersDetail.vue";
+import UserIndex from "../components/UserIndex.vue";
 
 
 
@@ -52,6 +53,11 @@ const router = createRouter({
                 }
             ]
         },
+        {
+            path: '/userIndex',
+            name: 'userIndex',
+            component:UserIndex
+        }
     ]
 })
 

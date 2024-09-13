@@ -11,20 +11,20 @@
   <div id="propertyCarousel" class="carousel slide" data-ride="carousel">
     <div class="carousel-inner">
       <div class="carousel-item active">
-        <img src="property1.jpg" class="d-block w-100" alt="Property 1">
+        <img src="#" class="d-block w-100" alt="Property 1">
       </div>
       <div class="carousel-item">
-        <img src="property2.jpg" class="d-block w-100" alt="Property 2">
+        <img src="#" class="d-block w-100" alt="Property 2">
       </div>
       <div class="carousel-item">
-        <img src="property3.jpg" class="d-block w-100" alt="Property 3">
+        <img src="#" class="d-block w-100" alt="Property 3">
       </div>
     </div>
-    <a class="carousel-control-prev" href="#propertyCarousel" role="button" data-slide="prev">
+    <a class="carousel-control-prev" href="#" role="button" data-slide="prev">
       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
       <span class="sr-only">Previous</span>
     </a>
-    <a class="carousel-control-next" href="#propertyCarousel" role="button" data-slide="next">
+    <a class="carousel-control-next" href="#" role="button" data-slide="next">
       <span class="carousel-control-next-icon" aria-hidden="true"></span>
       <span class="sr-only">Next</span>
     </a>
@@ -112,16 +112,20 @@
 
 </template>
 
+<script setup lang="ts">
 
-<!-- 引入Bootstrap和JavaScript -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
-<!-- 引入FontAwesome图标库 -->
-<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</script>
+
 
 <style scoped>
 body {
-  background-color: #f5f5f5;
+  background: linear-gradient(to right, #af6bf7, #9fb8e2) no-repeat;
+  background-size: cover;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
 }
 
 .search-bar {
@@ -218,12 +222,4 @@ body {
   border-bottom: none;
 }
 
-.footer {
-  background-color: #fff;
-  padding: 10px 0;
-  margin-top: 30px;
-  text-align: center;
-  font-size: 0.9rem;
-  color: #777;
-}
 </style>
