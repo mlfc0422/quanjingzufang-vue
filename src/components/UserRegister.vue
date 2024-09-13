@@ -24,7 +24,7 @@
           </el-form-item>
 
           <el-form-item>
-            <el-button style="width: 100%;" type="primary" @click="onSubmit">登录</el-button>
+            <el-button style="width: 100%;" type="primary" @click="onSubmit">注册</el-button>
           </el-form-item>
 
           <el-form-item>
