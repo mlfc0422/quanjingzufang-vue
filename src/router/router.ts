@@ -1,7 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Login from "../components/Login.vue";
+import rootIndex from "../components/RootIndex.vue";
+import Availability from "../views/Availability.vue";
+import Orders from "../views/Orders.vue";
+import Users from "../views/Users.vue";
 import UserRegister from "../components/UserRegister.vue";
 import UserLogin from "../components/UserLogin.vue";
+import RootLogin from "../components/RootLogin.vue";
 
 
 const router = createRouter({
@@ -9,11 +13,11 @@ const router = createRouter({
     routes: [
         {
             path:'/',
-            redirect: '/UserLogin'
+            redirect:'/UserLogin'
         },
         {
-            path:'/Login',
-            component : Login
+            path:'/RootLogin',
+            component : RootLogin
         },
         {
             path:'/UserRegister',
@@ -23,7 +27,26 @@ const router = createRouter({
             path:'/UserLogin',
             component : UserLogin
         },
+        {
 
+            path:'/rootIndex',
+            name:'rootIndex',
+            component:rootIndex,
+            children:[
+                {
+                    path:'availability',
+                    component:Availability
+                },
+                {
+                    path:'orders',
+                    component:Orders
+                },
+                {
+                    path:'users',
+                    component:Users
+                }
+            ]
+        },
     ]
 })
 
