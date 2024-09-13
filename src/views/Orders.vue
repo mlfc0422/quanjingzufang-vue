@@ -12,17 +12,153 @@ interface Order {
   amount:number;
   orderStatus: string;
   booked:number;
+
 }
-
-
 
 
 const orderList = ref<Order[]>([]);
 const keyword = ref();
-const filteredOrderList = ref<Order[]>([]);
+const filteredOrderList = ref<Order[]>([
+  {
+    id: 1,
+    houseTitle: '美丽的别墅',
+    userName: 'John Doe',
+    amount: 1000,
+    orderStatus: '已支付',
+    booked: 3,
+  },
+  {
+    id: 2,
+    houseTitle: '温馨公寓',
+    userName: 'Alice Smith',
+    amount: 800,
+    orderStatus: '待支付',
+    booked: 1,
+  },
+  {
+    id: 3,
+    houseTitle: '海景别墅',
+    userName: 'Michael Brown',
+    amount: 1200,
+    orderStatus: '已支付',
+    booked: 2,
+  },
+  {
+    id: 4,
+    houseTitle: '山间小屋',
+    userName: 'Emily Johnson',
+    amount: 600,
+    orderStatus: '已取消',
+    booked: 0,
+  },
+  {
+    id: 5,
+    houseTitle: '美丽的别墅',
+    userName: 'John Doe',
+    amount: 1000,
+    orderStatus: '已支付',
+    booked: 3,
+  },
+  {
+    id: 6,
+    houseTitle: '温馨公寓',
+    userName: 'Alice Smith',
+    amount: 800,
+    orderStatus: '待支付',
+    booked: 1,
+  },
+  {
+    id: 7,
+    houseTitle: '海景别墅',
+    userName: 'Michael Brown',
+    amount: 1200,
+    orderStatus: '已支付',
+    booked: 2,
+  },
+  {
+    id: 8,
+    houseTitle: '山间小屋',
+    userName: 'Emily Johnson',
+    amount: 600,
+    orderStatus: '已取消',
+    booked: 0,
+  },
+  {
+    id: 9,
+    houseTitle: '美丽的别墅',
+    userName: 'John Doe',
+    amount: 1000,
+    orderStatus: '已支付',
+    booked: 3,
+  },
+  {
+    id: 10,
+    houseTitle: '温馨公寓',
+    userName: 'Alice Smith',
+    amount: 800,
+    orderStatus: '待支付',
+    booked: 1,
+  },
+  {
+    id: 11,
+    houseTitle: '海景别墅',
+    userName: 'Michael Brown',
+    amount: 1200,
+    orderStatus: '已支付',
+    booked: 2,
+  },
+  {
+    id: 12,
+    houseTitle: '山间小屋',
+    userName: 'Emily Johnson',
+    amount: 600,
+    orderStatus: '已取消',
+    booked: 0,
+  },
+  {
+    id: 13,
+    houseTitle: '美丽的别墅',
+    userName: 'John Doe',
+    amount: 1000,
+    orderStatus: '已支付',
+    booked: 3,
+  },
+  {
+    id: 14,
+    houseTitle: '温馨公寓',
+    userName: 'Alice Smith',
+    amount: 800,
+    orderStatus: '待支付',
+    booked: 1,
+  },
+  {
+    id: 15,
+    houseTitle: '海景别墅',
+    userName: 'Michael Brown',
+    amount: 1200,
+    orderStatus: '已支付',
+    booked: 2,
+  },
+  {
+    id: 16,
+    houseTitle: '山间小屋',
+    userName: 'Emily Johnson',
+    amount: 600,
+    orderStatus: '已取消',
+    booked: 0,
+  },
+  {
+    id: 17,
+    houseTitle: '现代公寓',
+    userName: 'David Lee',
+    amount: 950,
+    orderStatus: '待支付',
+    booked: 1,
+  },
+]);
 
 onMounted(() => {
-  getOrderList(); // 组件挂载时获取课程列表数据
+  getOrderList(); // 组件挂载时获取订单列表数据
 });
 
 function getOrderList() {
@@ -41,7 +177,7 @@ function detailsInformation() {
 }
 
 function handleSearch() {
-  // 过滤课程列表
+  // 过滤订单列表
   filteredOrderList.value = orderList.value.filter((order) => {
     console.log("key的值"+keyword.value);
     return order.userName.includes(keyword.value) || order.houseTitle.includes(keyword.value) || order.orderStatus.includes(keyword.value);

@@ -16,7 +16,7 @@
             </el-menu-item>
             <el-menu-item index="2" class="navigate">
               <router-link to="" class="navigate-a ">
-                <span class="navigate-font">订单管理</span>
+                <span class="navigate-font" @click="toOrders" >订单管理</span>
               </router-link>
             </el-menu-item>
             <el-menu-item index="3" class="navigate">
@@ -39,6 +39,11 @@
 
 
 <script setup lang="ts">
+
+
+  const toOrders = () =>{
+
+  }
 
 </script>
 

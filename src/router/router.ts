@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import rootIndex from "../components/RootIndex.vue";
-import Availability from "../views/Availability.vue";
+import Property from "../views/Property.vue";
 import Orders from "../views/Orders.vue";
 import Users from "../views/Users.vue";
 import UserRegister from "../components/UserRegister.vue";
@@ -34,8 +34,8 @@ const router = createRouter({
             component:rootIndex,
             children:[
                 {
-                    path:'availability',
-                    component:Availability
+                    path:'property',
+                    component:Property
                 },
                 {
                     path:'orders',

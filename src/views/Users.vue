@@ -1,11 +1,72 @@
 <script setup lang="ts">
 
+import {onMounted, ref} from "vue";
+import axios from "axios";
+
+
+// 定义行数据的接口
+interface Users {
+  id: number;
+  userName: string;
+  account: number;
+  phone:number;
+  createTime: Date;
+
+}
+
+const usersList = ref<Users[]>([]);
+const keyword = ref();
+const filteredUsersList = ref<Users[]>([]);
+
+onMounted(() => {
+  getUsersList(); // 组件挂载时获取用户列表数据
+});
+
+function getUsersList() {
+  axios.get('users/list')
+      .then(res => {
+        usersList.value = res.data.data;
+        filteredUsersList.value = res.data.data.slice();
+      })
+      .catch(err => {
+        console.log(err);
+      });
+}
+
+function deleteInformation() {
+
+}
+
+function handleSearch() {
+  // 过滤用户列表
+  filteredUsersList.value = usersList.value.filter((users) => {
+    console.log("key的值"+keyword.value);
+    return users.userName.includes(keyword.value);
+  });
+}
 </script>
 
 <template>
-
+  <div id="order">
+    <el-input v-model="keyword" @input="handleSearch" placeholder="输入关键字搜索用户" clearable></el-input>
+    <el-table :data="filteredUsersList" height="100%" style="width: 100%">
+      <el-table-column prop="id" label="用户ID" width="180"/>
+      <el-table-column prop="houseTitle" label="用户昵称" width="180"/>
+      <el-table-column prop="userName" label="账号" width="180"/>
+      <el-table-column prop="amount" label="手机号" width="180"/>
+      <el-table-column prop="orderStatus" label="创建时间" width="180"/>
+      <!--在这里添加删除按钮 -->
+      <el-table-column label="操作" width="100">
+        <template v-slot="">
+          <el-button type="primary" @click="deleteInformation()">删除</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+  </div>
 </template>
 
 <style scoped>
-
+#order {
+  width: 100%;
+}
 </style>
