@@ -17,6 +17,7 @@ const dialogVisible = ref(false)
 const showAgreement = () => {
   console.log('用户服务协议链接被点击');
   dialogVisible.value = true; // 显示模态框
+  form.value.agree = true; // 自动勾选复选框
   console.log(dialogVisible.value);
 }
 
@@ -83,13 +84,14 @@ const register = async () => {
               <input type="password" class="form-control" v-model="form.confirmPassword" placeholder="请再次输入密码" required>
             </div>
             <div class="form-check">
+              <button type="submit" class="btn btn-primary btn-block">注册</button>
               <input type="checkbox" class="form-check-input" v-model="form.agree" required>
               <label class="form-check-label" for="agree">
                 已阅读并同意
               </label>
-              <a @click="showAgreement">《用户服务协议》</a>
+              <a class="agreement-link" @click="showAgreement">《用户服务协议》</a>
             </div>
-            <button type="submit" class="btn btn-primary btn-block">注册</button>
+
             <p class="text-center mt-3 small" style="margin-bottom: -16px;">
               已有账户？ <router-link to="/UserLogin">登录</router-link>
             </p>
@@ -149,6 +151,7 @@ const register = async () => {
   align-items: center;
   justify-content: center;
   margin: 0;
+  user-select: none;
 }
 
 .register-main {
@@ -182,6 +185,7 @@ const register = async () => {
   border-radius: 20px;
   background-color: #ff5f6d;
   border-color: #ff5f6d;
+  width: 20%;
 }
 
 .btn-primary:hover {
@@ -193,18 +197,29 @@ const register = async () => {
   color: #ff5f6d;
 }
 
-.small:hover {
+.small:hover,
+.agreement-link {
   color: #ffc371;
-}
-
-.form-check-label {
-  font-size: 0.9rem;
-  color: #ff5f6d;
+  cursor: pointer;
+  text-decoration: underline;
 }
 
 .form-check {
-  margin-bottom: 15px;
-  /* 减少复选框间距 */
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px; /* 减少复选框间距 */
+}
+
+.form-check-input {
+  margin-left: 10px; /* 调整复选框和按钮之间的间距 */
+}
+
+.form-check-label {
+  margin-left: 10px; /* 调整复选框标签和复选框之间的间距 */
+}
+
+.agreement-link {
+  margin-left: 10px; /* 调整链接和复选框标签之间的间距 */
 }
 
 /* 去除p元素的下边框 */
@@ -217,4 +232,11 @@ p.text-center {
   overflow-y: auto; /* 启用垂直滚动条 */
 }
 
+.form-group label {
+  margin-bottom: 5px; /* 调整标签和输入框之间的间距 */
+}
+
+.form-group input {
+  margin-top: 5px; /* 调整输入框和标签之间的间距 */
+}
 </style>

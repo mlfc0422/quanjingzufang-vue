@@ -92,9 +92,9 @@ const onSubmit = async () => {
             <div class="d-flex justify-content-between align-items-center">
               <button type="submit" class="btn btn-primary">登录</button>
               <div>
-                <a class="small" @click.prevent="goToForgotPassword">忘记密码？</a>
+                <a class="small clickable" @click.prevent="goToForgotPassword">忘记密码？</a>
                 <span>|</span>
-                <a class="small" @click.prevent="goToRegister">立即注册</a>
+                <a class="small clickable" @click.prevent="goToRegister">立即注册</a>
               </div>
             </div>
           </form>
@@ -113,6 +113,7 @@ const onSubmit = async () => {
   align-items: center;
   justify-content: center;
   margin: 0;
+  user-select: none;
 }
 
 .login-main {
@@ -154,8 +155,11 @@ const onSubmit = async () => {
   color: #6a11cb;
 }
 
-.small:hover {
+.small:hover,
+.clickable {
   color: #2575fc;
+  cursor: pointer;
+  text-decoration: underline;
 }
 
 /* 增加底部间距的样式 */
