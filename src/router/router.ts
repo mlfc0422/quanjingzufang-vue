@@ -6,6 +6,8 @@ import Users from "../views/Users.vue";
 import UserRegister from "../components/UserRegister.vue";
 import UserLogin from "../components/UserLogin.vue";
 import RootLogin from "../components/RootLogin.vue";
+import OrdersInfo from "../views/OrdersDetail.vue";
+
 
 
 const router = createRouter({
@@ -44,6 +46,10 @@ const router = createRouter({
                 {
                     path:'users',
                     component:Users
+                },
+                {
+                    path:'orders/info',
+                    component:OrdersInfo
                 }
             ]
         },
