@@ -16,7 +16,7 @@
           </el-form-item>
 
           <el-form-item>
-            <el-button style="width: 100%;" type="primary" @click="onSubmit">登录</el-button>
+            <el-button style="width: 100%;" type="primary" @click="onSubmit() ; submitForm()" >登录</el-button>
           </el-form-item>
 
           <el-form-item>
@@ -33,6 +33,8 @@
 <script lang="ts" setup>
 import { reactive } from 'vue'
 import router from "../router/router.ts";
+import auth from "../utils/auth.ts";
+import axios from "axios";
 
 
 // do not use same name with ref
@@ -50,6 +52,21 @@ const onSubmit = () => {
   console.log('submit!')
 }
 
+const submitForm = () => {
+  axios.post('userLogin', userLoginForm)
+      .then(res => {
+        if (res.data.code === 1) {
+          auth.userLogin();
+          alert('登录成功');
+          router.push('/userIndex/introduce');
+        } else {
+          alert('登录失败:' + res.data.msg);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+}
 
 
 
