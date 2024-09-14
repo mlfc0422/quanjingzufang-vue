@@ -1,50 +1,66 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import {createRouter, createWebHistory} from 'vue-router'
 import rootIndex from "../components/RootIndex.vue";
-import Availability from "../views/Availability.vue";
-import Orders from "../views/Orders.vue";
-import Users from "../views/Users.vue";
 import UserRegister from "../components/UserRegister.vue";
 import UserLogin from "../components/UserLogin.vue";
 import RootLogin from "../components/RootLogin.vue";
+import UserIndex from "../components/UserIndex.vue";
+import RootOrders from "../views/RootOrders.vue";
+import RootUsers from "../views/RootUsers.vue";
+import RootOrdersDetail from "../views/RootOrdersDetail.vue";
+import UserOrdersDetail from "../views/UserOrdersDetail.vue";
+import RootProperty from "../views/RootProperty.vue";
 
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
         {
-            path:'/',
-            redirect:'/UserLogin'
+            path: '/',
+            redirect: '/userLogin'
         },
         {
-            path:'/RootLogin',
-            component : RootLogin
+            path: '/userLogin',
+            component: UserLogin
         },
         {
-            path:'/UserRegister',
-            component : UserRegister
+            path: '/rootLogin',
+            component: RootLogin
         },
         {
-            path:'/UserLogin',
-            component : UserLogin
+            path: '/userRegister',
+            component: UserRegister
         },
         {
-
-            path:'/rootIndex',
-            name:'rootIndex',
-            component:rootIndex,
-            children:[
+            path: '/userIndex',
+            component: UserIndex,
+            children: [
                 {
-                    path:'availability',
-                    component:Availability
-                },
-                {
-                    path:'orders',
-                    component:Orders
-                },
-                {
-                    path:'users',
-                    component:Users
+                    path: 'userOrdersDetail',
+                    component: UserOrdersDetail
                 }
+            ]
+        },
+        {
+            path: '/rootIndex',
+            name: 'rootIndex',
+            component: rootIndex,
+            children: [
+                {
+                    path: 'rootProperty',
+                    component: RootProperty
+                },
+                {
+                    path: 'rootOrders',
+                    component: RootOrders
+                },
+                {
+                    path: 'rootUsers',
+                    component: RootUsers
+                },
+                {
+                    path: 'rootOrdersDetail',
+                    component: RootOrdersDetail
+                },
             ]
         },
     ]
