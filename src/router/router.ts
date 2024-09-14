@@ -9,6 +9,7 @@ import RootUsers from "../views/RootUsers.vue";
 import RootOrdersDetail from "../views/RootOrdersDetail.vue";
 import UserOrdersDetail from "../views/UserOrdersDetail.vue";
 import RootProperty from "../views/RootProperty.vue";
+import UserProperty from "../views/UserProperty.vue";
 
 
 const router = createRouter({
@@ -37,6 +38,10 @@ const router = createRouter({
                 {
                     path: 'userOrdersDetail',
                     component: UserOrdersDetail
+                },
+                {
+                    path: 'userProperty',
+                    component: UserProperty
                 }
             ]
         },
