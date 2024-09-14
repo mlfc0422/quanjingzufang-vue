@@ -207,5 +207,6 @@ function handleSearch() {
 <style scoped>
 #order {
   width: 100%;
+  height: 100%; /* 确保组件占满父容器的高度 */
 }
 </style>
