@@ -173,7 +173,7 @@ function getOrderList() {
 }
 
 function detailsInformation() {
-  router.push('/orderDetails')
+  router.push('/rootIndex/rootOrdersDetail');
 }
 
 function handleSearch() {

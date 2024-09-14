@@ -14,23 +14,24 @@
       <el-container>
         <el-aside width="300px;" style="border-bottom-left-radius: 6px;">
           <el-menu style="padding: 2px 2px 2px 0;background-color: rgba(205,205,205,0.27)">
-        
-            <el-menu-item index="1" class="navigate" style="padding: 0 0 0 30px;">
-              <router-link to="/rootIndex/property" class="navigate-a" active-class="active-link">
-                <span class="navigate-font">房源管理</span>
-              </router-link>
-            </el-menu-item>
 
+            <router-link to="/rootIndex/rootProperty" class="navigate-a" active-class="active-link">
+            <el-menu-item index="1" class="navigate" style="padding: 0 0 0 30px;">
+                <span class="navigate-font">房源管理</span>
+            </el-menu-item>
+            </router-link>
+
+            <router-link to="/rootIndex/rootOrders" class="navigate-a " active-class="active-link">
             <el-menu-item index="2" class="navigate" style="margin-top: 2px;padding: 0 0 0 30px;">
-              <router-link to="/rootIndex/orders" class="navigate-a " active-class="active-link">
                 <span class="navigate-font">订单管理</span>
-              </router-link>
             </el-menu-item>
+            </router-link>
+
+            <router-link to="/rootIndex/rootUsers" class="navigate-a " active-class="active-link">
             <el-menu-item index="3" class="navigate" style="margin-top: 2px;padding: 0 0 0 30px;">
-              <router-link to="/rootIndex/users" class="navigate-a " active-class="active-link">
                 <span class="navigate-font">用户管理</span>
-              </router-link>
             </el-menu-item>
+            </router-link>
           </el-menu>
         </el-aside>
         <el-container>
