@@ -1,27 +1,37 @@
 <script setup lang="ts">
-import {ref} from "vue";
 
-interface OrdersDetail {
-  id: number;
-  userId: number;
-  houseResourcesId: number;
-  createTime: Date;
-  startDate: Date;
-  endDate: Date;
-  totalPrice: number;
-}
-const order = ref<OrdersDetail>({
-  id: 1,
-  userId: 101,
-  houseResourcesId: 201,
-  createTime:new Date('2020-11-13'),
-  startDate: new Date('2023-01-01'),
-  endDate: new Date('2023-01-10'),
-  totalPrice: 1000,
+import {ref} from "vue";
+import router from "../router/router.ts";
+import axios from "axios";
+
+const order = ref({
+  outTradeNo: '',
+  propertyId: '',
+  userId: '',
+  subject: '',
+  totalAmount: '',
+  description: '',
+  createTime: '',
+  startDate: '',
+  endDate: '',
+  timeout_express: '10m',
+  product_code: 'FAST_INSTANT_TRADE_PAY'
 });
 
-const formatDate = (date: Date) => {
-  return date.toLocaleDateString();
+const confirmOrder = async () => {
+  try {
+    const response = await axios.post('/api/alipay', order.value);
+    if (response.data.success) {
+      // Handle successful order confirmation
+      console.log('Order confirmed:', response.data);
+      await router.push('/orderSuccess');
+    } else {
+      // Handle order confirmation failure
+      console.error('Order confirmation failed:', response.data.message);
+    }
+  } catch (error) {
+    console.error('Error confirming order:', error);
+  }
 };
 </script>
 
@@ -36,7 +46,7 @@ const formatDate = (date: Date) => {
                                           background-color: rgba(218, 218, 218, 0.68);">
               <el-col>
                 <div class="order-id">
-                  <span class="label">订单编号:</span><span>{{ order.id }}</span>
+                  <span class="label">订单编号:</span><span>{{ order.outTradeNo }}</span>
                 </div>
               </el-col>
             </el-row>
@@ -59,7 +69,7 @@ const formatDate = (date: Date) => {
               </el-col>
               <el-col :span="7">
                 <div class="order-detail-item">
-                  <span>{{ order.houseResourcesId }}</span>
+                  <span>{{ order.propertyId}}</span>
                 </div>
               </el-col>
             </el-row>
@@ -71,7 +81,7 @@ const formatDate = (date: Date) => {
               </el-col>
               <el-col :span="7">
                 <div class="order-detail-item">
-                  <span>{{ formatDate(order.createTime) }}</span>
+                  <span>{{ order.createTime }}</span>
                 </div>
               </el-col>
               <el-col :span="5">
@@ -81,7 +91,7 @@ const formatDate = (date: Date) => {
               </el-col>
               <el-col :span="7">
                 <div class="order-detail-item">
-                  <span>{{ formatDate(order.startDate) }}</span>
+                  <span>{{order.startDate}}</span>
                 </div>
               </el-col>
             </el-row>
@@ -93,7 +103,7 @@ const formatDate = (date: Date) => {
               </el-col>
               <el-col :span="7">
                 <div class="order-detail-item">
-                  <span>{{ formatDate(order.endDate) }}</span>
+                  <span>{{order.endDate}}</span>
                 </div>
               </el-col>
               <el-col :span="5">
@@ -103,7 +113,7 @@ const formatDate = (date: Date) => {
               </el-col>
               <el-col :span="7">
                 <div class="order-detail-item">
-                  <span>{{ order.totalPrice }}</span>
+                  <span>{{ order.totalAmount }}</span>
                 </div>
               </el-col>
             </el-row>
@@ -113,11 +123,9 @@ const formatDate = (date: Date) => {
                                           border-bottom-right-radius: 6px;
                                           height: 50px">
               <el-col :span="24">
-                <router-link to="" style="text-decoration: none;">
-                  <div class="confirm-button-col">
-                    <el-button type="primary">确认订单</el-button>
-                  </div>
-                </router-link>
+                <div class="confirm-button-col">
+                  <el-button type="primary" @click="confirmOrder">确认订单</el-button>
+                </div>
               </el-col>
             </el-row>
       </div>

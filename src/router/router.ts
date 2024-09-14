@@ -36,10 +36,6 @@ const router = createRouter({
             component: UserIndex,
             children: [
                 {
-                    path: 'userOrdersDetail',
-                    component: UserOrdersDetail
-                },
-                {
                     path: 'userProperty',
                     component: UserProperty
                 }
@@ -66,6 +62,10 @@ const router = createRouter({
                     path: 'rootOrdersDetail',
                     component: RootOrdersDetail
                 },
+                {
+                    path: 'userOrdersDetail',
+                    component: UserOrdersDetail
+                }
             ]
         },
     ]
