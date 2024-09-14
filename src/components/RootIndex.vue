@@ -12,7 +12,7 @@
         </div>
       </el-header>
       <el-container>
-        <el-aside width="300px;" style="border-bottom-left-radius: 6px;">
+        <el-aside style="border-bottom-left-radius: 6px;width: 18%;">
           <el-menu style="padding: 2px 2px 2px 0;background-color: rgba(205,205,205,0.27)">
 
             <router-link to="/rootIndex/rootProperty" class="navigate-a" active-class="active-link">
@@ -58,7 +58,7 @@
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
   height:60px;
-  background: linear-gradient(to right, rgb(3, 23, 81), rgb(218, 218, 218)); /* 渐变背景 */
+  background: linear-gradient(to right, rgba(3, 23, 81, 0.99), rgb(220, 230, 251)); /* 渐变背景 */
   display: flex;
   justify-content: center; /* 水平居中 */
   align-items: center; /* 垂直居中 */
