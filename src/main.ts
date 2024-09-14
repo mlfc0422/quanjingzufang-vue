@@ -7,6 +7,7 @@ import 'element-plus/dist/index.css'
 import router from "./router/router.ts";
 
 
+
 const app = createApp(App)
 app.use(router)
 app.use(ElementPlus)

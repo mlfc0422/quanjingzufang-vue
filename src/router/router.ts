@@ -1,14 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import rootIndex from "../components/RootIndex.vue";
-import RootAvailability from "../views/RootAvailability.vue";
-import RootOrders from "../views/RootOrders.vue";
-import RootUsers from "../views/RootUsers.vue";
+import Property from "../views/Property.vue";
+import Orders from "../views/Orders.vue";
+import Users from "../views/Users.vue";
 import UserRegister from "../components/UserRegister.vue";
 import UserLogin from "../components/UserLogin.vue";
 import RootLogin from "../components/RootLogin.vue";
-import RootOrdersDetail from "../views/RootOrdersDetail.vue";
+import OrdersInfo from "../views/OrdersDetail.vue";
 import UserIndex from "../components/UserIndex.vue";
-import UserOrdersDetail from "../views/UserOrdersDetail.vue";
 
 
 
@@ -17,14 +16,18 @@ const router = createRouter({
     routes: [
         {
             path:'/',
-            redirect:'/UserLogin'
+            redirect:'/userLogin'
         },
         {
-            path:'/UserLogin',
+            path:'/userLogin',
             component : UserLogin
         },
         {
-            path:'/UserRegister',
+            path:'/rootLogin',
+            component : RootLogin
+        },
+        {
+            path:'/userRegister',
             component : UserRegister
         },
         {
@@ -38,18 +41,13 @@ const router = createRouter({
             ]
         },
         {
-            path:'/RootLogin',
-            component : RootLogin
-        },
-        {
-
             path:'/rootIndex',
             name:'rootIndex',
             component:rootIndex,
             children:[
                 {
-                    path:'rootAvailability',
-                    component:RootAvailability
+                    path:'property',
+                    component:Property
                 },
                 {
                     path:'rootOrders',
@@ -62,9 +60,18 @@ const router = createRouter({
                 {
                     path:'rootOrders/detail',
                     component:RootOrdersDetail
+                },
+                {
+                    path:'info',
+                    component:OrdersInfo
                 }
             ]
         },
+        {
+            path: '/userIndex',
+            name: 'userIndex',
+            component:UserIndex
+        }
     ]
 })
 
