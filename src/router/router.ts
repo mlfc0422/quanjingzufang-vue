@@ -1,12 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import rootIndex from "../components/RootIndex.vue";
-import Availability from "../views/Availability.vue";
-import Orders from "../views/Orders.vue";
-import Users from "../views/Users.vue";
+import RootAvailability from "../views/RootAvailability.vue";
+import RootOrders from "../views/RootOrders.vue";
+import RootUsers from "../views/RootUsers.vue";
 import UserRegister from "../components/UserRegister.vue";
 import UserLogin from "../components/UserLogin.vue";
 import RootLogin from "../components/RootLogin.vue";
-import OrdersInfo from "../views/OrdersDetail.vue";
+import RootOrdersDetail from "../views/RootOrdersDetail.vue";
+import UserIndex from "../components/UserIndex.vue";
+import UserOrdersDetail from "../views/UserOrdersDetail.vue";
 
 
 
@@ -18,16 +20,26 @@ const router = createRouter({
             redirect:'/UserLogin'
         },
         {
-            path:'/RootLogin',
-            component : RootLogin
+            path:'/UserLogin',
+            component : UserLogin
         },
         {
             path:'/UserRegister',
             component : UserRegister
         },
         {
-            path:'/UserLogin',
-            component : UserLogin
+            path:'/userIndex',
+            component : UserIndex,
+            children:[
+                {
+                    path:'userOrders/detail',
+                    component:UserOrdersDetail
+                }
+            ]
+        },
+        {
+            path:'/RootLogin',
+            component : RootLogin
         },
         {
 
@@ -36,20 +48,20 @@ const router = createRouter({
             component:rootIndex,
             children:[
                 {
-                    path:'availability',
-                    component:Availability
+                    path:'rootAvailability',
+                    component:RootAvailability
                 },
                 {
-                    path:'orders',
-                    component:Orders
+                    path:'rootOrders',
+                    component:RootOrders
                 },
                 {
-                    path:'users',
-                    component:Users
+                    path:'rootUsers',
+                    component:RootUsers
                 },
                 {
-                    path:'orders/info',
-                    component:OrdersInfo
+                    path:'rootOrders/detail',
+                    component:RootOrdersDetail
                 }
             ]
         },
