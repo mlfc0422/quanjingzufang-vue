@@ -18,30 +18,47 @@
           <el-form-item>
             <el-button style="width: 100%;" type="primary" @click="onSubmit">登录</el-button>
           </el-form-item>
-
         </div>
-
       </el-form>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { reactive } from 'vue'
+import {reactive, ref} from 'vue'
+import axios from "axios";
+import router from "../router/router.ts";
 
 
-// do not use same name with ref
 const loginForm = reactive({
   account: '',
   password: '',
 })
 
-const onSubmit = () => {
-  console.log('submit!')
-}
+const errorMessage = ref('');
 
+const onSubmit = async () => {
+  if (!loginForm.account || !loginForm.password) {
+    errorMessage.value = '请输入账号和密码';
+    return;
+  }
 
+  try {
+    const response = await axios.post('/yonghu/root/login', {
+      account: loginForm.account,
+      password: loginForm.password,
+    });
+    const { code, msg} = response.data;
 
+    if (code === 1) {
+      await router.push('/rootIndex/rootProperty');
+    } else {
+      alert('登录失败:' + msg);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
 </script>
 
 <style scoped>
