@@ -34,7 +34,7 @@ const formatDate = (date: Date) => {
       <!--返 回-->
       <el-row  style="margin: 0">
         <el-col :span="2">
-          <router-link to="/rootIndex/orders" class="order-getBack-link">
+          <router-link to="/rootIndex/rootOrders" class="order-getBack-link">
             <div class="order-detail-item order-getBack">
               <span class="order-getBack-font">返回</span>
             </div>
@@ -58,7 +58,7 @@ const formatDate = (date: Date) => {
         <el-row style="margin: 5px 0 0 0">
           <el-col :span="11" :offset="3">
             <div class="order-detail-item">
-              <span class="label">用户ID:</span>
+              <span class="label">用户昵称:</span>
             </div>
           </el-col>
           <el-col :span="10">
@@ -70,7 +70,7 @@ const formatDate = (date: Date) => {
         <el-row style="margin: 5px 0 0 0">
           <el-col :span="11" :offset="3">
             <div class="order-detail-item">
-              <span class="label">房源ID:</span>
+              <span class="label">房源名:</span>
             </div>
           </el-col>
           <el-col :span="10">
@@ -149,7 +149,8 @@ const formatDate = (date: Date) => {
   background-color: rgba(205, 205, 205, 0.72);
   padding: 3px 15px 3px 15px;
   border-radius: 4px;
-  width: 100%;display: flex; /* 新增-返回垂直水平居中 */
+  width: 100%;
+  display: flex; /* 新增-返回垂直水平居中 */
   align-items: center; /* 新增 */
   justify-content: center; /* 新增 */
 }

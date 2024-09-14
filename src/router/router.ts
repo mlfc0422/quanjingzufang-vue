@@ -19,6 +19,10 @@ const router = createRouter({
             redirect:'/userLogin'
         },
         {
+            path:'/userLogin',
+            component : UserLogin
+        },
+        {
             path:'/rootLogin',
             component : RootLogin
         },
@@ -27,8 +31,14 @@ const router = createRouter({
             component : UserRegister
         },
         {
-            path:'/userLogin',
-            component : UserLogin
+            path:'/userIndex',
+            component : UserIndex,
+            children:[
+                {
+                    path:'userOrders/detail',
+                    component:UserOrdersDetail
+                }
+            ]
         },
         {
             path:'/rootIndex',
@@ -40,12 +50,16 @@ const router = createRouter({
                     component:Property
                 },
                 {
-                    path:'orders',
-                    component:Orders
+                    path:'rootOrders',
+                    component:RootOrders
                 },
                 {
-                    path:'users',
-                    component:Users
+                    path:'rootUsers',
+                    component:RootUsers
+                },
+                {
+                    path:'rootOrders/detail',
+                    component:RootOrdersDetail
                 },
                 {
                     path:'info',

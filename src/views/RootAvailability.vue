@@ -3,7 +3,7 @@
 </script>
 
 <template>
-<h1>即将展示的区域</h1>
+<h1>我可以实现你的三个愿望</h1>
 </template>
 
 <style scoped>
