@@ -4,15 +4,15 @@ import {ref} from "vue";
 import axios from "axios";
 
 const order = ref({
-  out_trade_no: '1111116',
-  // propertyId: '',
-  // userId: '',
+  out_trade_no: '1111118',
+  propertyId: '',
+  userId: '',
   subject: '11111',
-  total_amount: '1999999',
+  total_amount: '19',
   description: '11111',
-  // createTime: '',
-  // startDate: '',
-  // endDate: '',
+  createTime: '',
+  startDate: '',
+  endDate: '',
   timeout_express: '10m',
   product_code: 'FAST_INSTANT_TRADE_PAY'
 });
@@ -25,15 +25,16 @@ const confirmOrder = async () => {
     if (responseData.code === 1) {
       // Handle successful order confirmation
       console.log('Order confirmed:', responseData.data);
-      // 创建一个新的窗口
-      const paymentWindow = window.open('', '_blank', 'width=600,height=800');
-      // 检查 paymentWindow 是否为 null
+
+      // 使用 _self 在当前窗口中打开新页面
+      const paymentWindow = window.open('', '_self');
+
       if (paymentWindow) {
-        // 在新窗口中写入返回的 HTML
+        // 在当前标签页中写入返回的 HTML
         paymentWindow.document.write(responseData.data);
         paymentWindow.document.close(); // 关闭文档流，确保内容加载
       } else {
-        console.error('新窗口打开失败，请检查浏览器设置');
+        console.error('标签页打开失败，请检查浏览器设置');
       }
     } else {
       // Handle order confirmation failure
@@ -44,6 +45,7 @@ const confirmOrder = async () => {
   }
 };
 </script>
+
 
 <template>
   <div class="ordersDetail-container">
