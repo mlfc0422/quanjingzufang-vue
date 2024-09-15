@@ -50,13 +50,13 @@ function handleSearch() {
   <div id="order">
     <el-input v-model="keyword" @input="handleSearch" placeholder="输入关键字搜索用户" clearable></el-input>
     <el-table :data="filteredUsersList" height="100%" style="width: 100%">
-      <el-table-column prop="id" label="用户ID" width="180"/>
-      <el-table-column prop="houseTitle" label="用户昵称" width="180"/>
-      <el-table-column prop="userName" label="账号" width="180"/>
-      <el-table-column prop="amount" label="手机号" width="180"/>
-      <el-table-column prop="orderStatus" label="创建时间" width="180"/>
+      <el-table-column prop="id" label="用户ID" style="width: 18%"/>
+      <el-table-column prop="houseTitle" label="用户昵称" style="width: 18%"/>
+      <el-table-column prop="userName" label="账号" style="width: 18%"/>
+      <el-table-column prop="amount" label="手机号" style="width: 18%"/>
+      <el-table-column prop="orderStatus" label="创建时间" style="width: 18%"/>
       <!--在这里添加删除按钮 -->
-      <el-table-column label="操作" width="100">
+      <el-table-column label="操作" style="width: 10%">
         <template v-slot="">
           <el-button type="primary" @click="deleteInformation()">删除</el-button>
         </template>

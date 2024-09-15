@@ -51,14 +51,14 @@ function handleSearch() {
   <div id="order">
     <el-input v-model="keyword" @input="handleSearch" placeholder="输入关键字搜索房源" clearable></el-input>
     <el-table :data="filteredPropertyList" height="100%" style="width: 100%">
-      <el-table-column prop="id" label="ID" width="180"/>
-      <el-table-column prop="title" label="标题" width="180"/>
-      <el-table-column prop="userId" label="用户ID" width="180"/>
-      <el-table-column prop="userStatus" label="状态" width="180"/>
-      <el-table-column prop="createTime" label="创建时间" width="180"/>
-      <el-table-column prop="updateTime" label="更新时间" width="180"/>
+      <el-table-column prop="id" label="ID" style="width: 18%"/>
+      <el-table-column prop="title" label="标题" style="width: 18%"/>
+      <el-table-column prop="userId" label="用户ID" style="width: 18%"/>
+      <el-table-column prop="userStatus" label="状态" style="width: 18%"/>
+      <el-table-column prop="createTime" label="创建时间" style="width: 18%"/>
+      <el-table-column prop="updateTime" label="更新时间" style="width: 18%"/>
       <!--在这里添加详情信息按钮 -->
-      <el-table-column label="操作" width="100">
+      <el-table-column label="操作" style="width: 10%">
         <template v-slot="">
           <el-button type="primary" @click="deleteInformation()">详情信息</el-button>
         </template>
