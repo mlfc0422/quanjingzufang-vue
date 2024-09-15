@@ -145,6 +145,7 @@ const formatDate = (date: Date) => {
   background-color: rgba(218, 218, 218, 0.68);
 }
 
+/* 返回 */
 .order-getBack{
   background-color: rgba(205, 205, 205, 0.72);
   padding: 3px 15px 3px 15px;
@@ -169,12 +170,14 @@ const formatDate = (date: Date) => {
 }
 
 .order-getBack-link:hover .order-getBack{
-  background-color: rgba(170, 153, 153, 0.9);
+  /* background-color: rgba(170, 153, 153, 0.9);  原色  */
+  background: linear-gradient(45deg, rgba(175, 45, 45, 0.58), rgba(170, 153, 153, 0.9), rgba(175, 45, 45, 0.58));
   transition: background-color 0.15s;
 }
 
 .order-getBack-link:hover .order-getBack-font{
-  color: #7e4040;
+  /*color: #7e4040; 原色 */
+  color: #ffffff;
 }
 
 /*订单详情*/
