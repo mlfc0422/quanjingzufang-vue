@@ -189,13 +189,13 @@ function handleSearch() {
   <div id="order">
     <el-input v-model="keyword" @input="handleSearch" placeholder="输入关键字搜索订单" clearable></el-input>
     <el-table :data="filteredOrderList" height="100%" style="width: 100%">
-      <el-table-column prop="id" label="订单号" width="180"/>
-      <el-table-column prop="houseTitle" label="房源标题" width="180"/>
-      <el-table-column prop="userName" label="用户昵称" width="180"/>
-      <el-table-column prop="amount" label="金额" width="180"/>
-      <el-table-column prop="orderStatus" label="订单状态" width="180"/>
+      <el-table-column prop="id" label="订单号" style="width: 18%"/>
+      <el-table-column prop="houseTitle" label="房源标题" style="width: 18%"/>
+      <el-table-column prop="userName" label="用户昵称" style="width: 18%"/>
+      <el-table-column prop="amount" label="金额" style="width: 18%"/>
+      <el-table-column prop="orderStatus" label="订单状态" style="width: 18%"/>
         <!--在这里添加详情信息按钮 -->
-      <el-table-column label="操作" width="100">
+      <el-table-column label="操作" style="width: 10%">
         <template v-slot="">
           <el-button type="primary" @click="detailsInformation()">详情信息</el-button>
         </template>
@@ -207,5 +207,6 @@ function handleSearch() {
 <style scoped>
 #order {
   width: 100%;
+  height: 100%; /* 确保组件占满父容器的高度 */
 }
 </style>
