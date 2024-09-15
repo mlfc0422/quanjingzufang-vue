@@ -12,6 +12,8 @@ import RootProperty from "../views/RootProperty.vue";
 import UserProperty from "../views/UserProperty.vue";
 
 
+
+
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
@@ -33,13 +35,11 @@ const router = createRouter({
         },
         {
             path: '/userIndex',
-            component: UserIndex,
-            children: [
-                {
-                    path: 'userProperty',
-                    component: UserProperty
-                }
-            ]
+            component: UserIndex
+        },
+        {
+            path: '/userProperty',
+            component: UserProperty
         },
         {
             path: '/rootIndex',
