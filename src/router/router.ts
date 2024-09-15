@@ -9,6 +9,7 @@ import RootUsers from "../views/RootUsers.vue";
 import RootOrdersDetail from "../views/RootOrdersDetail.vue";
 import UserOrdersDetail from "../views/UserOrdersDetail.vue";
 import RootProperty from "../views/RootProperty.vue";
+import PaySuccess from "../components/PaySuccess.vue";
 
 
 const router = createRouter({
@@ -29,6 +30,10 @@ const router = createRouter({
         {
             path: '/userRegister',
             component: UserRegister
+        },
+        {
+            path: '/paySuccess',
+            component: PaySuccess
         },
         {
             path: '/userIndex',
