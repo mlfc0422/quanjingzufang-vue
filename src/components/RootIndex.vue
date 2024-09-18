@@ -76,9 +76,10 @@
       rgb(220, 230, 251) 100%
   );
   display: flex;
-  justify-content: center; /* 水平居中 */
+  justify-content: left; /* 水平居中-->水平靠左 */
   align-items: center; /* 垂直居中 */
   position: relative; /* 新增--用于登出 */
+  padding-left: 30px;/* 和导航栏一致 */
 }
 
 .nav-header-font {

@@ -121,27 +121,50 @@ const formatDate = (date: Date) => {
 
 .order-getBack {
   background: #4a90e2;
-  padding: 8px 20px;
-  border-radius: 8px;
+  padding: 3px 15px 3px 15px;
+  border-radius: 4px;
   color: white;
   font-size: 1rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  display: flex; /* 新增-返回垂直水平居中 */
+  align-items: center; /* 新增 */
+  justify-content: center; /* 新增 */
 }
 
 .order-getBack:hover {
   background: #357ab7;
 }
 
+
 .order-detail-global {
   padding: 20px;
 }
+
 
 .order-row {
   margin-bottom: 15px;
   display: flex;
   align-items: center;
 }
+.order-getBack-link{
+  text-decoration:none;
+  width: 100%;
+}
+
+.order-getBack-link:hover{
+  text-decoration:none;
+}
+
+
+/*订单详情*/
+.order-detail-global{
+  background-color: white;
+  border-radius: 4px;
+  padding: 20px 0 10px 0;
+}
+
+
 
 .label {
   font-weight: bold;
