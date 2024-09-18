@@ -23,10 +23,6 @@ const goToRegister = () => {
 };
 // 提交表单的函数
 const onSubmit = async () => {
-  if (!form.agree) {
-    alert('请同意用户服务协议');
-    return;
-  }
 
   try {
     const response = await axios.post('/api/login', {
@@ -64,38 +60,33 @@ const onSubmit = async () => {
 
 <template>
   <div class="main">
-    <!-- 主容器 -->
     <div class="container d-flex justify-content-center align-items-center">
       <div class="login-main">
         <div class="card shadow-sm p-4">
           <div class="card-header">登录到您的账户</div>
           <form id="login-form" @submit.prevent="onSubmit" autocomplete="off">
-            <div class="form-group mb-3"> <!-- 添加 mb-3 类以增加底部间距 -->
+            <!-- 账号输入框 -->
+            <div class="form-group mb-3">
               <label for="username">账号</label>
               <input type="text" class="form-control" id="username" placeholder="请输入账号" v-model="form.username" required />
             </div>
-            <div class="form-group mb-3"> <!-- 添加 mb-3 类以增加底部间距 -->
-              <label for="password">
-                <i class="iconfont icon-suo"></i> 密码
-              </label>
-              <input
-                  type="password"
-                  class="form-control"
-                  id="password"
-                  placeholder="请输入密码"
-                  v-model="form.password"
-                  name="password"
-                  required
-              />
+
+            <!-- 密码输入框 -->
+            <div class="form-group mb-3">
+              <label for="password">密码</label>
+              <input type="password" class="form-control" id="password" placeholder="请输入密码" v-model="form.password" required />
             </div>
 
-            <div class="d-flex justify-content-between align-items-center">
-              <button type="submit" class="btn btn-primary">登录</button>
-              <div>
-                <a class="small clickable" @click.prevent="goToForgotPassword">忘记密码？</a>
-                <span>|</span>
-                <a class="small clickable" @click.prevent="goToRegister">立即注册</a>
-              </div>
+            <!-- 登录按钮，单独一行 -->
+            <div class="mb-3">
+              <button type="submit" class="btn btn-primary w-100">登录</button>
+            </div>
+
+            <!-- 忘记密码和立即注册，单独一行居中显示 -->
+            <div class="text-center">
+              <a class="small clickable" @click.prevent="goToForgotPassword">忘记密码？</a>
+              <span class="mx-2">|</span>
+              <a class="small clickable" @click.prevent="goToRegister">立即注册</a>
             </div>
           </form>
         </div>
@@ -103,6 +94,7 @@ const onSubmit = async () => {
     </div>
   </div>
 </template>
+
 
 <style scoped>
 .main {
