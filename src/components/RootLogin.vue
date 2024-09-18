@@ -3,7 +3,7 @@
     <div class="global-container" >
       <el-form :model="loginForm" label-width="auto" style="max-width: 600px" >
         <div class="center-container">
-          <h4 style="text-align: center;color: #6a11cb;">
+          <h4 style="text-align: center;color:blue;">
             全景租房后台管理系统
           </h4>
           <div class="form-group mb-3"> <!-- 添加 mb-3 类以增加底部间距 -->
@@ -18,7 +18,7 @@
           </el-form-item>
 
           <el-form-item>
-            <el-button style="width: 15%;" type="primary" @click="onSubmit">登录</el-button>
+            <el-button style="width: 100%; margin-top: 10px"  type="primary" @click="onSubmit">登录</el-button>
           </el-form-item>
         </div>
       </el-form>
