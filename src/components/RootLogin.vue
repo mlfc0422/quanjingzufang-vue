@@ -8,12 +8,12 @@
           </h4>
           <div class="form-group mb-3"> <!-- 添加 mb-3 类以增加底部间距 -->
           <el-form-item label="">
-            <label for="username">账号</label>
+            <label for="account">账号</label>
             <el-input v-model="loginForm.account" placeholder="输入账号" clearable />
           </el-form-item>
           </div>
           <el-form-item label="">
-            <label for="username">密码</label>
+            <label for="password">密码</label>
             <el-input v-model="loginForm.password" placeholder="输入密码" clearable show-password />
           </el-form-item>
 
@@ -64,5 +64,31 @@ const onSubmit = async () => {
 </script>
 
 <style scoped>
-@import "../style/RootLogin.css";
+#login {
+  background-image: url(../assets/login.jpg);
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.center-container {
+  width: 30%;
+  position: absolute;
+  left: 50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  border: 1px solid rgb(85, 52, 204);
+  background-color: rgb(255, 255, 255);
+  box-shadow: 0 0 10px;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+el-form {
+  width: 100%;
+}
 </style>
