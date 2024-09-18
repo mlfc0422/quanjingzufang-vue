@@ -44,7 +44,7 @@ const onSubmit = async () => {
   }
 
   try {
-    const response = await axios.post('/yongHu/root/login', {
+    const response = await axios.post('/yonghu/root/login', {
       account: loginForm.account,
       password: loginForm.password,
     });
