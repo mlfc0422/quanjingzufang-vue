@@ -1,16 +1,15 @@
 <script setup lang="ts">
 
 import {ref} from "vue";
-import router from "../router/router.ts";
 import axios from "axios";
 
 const order = ref({
-  outTradeNo: '',
+  out_trade_no: '1111118',
   propertyId: '',
   userId: '',
-  subject: '',
-  totalAmount: '',
-  description: '',
+  subject: '11111',
+  total_amount: '19',
+  description: '11111',
   createTime: '',
   startDate: '',
   endDate: '',
@@ -20,20 +19,33 @@ const order = ref({
 
 const confirmOrder = async () => {
   try {
-    const response = await axios.post('/api/alipay', order.value);
-    if (response.data.success) {
+    const response = await axios.post('/dingdan/alipay', order.value);
+    const responseData = response.data;
+
+    if (responseData.code === 1) {
       // Handle successful order confirmation
-      console.log('Order confirmed:', response.data);
-      await router.push('/orderSuccess');
+      console.log('Order confirmed:', responseData.data);
+
+      // 使用 _self 在当前窗口中打开新页面
+      const paymentWindow = window.open('', '_self');
+
+      if (paymentWindow) {
+        // 在当前标签页中写入返回的 HTML
+        paymentWindow.document.write(responseData.data);
+        paymentWindow.document.close(); // 关闭文档流，确保内容加载
+      } else {
+        console.error('标签页打开失败，请检查浏览器设置');
+      }
     } else {
       // Handle order confirmation failure
-      console.error('Order confirmation failed:', response.data.message);
+      console.error('Order confirmation failed:', responseData.msg);
     }
   } catch (error) {
     console.error('Error confirming order:', error);
   }
 };
 </script>
+
 
 <template>
   <div class="ordersDetail-container">
@@ -46,7 +58,7 @@ const confirmOrder = async () => {
                                           background-color: rgba(218, 218, 218, 0.68);">
               <el-col>
                 <div class="order-id">
-                  <span class="label">订单编号:</span><span>{{ order.outTradeNo }}</span>
+                  <span class="label">订单编号:</span><span>{{ order.out_trade_no }}</span>
                 </div>
               </el-col>
             </el-row>
@@ -113,7 +125,7 @@ const confirmOrder = async () => {
               </el-col>
               <el-col :span="7">
                 <div class="order-detail-item">
-                  <span>{{ order.totalAmount }}</span>
+                  <span>{{ order.total_amount }}</span>
                 </div>
               </el-col>
             </el-row>
