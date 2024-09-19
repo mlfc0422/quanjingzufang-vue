@@ -16,7 +16,7 @@
       <div class="shortcut-buttons d-flex justify-content-around flex-wrap">
         <button class="btn btn-custom-like">
           <i class="iconfont icon-like"></i>
-          <span>我的点赞</span>
+          <span>我的订单</span>
         </button>
         <button class="btn btn-custom-favorite">
           <i class="iconfont icon-favorite"></i>
@@ -28,7 +28,7 @@
         </button>
         <button class="btn btn-custom-edit">
           <i class="iconfont icon-edit-info"></i>
-          <span>信息编辑</span>
+          <span>个人信息</span>
         </button>
       </div>
     </div>
@@ -75,7 +75,7 @@
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">
-            <i class="fas fa-info-circle nav-icon"></i><br>资讯
+            <i class="fas fa-info-circle nav-icon"></i><br>房源列表
           </a>
         </li>
         <li class="nav-item">

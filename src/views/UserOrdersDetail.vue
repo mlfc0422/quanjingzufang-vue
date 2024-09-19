@@ -4,11 +4,11 @@ import {ref} from "vue";
 import axios from "axios";
 
 const order = ref({
-  out_trade_no: '1111118',
+  out_trade_no: '111200',
   propertyId: '',
   userId: '',
   subject: '11111',
-  total_amount: '19',
+  total_amount: '18888',
   description: '11111',
   createTime: '',
   startDate: '',
@@ -19,7 +19,7 @@ const order = ref({
 
 const confirmOrder = async () => {
   try {
-    const response = await axios.post('/dingdan/alipay', order.value);
+    const response = await axios.post('/dingdan/order/alipay', order.value);
     const responseData = response.data;
 
     if (responseData.code === 1) {

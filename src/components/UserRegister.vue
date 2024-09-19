@@ -39,7 +39,7 @@ const register = async () => {
   }
 
   try {
-    const response = await axios.post('/api/register', form.value)
+    const response = await axios.post('/register', form.value)
     if (response.data.code === 1) {
       // 注册成功，处理成功逻辑，例如跳转到登录页面
       alert('注册成功！')
