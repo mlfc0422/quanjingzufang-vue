@@ -4,9 +4,9 @@ import axios from 'axios';
 import router from "../router/router.ts";
 
 const form = reactive({
-  username: '',
+  id: '',
+  account: '',
   password: '',
-  agree: false
 });
 
 // 用于存储错误消息
@@ -23,14 +23,10 @@ const goToRegister = () => {
 };
 // 提交表单的函数
 const onSubmit = async () => {
-  if (!form.agree) {
-    alert('请同意用户服务协议');
-    return;
-  }
 
   try {
-    const response = await axios.post('/api/login', {
-      username: form.username,
+    const response = await axios.post('/yonghu/user/login', {
+      account: form.account,
       password: form.password
     });
 
@@ -39,13 +35,13 @@ const onSubmit = async () => {
 
     if (code === 1) {
       // 登录成功，处理成功逻辑，例如保存 token 和用户信息
-      const { token, user } = data; // 假设 token 和 user 都在 data 中
-      localStorage.setItem('token', token);
-      localStorage.setItem('user', JSON.stringify(user));
+      const {user} = data; // 假设 token 和 user 都在 data 中
+      localStorage.setItem('jwt_token', data.token);
+      localStorage.setItem('id', user.id);
 
       // 登录成功后，可以进行页面跳转
       console.log('登录成功:', user);
-      // 例如：window.location.href = '/home';
+      await router.push('/userIndex');
     } else {
       // 登录失败，使用后端返回的消息
       errorMessage.value = msg;
@@ -71,8 +67,8 @@ const onSubmit = async () => {
           <div class="card-header">登录到您的账户</div>
           <form id="login-form" @submit.prevent="onSubmit" autocomplete="off">
             <div class="form-group mb-3"> <!-- 添加 mb-3 类以增加底部间距 -->
-              <label for="username">账号</label>
-              <input type="text" class="form-control" id="username" placeholder="请输入账号" v-model="form.username" required />
+              <label for="account">账号</label>
+              <input type="text" class="form-control" id="account" placeholder="请输入账号" v-model="form.account" required />
             </div>
             <div class="form-group mb-3"> <!-- 添加 mb-3 类以增加底部间距 -->
               <label for="password">
