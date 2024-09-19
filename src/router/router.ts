@@ -11,6 +11,8 @@ import UserOrdersDetail from "../views/UserOrdersDetail.vue";
 import RootProperty from "../views/RootProperty.vue";
 import PaySuccess from "../views/PaySuccess.vue";
 import UserProperty from "../views/UserProperty.vue";
+import viewPropertyDetails from "../views/ViewPropertyDetails.vue";
+
 
 
 const router = createRouter({
@@ -43,6 +45,10 @@ const router = createRouter({
         {
             path: '/userProperty',
             component: UserProperty
+        },
+        {
+            path: '/viewPropertyDetails',
+            component: viewPropertyDetails
         },
         {
             path: '/rootIndex',
