@@ -8,9 +8,9 @@
         mode="horizontal"
         @select="handleSelect"
     >
-      <div class="logo">全景租房网</div>
-      <el-menu-item index="1">首页</el-menu-item>
-      <el-menu-item index="2">房源列表</el-menu-item>
+      <router-link to="UserIndex" style="text-decoration: none"><div class="logo">全景租房网</div></router-link>
+      <el-menu-item index="2" @click="goUserMine">个人中心</el-menu-item>
+      <el-menu-item index="1">房源列表</el-menu-item>
     </el-menu>
     <div class="h-6" />
   </el-affix>
@@ -69,11 +69,12 @@ const handleSelect = (key: string, keyPath: string[]) => {
   console.log(key, keyPath)
 }
 
-
-
 const goViewPropertyDetails = () => {
-  router.push("/ViewPropertyDetails")
+  router.push("/UserPropertyDetails")
+}
 
+const goUserMine = () => {
+  router.push("/UserMine")
 }
 
 //列表内容方法
@@ -107,7 +108,7 @@ const houses = ref<House[]>([
 
   },
   {
-    image: 'https://example.com/image2.jpg',
+    image: 'src/assets/img01.jpg',
     title: '房源2',
     info: '环境优美，附近有公园，适合居住。',
     price: 980000,
@@ -118,7 +119,7 @@ const houses = ref<House[]>([
     map:"",
   },
   {
-    image: 'https://example.com/image3.jpg',
+    image: 'src/assets/login.jpg',
     title: '房源3',
     info: '全新装修，现代风格，交通便利。',
     price: 1500000,
@@ -129,7 +130,7 @@ const houses = ref<House[]>([
     map:"",
   },
   {
-    image: 'https://example.com/image4.jpg',
+    image: 'src/assets/img01.jpg',
     title: '房源4',
     info: '老城区核心地带，历史悠久，周边配套完善。',
     price: 850000,
@@ -140,7 +141,7 @@ const houses = ref<House[]>([
     map:"",
   },
   {
-    image: 'https://example.com/image5.jpg',
+    image: 'src/assets/login.jpg',
     title: '房源5',
     info: '大户型，南北通透，视野开阔。',
     price: 2000000,
@@ -151,7 +152,7 @@ const houses = ref<House[]>([
     map:"",
   },
   {
-    image: 'https://example.com/image6.jpg',
+    image: 'src/assets/img01.jpg',
     title: '房源6',
     info: '安静社区，邻里友好，生活便利。',
     price: 1100000,
@@ -162,7 +163,7 @@ const houses = ref<House[]>([
     map:"",
   },
   {
-    image: 'https://example.com/image7.jpg',
+    image: 'src/assets/login.jpg',
     title: '房源7',
     info: '临近商圈，购物方便，交通发达。',
     price: 1300000,
@@ -173,7 +174,7 @@ const houses = ref<House[]>([
     map:"",
   },
   {
-    image: 'https://example.com/image8.jpg',
+    image: 'src/assets/img01.jpg',
     title: '房源8',
     info: '带花园，适合家庭居住，环境宜人。',
     price: 1700000,
@@ -184,7 +185,7 @@ const houses = ref<House[]>([
     map:"",
   },
   {
-    image: 'https://example.com/image9.jpg',
+    image: 'src/assets/login.jpg',
     title: '房源9',
     info: '小区内绿化好，配套设施完善，适合投资。',
     price: 950000,
@@ -195,7 +196,7 @@ const houses = ref<House[]>([
     map:"",
   },
   {
-    image: 'https://example.com/image10.jpg',
+    image: 'src/assets/img01.jpg',
     title: '房源10',
     info: '豪华装修，高档小区，居住舒适。',
     price: 2500000,
@@ -217,7 +218,7 @@ const houses = ref<House[]>([
 .logo {
   font-size: 24px;
   font-weight: bold;
-  background-color: #409eff;
+  background-color:#409eff;
   display: flex;
   align-items: center;
   justify-content: space-between;

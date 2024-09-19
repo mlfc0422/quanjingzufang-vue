@@ -1,4 +1,16 @@
 <script setup lang="ts">
+import router from "../router/router.ts";
+
+const goUserProperty = () => {
+  router.push("/UserProperty")
+}
+
+const goUserRelease = () => {
+  router.push("/UserRelease")
+}
+const goUserInformation = () =>{
+  router.push("/UserInformation")
+}
 
 </script>
 
@@ -22,11 +34,11 @@
           <i class="iconfont icon-favorite"></i>
           <span>我的收藏</span>
         </button>
-        <button class="btn btn-custom-publish">
+        <button class="btn btn-custom-publish" @click="goUserRelease">
           <i class="iconfont icon-edit"></i>
           <span>我的发布</span>
         </button>
-        <button class="btn btn-custom-edit">
+        <button class="btn btn-custom-edit" @click="goUserInformation">
           <i class="iconfont icon-edit-info"></i>
           <span>个人信息</span>
         </button>
@@ -74,7 +86,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">
+          <a class="nav-link" @click="goUserProperty" >
             <i class="fas fa-info-circle nav-icon"></i><br>房源列表
           </a>
         </li>
