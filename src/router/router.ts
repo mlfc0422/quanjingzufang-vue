@@ -11,6 +11,7 @@ import UserOrdersDetail from "../views/UserOrdersDetail.vue";
 import RootProperty from "../views/RootProperty.vue";
 import PaySuccess from "../views/PaySuccess.vue";
 import UserProperty from "../views/UserProperty.vue";
+import UserPropertyDetails from "../views/UserPropertyDetails.vue";
 
 
 const router = createRouter({
@@ -38,11 +39,22 @@ const router = createRouter({
         },
         {
             path: '/userIndex',
-            component: UserIndex
-        },
-        {
-            path: '/userProperty',
-            component: UserProperty
+            name: 'userIndex',
+            component: UserIndex,
+            children: [
+                {
+                    path: 'userProperty',
+                    component: UserProperty
+                },
+                {
+                    path: 'userPropertyDetails',
+                    component: UserPropertyDetails
+                },
+                {
+                    path: 'userOrdersDetail',
+                    component: UserOrdersDetail
+                }
+            ]
         },
         {
             path: '/rootIndex',
@@ -65,10 +77,6 @@ const router = createRouter({
                     path: 'rootOrdersDetail',
                     component: RootOrdersDetail
                 },
-                {
-                    path: 'userOrdersDetail',
-                    component: UserOrdersDetail
-                }
             ]
         },
     ]

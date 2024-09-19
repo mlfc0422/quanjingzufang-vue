@@ -17,19 +17,29 @@
 
             <router-link to="/rootIndex/rootProperty" class="navigate-a" active-class="active-link">
               <el-menu-item index="1" class="navigate" style="padding: 0 0 0 30px;">
-                <span class="navigate-font">房源管理</span>
+                <span class="navigate-font">
+                  <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" ><path fill="currentColor" d="M192 413.952V896h640V413.952L512 147.328zM139.52 374.4l352-293.312a32 32 0 0 1 40.96 0l352 293.312A32 32 0 0 1 896 398.976V928a32 32 0 0 1-32 32H160a32 32 0 0 1-32-32V398.976a32 32 0 0 1 11.52-24.576"></path></svg>                  房源管理
+                </span>
               </el-menu-item>
             </router-link>
 
             <router-link to="/rootIndex/rootOrders" class="navigate-a " active-class="active-link">
               <el-menu-item index="2" class="navigate" style="margin-top: 6px;padding: 0 0 0 30px;">
-                <span class="navigate-font">订单管理</span>
+                <span class="navigate-font">
+                  <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" ><path fill="currentColor" d="M832 512a32 32 0 1 1 64 0v352a32 32 0 0 1-32 32H160a32 32 0 0 1-32-32V160a32 32 0 0 1 32-32h352a32 32 0 0 1 0 64H192v640h640z"></path><path fill="currentColor" d="m469.952 554.24 52.8-7.552L847.104 222.4a32 32 0 1 0-45.248-45.248L477.44 501.44l-7.552 52.8zm422.4-422.4a96 96 0 0 1 0 135.808l-331.84 331.84a32 32 0 0 1-18.112 9.088L436.8 623.68a32 32 0 0 1-36.224-36.224l15.104-105.6a32 32 0 0 1 9.024-18.112l331.904-331.84a96 96 0 0 1 135.744 0z"></path></svg>
+                  订单管理
+                </span>
               </el-menu-item>
             </router-link>
 
             <router-link to="/rootIndex/rootUsers" class="navigate-a " active-class="active-link">
               <el-menu-item index="3" class="navigate" style="margin-top: 6px;padding: 0 0 0 30px;">
-                <span class="navigate-font">用户管理</span>
+                <span class="navigate-font">
+                  <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+                    <path fill="currentColor" d="M512 512a192 192 0 1 0 0-384 192 192 0 0 0 0 384m0 64a256 256 0 1 1 0-512 256 256 0 0 1 0 512m320 320v-96a96 96 0 0 0-96-96H288a96 96 0 0 0-96 96v96a32 32 0 1 1-64 0v-96a160 160 0 0 1 160-160h448a160 160 0 0 1 160 160v96a32 32 0 1 1-64 0"></path>
+                  </svg>
+                  用户管理
+                </span>
               </el-menu-item>
             </router-link>
           </el-menu>
@@ -44,14 +54,11 @@
   </div>
 </template>
 
-
 <script setup lang="ts">
 
 </script>
 
 <style scoped>
-
-
 /*标题*/
 .nav-header {
   width: 100%;
@@ -148,6 +155,14 @@
   font-size: 1rem;
 }
 
+/* 图标样式 */
+.icon {
+  font-size: 1.2rem; /* 调整图标大小 */
+  vertical-align: middle; /* 垂直对齐 */
+  margin-right: 5px; /* 图标和文字之间的间距 */
+  height: 20px;
+}
+
 /*
   非人力
 */
@@ -162,7 +177,4 @@ el-aside {
 el-main {
   padding: 20px;
 }
-
-
-
 </style>
