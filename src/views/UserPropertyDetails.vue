@@ -8,11 +8,12 @@
         @select="handleSelect"
     >
       <div class="logo">全景租房网</div>
-      <el-menu-item index="1">首页</el-menu-item>
-      <el-menu-item index="2">房源列表</el-menu-item>
+      <el-menu-item index="2">首页</el-menu-item>
+      <el-menu-item index="1">房源详情</el-menu-item>
     </el-menu>
     <div class="h-6" />
   </el-affix>
+
   <div class="container my-4">
     <div class="row">
       <!-- 房源图片 -->
@@ -38,6 +39,11 @@
           <div v-if="currentHouse.map" class="map-container mt-3">
             <h4>地图:</h4>
             <div class="map p-2 bg-light rounded">{{ currentHouse.map }}</div>
+          </div>
+
+          <!-- 新增下单按钮 -->
+          <div class="order-btn mt-4">
+            <el-button type="success" @click="placeOrder">确认下单</el-button>
           </div>
         </div>
       </div>
@@ -89,9 +95,27 @@ const currentHouse = ref<CurrentHouse>({
   userReview: "很满意",
   map: "地图链接"
 })
+
+// 下单功能
+const placeOrder = () => {
+  console.log("已下单房源: ", currentHouse.value.title);
+  // 这里可以进一步实现下单逻辑，如弹出确认对话框或发送请求
+}
 </script>
 
 <style scoped>
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  background-color: #409eff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
+  height: 60px;
+  color: white;
+}
+
 /* 页面整体布局 */
 .container {
   max-width: 1200px;
@@ -117,5 +141,10 @@ const currentHouse = ref<CurrentHouse>({
 
 .map {
   background-color: #eef3f7;
+}
+
+.order-btn {
+  display: flex;
+  justify-content: flex-start;
 }
 </style>
