@@ -116,6 +116,18 @@ const saveUserInfo = () => {
 </script>
 
 <style scoped>
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  background-color: #409eff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
+  height: 60px;
+  color: white;
+}
+
 .container {
   max-width: 800px;
 }

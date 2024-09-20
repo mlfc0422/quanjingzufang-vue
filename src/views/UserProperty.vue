@@ -1,5 +1,4 @@
 <template>
-
   <el-affix>
     <!--导航栏-->
     <el-menu
@@ -8,220 +7,216 @@
         mode="horizontal"
         @select="handleSelect"
     >
-      <router-link to="UserIndex" style="text-decoration: none"><div class="logo">全景租房网</div></router-link>
+      <router-link to="UserIndex" style="text-decoration: none">
+        <div class="logo">全景租房网</div>
+      </router-link>
       <el-menu-item index="2" @click="goUserMine">个人中心</el-menu-item>
       <el-menu-item index="1">房源列表</el-menu-item>
     </el-menu>
     <div class="h-6" />
   </el-affix>
 
+  <!-- 搜索框 -->
+  <div class="search-bar container mt-4">
+    <el-input
+        v-model="searchQuery"
+        placeholder="请输入房源标题或地址进行搜索"
+        clearable
+        prefix-icon="el-icon-search"
+        @input="handleSearch"
+    />
+  </div>
 
-<!--列表内容-->
-  <div class="house-list" style="width: 100%">
+  <!--列表内容-->
+  <div class="house-list container mt-4">
     <el-row
-        v-for="(house, index) in houses"
+        v-for="(house, index) in paginatedHouses"
         :key="index"
         class="house-item"
         :gutter="20"
-        style="width: 100%"
     >
       <!-- 左侧图片 -->
-      <el-col :xs="24" :sm="8" :md="6" :lg="4">
+      <el-col :xs="24" :sm="6" class="house-image">
         <el-image
-            style="width: 100%; height: 100%; object-fit: cover;"
+            style="width: 100%; height: auto; object-fit: cover;"
             :src="house.image"
             alt="house-image"
         />
       </el-col>
 
-      <!-- 右侧标题和信息 -->
-      <el-col :xs="24" :sm="16" :md="12" :lg="12">
-        <div class="house-details">
-          <h3 class="house-title">{{ house.title }}</h3>
-          <p class="house-info">{{ house.info }}</p>
+      <!-- 中间的标题和信息 -->
+      <el-col :xs="24" :sm="10" class="house-details">
+        <h3 class="house-title">{{ house.title }}</h3>
+        <p class="house-info">{{ house.roomType }} / {{ house.area }}㎡ / {{ house.direction }} / {{ house.building }}</p>
+        <div class="house-tags">
+          <el-tag type="primary">VR房源</el-tag>
+          <el-tag type="success">随时看房</el-tag>
         </div>
       </el-col>
 
-      <!-- 金额 -->
-      <el-col :xs="12" :sm="8" :md="4" :lg="4">
-        <div class="house-price">
-          <span>{{ house.price }} 元</span>
-        </div>
-      </el-col>
-
-      <!-- 详情按钮 -->
-      <el-col :xs="12" :sm="8" :md="4" :lg="4">
-        <el-button type="primary" @click="goViewPropertyDetails">查看详情</el-button>
+      <!-- 右侧价格和查看详情按钮 -->
+      <el-col :xs="24" :sm="8" class="house-actions text-right">
+        <div class="house-price">{{ house.price }} 万</div>
+        <div class="house-price-unit">{{ house.pricePerUnit }} 元/平</div>
+        <el-button type="primary" class="mt-3" @click="goViewPropertyDetails">查看详情</el-button>
       </el-col>
     </el-row>
+
+    <!-- 分页 -->
+    <el-pagination
+        background
+        layout="prev, pager, next"
+        :total="filteredHouses.length"
+        :page-size="pageSize"
+        v-model:currentPage="currentPage"
+        class="mt-4"
+    />
   </div>
-
-
-
 </template>
 
 <script lang="ts" setup>
-//导航栏
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import router from "../router/router.ts";
-const activeIndex = ref('1')
+
+// 导航栏相关逻辑
+const activeIndex = ref('1');
 const handleSelect = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath)
-}
+  console.log(key, keyPath);
+};
 
 const goViewPropertyDetails = () => {
-  router.push("/UserPropertyDetails")
-}
+  router.push("/UserPropertyDetails");
+};
 
 const goUserMine = () => {
-  router.push("/UserMine")
-}
-
-//列表内容方法
-// 定义房源对象的类型
-interface House {
-  //简介内容和详细内容
-  image: string;
-  title: string;
-  info: string;
-  price: number;
-  //详细内容
-  address: string;
-  details: string;
-  score: string;
-  userReview: string;
-  map: any;
-}
+  router.push("/UserMine");
+};
 
 // 房源列表数据
+interface House {
+  image: string;
+  title: string;
+  roomType: string;
+  area: number;
+  direction: string;
+  building: string;
+  price: number;
+  pricePerUnit: number;
+}
+
 const houses = ref<House[]>([
   {
     image: 'src/assets/login.jpg',
-    title: '房源1',
-    info: '这是一套不错的房子，靠近地铁，设施齐全。',
-    price: 1200000,
-    address:"",
-    details:"",
-    score:"",
-    userReview:"",
-    map:"",
-
+    title: '位于海口市主干道滨海大道，位置好。',
+    roomType: '1室1厅',
+    area: 35.36,
+    direction: '南',
+    building: '国信大厦',
+    price: 41,
+    pricePerUnit: 11596,
   },
   {
     image: 'src/assets/img01.jpg',
-    title: '房源2',
-    info: '环境优美，附近有公园，适合居住。',
-    price: 980000,
-    address:"",
-    details:"",
-    score:"",
-    userReview:"",
-    map:"",
+    title: '临近市中心，交通便利。',
+    roomType: '2室1厅',
+    area: 75.5,
+    direction: '东',
+    building: '怡景园',
+    price: 100,
+    pricePerUnit: 13274,
   },
   {
     image: 'src/assets/login.jpg',
-    title: '房源3',
-    info: '全新装修，现代风格，交通便利。',
-    price: 1500000,
-    address:"",
-    details:"",
-    score:"",
-    userReview:"",
-    map:"",
+    title: '安静社区，适合家庭居住。',
+    roomType: '3室2厅',
+    area: 90.0,
+    direction: '西',
+    building: '绿地小区',
+    price: 150,
+    pricePerUnit: 16667,
   },
   {
     image: 'src/assets/img01.jpg',
-    title: '房源4',
-    info: '老城区核心地带，历史悠久，周边配套完善。',
-    price: 850000,
-    address:"",
-    details:"",
-    score:"",
-    userReview:"",
-    map:"",
+    title: '靠近学校，学区房。',
+    roomType: '1室1厅',
+    area: 45.0,
+    direction: '北',
+    building: '学府大厦',
+    price: 65,
+    pricePerUnit: 14444,
   },
   {
     image: 'src/assets/login.jpg',
-    title: '房源5',
-    info: '大户型，南北通透，视野开阔。',
-    price: 2000000,
-    address:"",
-    details:"",
-    score:"",
-    userReview:"",
-    map:"",
+    title: '新装修，现代风格。',
+    roomType: '2室1厅',
+    area: 80.0,
+    direction: '南',
+    building: '海滨花园',
+    price: 120,
+    pricePerUnit: 15000,
   },
   {
     image: 'src/assets/img01.jpg',
-    title: '房源6',
-    info: '安静社区，邻里友好，生活便利。',
-    price: 1100000,
-    address:"",
-    details:"",
-    score:"",
-    userReview:"",
-    map:"",
+    title: '步行可达超市，生活便利。',
+    roomType: '1室1厅',
+    area: 38.0,
+    direction: '东南',
+    building: '东城小区',
+    price: 50,
+    pricePerUnit: 13158,
   },
   {
     image: 'src/assets/login.jpg',
-    title: '房源7',
-    info: '临近商圈，购物方便，交通发达。',
-    price: 1300000,
-    address:"",
-    details:"",
-    score:"",
-    userReview:"",
-    map:"",
-  },
-  {
-    image: 'src/assets/img01.jpg',
-    title: '房源8',
-    info: '带花园，适合家庭居住，环境宜人。',
-    price: 1700000,
-    address:"",
-    details:"",
-    score:"",
-    userReview:"",
-    map:"",
-  },
-  {
-    image: 'src/assets/login.jpg',
-    title: '房源9',
-    info: '小区内绿化好，配套设施完善，适合投资。',
-    price: 950000,
-    address:"",
-    details:"",
-    score:"",
-    userReview:"",
-    map:"",
-  },
-  {
-    image: 'src/assets/img01.jpg',
-    title: '房源10',
-    info: '豪华装修，高档小区，居住舒适。',
-    price: 2500000,
-    address:"",
-    details:"",
-    score:"",
-    userReview:"",
-    map:"",
-  },
-  // 你可以继续添加更多房源数据
+    title: '靠近公园，环境优美。',
+    roomType: '2室2厅',
+    area: 85.0,
+    direction: '西南',
+    building: '幸福苑',
+    price: 130,
+    pricePerUnit: 15294,
+  }
+  // 其他房源数据...
 ]);
 
+// 搜索功能相关逻辑
+const searchQuery = ref('');
+const handleSearch = () => {
+  currentPage.value = 1;  // 搜索时重置到第一页
+};
 
+const filteredHouses = computed(() => {
+  if (!searchQuery.value) {
+    return houses.value;
+  }
+  return houses.value.filter((house) =>
+      house.title.includes(searchQuery.value) ||
+      house.building.includes(searchQuery.value)
+  );
+});
 
-
-
+// 分页功能相关逻辑
+const currentPage = ref(1);//当前页
+const pageSize = 3;// 每页显示的房源数量
+const paginatedHouses = computed(() => {
+  const start = (currentPage.value - 1) * pageSize;
+  const end = start + pageSize;
+  return filteredHouses.value.slice(start, end);
+});
 </script>
-<style>
+
+<style scoped>
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
 .logo {
   font-size: 24px;
   font-weight: bold;
-  background-color:#409eff;
+  background-color: #409eff;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   padding: 0 20px;
   height: 60px;
   color: white;
@@ -229,29 +224,61 @@ const houses = ref<House[]>([
 
 .house-item {
   margin-bottom: 20px;
-  border: 1px solid #eaeaea;
-  padding: 15px;
+  padding: 10px;
+  border: 1px solid #ebebeb;
   border-radius: 5px;
   display: flex;
   align-items: center;
-  flex-wrap: wrap; /* 允许换行以实现响应式布局 */
+  flex-wrap: wrap;
 }
 
 .house-title {
   font-size: 18px;
+  font-weight: bold;
+  color: #333;
   margin-bottom: 5px;
 }
 
 .house-info {
-  color: #666;
   font-size: 14px;
+  color: #888;
+  margin-bottom: 10px;
+}
+
+.house-tags {
+  margin-top: 5px;
 }
 
 .house-price {
-  font-size: 16px;
+  font-size: 24px;
+  color: #ff5722;
   font-weight: bold;
-  color: #e91e63;
-  text-align: right;
 }
 
+.house-price-unit {
+  font-size: 12px;
+  color: #888;
+}
+
+.house-actions {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+.search-bar {
+  max-width: 600px;
+}
+
+@media (max-width: 768px) {
+  .house-item {
+    flex-wrap: wrap;
+  }
+
+  .house-actions {
+    align-items: flex-start;
+    margin-top: 10px;
+  }
+}
 </style>
