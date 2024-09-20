@@ -12,13 +12,13 @@
   <div id="propertyCarousel" class="carousel slide" data-ride="carousel">
     <div class="carousel-inner">
       <div class="carousel-item active">
-        <img src="property1.jpg" class="d-block w-100" alt="Property 1">
+        <img src="#" class="d-block w-100" alt="Property 1">
       </div>
       <div class="carousel-item">
-        <img src="property2.jpg" class="d-block w-100" alt="Property 2">
+        <img src="#" class="d-block w-100" alt="Property 2">
       </div>
       <div class="carousel-item">
-        <img src="property3.jpg" class="d-block w-100" alt="Property 3">
+        <img src="#" class="d-block w-100" alt="Property 3">
       </div>
     </div>
     <a class="carousel-control-prev" href="#propertyCarousel" role="button" data-slide="prev">
@@ -89,11 +89,6 @@
     </ul>
   </nav>
 </template>
-
-
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
-
 
 
 <style scoped>

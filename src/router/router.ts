@@ -59,25 +59,23 @@ const router = createRouter({
         {
             path: '/rootIndex',
             name: 'rootIndex',
-            component: rootIndex,
-            children: [
-                {
-                    path: 'rootProperty',
-                    component: RootProperty
-                },
-                {
-                    path: 'rootOrders',
-                    component: RootOrders
-                },
-                {
-                    path: 'rootUsers',
-                    component: RootUsers
-                },
-                {
-                    path: 'rootOrdersDetail',
-                    component: RootOrdersDetail
-                },
-            ]
+            component: rootIndex
+        },
+        {
+            path: '/rootProperty',
+            component: RootProperty
+        },
+        {
+            path: '/rootOrders',
+            component: RootOrders
+        },
+        {
+            path: '/rootUsers',
+            component: RootUsers
+        },
+        {
+            path: '/rootOrdersDetail',
+            component: RootOrdersDetail
         },
     ]
 })
