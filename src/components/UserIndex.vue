@@ -21,11 +21,11 @@
         <img src="#" class="d-block w-100" alt="Property 3">
       </div>
     </div>
-    <a class="carousel-control-prev" href="#propertyCarousel" role="button" data-slide="prev">
+    <a class="carousel-control-prev" href="#" role="button" data-slide="prev">
       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
       <span class="sr-only">Previous</span>
     </a>
-    <a class="carousel-control-next" href="#propertyCarousel" role="button" data-slide="next">
+    <a class="carousel-control-next" href="#" role="button" data-slide="next">
       <span class="carousel-control-next-icon" aria-hidden="true"></span>
       <span class="sr-only">Next</span>
     </a>
@@ -67,7 +67,7 @@
   <nav class="navbar navbar-light nav-bottom">
     <ul class="nav w-100">
       <li class="nav-item">
-        <a class="nav-link" href="main-index.html">
+        <a class="nav-link" href="#">
           <i class="icon-zhuye iconfont nav-icon"></i>主页
         </a>
       </li>
@@ -77,12 +77,12 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="chat.html">
+        <a class="nav-link" href="#">
           <i class="iconfont icon-weiliao nav-icon"></i>微聊
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="mine.html">
+        <a class="nav-link" href="#">
           <i class="iconfont icon-wode nav-icon"></i>我的
         </a>
       </li>
