@@ -12,8 +12,6 @@ const goUserInformation = () =>{
   router.push("/UserInformation")
 }
 
-import router from "../router/router.ts";
-
 function goOrders(){
   router.push("/userOrders")
 }
@@ -93,12 +91,12 @@ function goCollection(){
     <nav class="navbar navbar-light nav-bottom">
       <ul class="nav w-100">
         <li class="nav-item">
-          <a class="nav-link" href="main-index.html">
+          <router-link to="/UserIndex" style="text-decoration: none"><a class="nav-link" href="main-index.html">
             <i class="icon-zhuye iconfont nav-icon"></i>主页
-          </a>
+          </a></router-link>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">
+          <a class="nav-link" @click="goUserProperty">
             <i class=" iconfont icon-fangyuantuijian nav-icon"></i>房源
           </a>
         </li>

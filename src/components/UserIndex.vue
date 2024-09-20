@@ -82,9 +82,9 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">
+        <router-link to="/UserMine" style="text-decoration: none"><a class="nav-link" href="#">
           <i class="iconfont icon-wode nav-icon"></i>我的
-        </a>
+        </a></router-link>
       </li>
     </ul>
   </nav>
@@ -237,3 +237,5 @@ body {
 }
 
 </style>
+<script setup lang="ts">
+</script>
