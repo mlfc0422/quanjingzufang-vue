@@ -17,26 +17,25 @@
           <img src="../assets/img01.jpg" class="d-block w-100" alt="Property 1">
         </div>
         <div class="carousel-item">
-          <img src="#" class="d-block w-100" alt="Property 2">
+          <img src="../assets/轮播图1.jpg" class="d-block w-100" alt="Property 2">
         </div>
         <div class="carousel-item">
-          <img src="#" class="d-block w-100" alt="Property 3">
+          <img src="../assets/轮播图2.jpg" class="d-block w-100" alt="Property 3">
         </div>
       </div>
       <a class="carousel-control-prev" href="#" role="button" data-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
+
       </a>
       <a class="carousel-control-next" href="#" role="button" data-slide="next">
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
+
       </a>
     </div>
 
     <!-- 图标按钮部分 -->
     <div class="container icon-buttons">
       <div class="row text-center">
-        <!-- 图标按钮都放在一行 -->
         <div class="col-4">
           <div class="icon-button" style="background-color: #fb6639;">
             <i class="fas fa-building"></i>
@@ -94,11 +93,20 @@
 
 </template>
 
-
 <style scoped>
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto; /* 允许页面上下滚动 */
+}
+
 .main {
+  min-height: auto;
   background: linear-gradient(120deg, #f6d365 0%, #f8a58e 100%);
   font-family: 'Arial', sans-serif;
+  overflow-y: auto; /* 确保页面可以上下滚动 */
+  padding-bottom: 80px; /* 为内容增加底部空间，避免被导航栏遮挡 */
 }
 
 .search-bar {
@@ -202,7 +210,6 @@
 
 .nav-icon {
   font-size: 1.5rem;
-  /* 增大字体大小 */
   display: block;
   margin-bottom: -3px;
 }
@@ -239,7 +246,23 @@
   font-size: 0.9rem;
   color: #777;
 }
-
 </style>
+
 <script setup lang="ts">
+import { onMounted } from 'vue';
+
+onMounted(() => {
+  // 初始化轮播
+  const carouselElement = document.querySelector('#propertyCarousel');
+  if (carouselElement) {
+    // 初始化 Bootstrap 轮播图
+    new bootstrap.Carousel(carouselElement, {
+      interval: 3000, // 设置自动切换时间间隔
+      ride: 'carousel'
+    });
+  }
+});
 </script>
+
+
+
