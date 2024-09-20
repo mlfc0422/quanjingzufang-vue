@@ -15,6 +15,8 @@ import UserPropertyDetails from "../views/UserPropertyDetails.vue";
 import UserMine from "../views/UserMine.vue";
 import UserRelease from "../views/UserRelease.vue";
 import UserInformation from "../views/UserInformation.vue";
+import UserOrders from "../views/UserOrders.vue";
+import UserCollection from "../views/UserCollection.vue";
 
 
 const router = createRouter({
@@ -68,6 +70,14 @@ const router = createRouter({
         {
             path:'/userInformation',
             component: UserInformation
+        },
+        {
+            path: '/userOrders',
+            component: UserOrders
+        },
+        {
+            path: '/userCollection',
+            component:UserCollection
         },
         {
             path: '/rootIndex',
