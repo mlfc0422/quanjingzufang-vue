@@ -71,20 +71,22 @@ const goBack = () => {
   router.go(-1) // 返回上一页
 }
 
-interface CurrentHouse {
-  image: string;
-  title: string;
-  info: string;
-  price: number;
-  address: string;
-  details: string;
-  score: string;
-  userReview: string;
-  map: any;
+interface Property {
+  out_trade_no: '',
+  propertyId: '',
+  userId: '',
+  subject: '',
+  total_amount: '',
+  description: '',
+  createTime: '',
+  startDate: '',
+  endDate: '',
+  timeout_express: '10m',
+  product_code: 'FAST_INSTANT_TRADE_PAY'
 }
 
 // 当前房源对象
-const currentHouse = ref<CurrentHouse>({
+const currentHouse = ref<Property>({
   image: 'src/assets/login.jpg',
   title: '房源1',
   info: '这是一套不错的房子，靠近地铁，设施齐全。',

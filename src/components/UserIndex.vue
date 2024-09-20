@@ -257,19 +257,19 @@ html, body {
 </style>
 
 <script setup lang="ts">
-import { onMounted } from 'vue';
+// import { onMounted } from 'vue';
 
-onMounted(() => {
-  // 初始化轮播
-  const carouselElement = document.querySelector('#propertyCarousel');
-  if (carouselElement) {
-    // 初始化 Bootstrap 轮播图
-    new bootstrap.Carousel(carouselElement, {
-      interval: 3000, // 设置自动切换时间间隔
-      ride: 'carousel'
-    });
-  }
-});
+// onMounted(() => {
+//   // 初始化轮播
+//   const carouselElement = document.querySelector('#propertyCarousel');
+//   if (carouselElement) {
+//     // 初始化 Bootstrap 轮播图
+//     new bootstrap.Carousel(carouselElement, {
+//       interval: 3000, // 设置自动切换时间间隔
+//       ride: 'carousel'
+//     });
+//   }
+// });
 </script>
 
 

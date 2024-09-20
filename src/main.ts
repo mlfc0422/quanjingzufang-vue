@@ -1,4 +1,5 @@
 import { createApp } from 'vue'
+// @ts-ignore
 import App from './App.vue'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 import 'bootstrap/dist/css/bootstrap.min.css'

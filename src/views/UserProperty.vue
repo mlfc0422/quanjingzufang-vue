@@ -47,7 +47,7 @@
       <!-- 中间的标题和信息 -->
       <el-col :xs="24" :sm="10" class="house-details">
         <h3 class="house-title">{{ house.title }}</h3>
-        <p class="house-info">{{ house.roomType }} / {{ house.area }}㎡ / {{ house.direction }} / {{ house.building }}</p>
+        <p class="house-info">{{ house.houseType }} / {{ house.area }}㎡ / {{ house.direction }} / {{ house.building }}</p>
         <div class="house-tags">
           <el-tag type="primary">VR房源</el-tag>
           <el-tag type="success">随时看房</el-tag>
@@ -58,7 +58,7 @@
       <el-col :xs="24" :sm="8" class="house-actions text-right">
         <div class="house-price">{{ house.price }} 万</div>
         <div class="house-price-unit">{{ house.pricePerUnit }} 元/平</div>
-        <el-button type="primary" class="mt-3" @click="goViewPropertyDetails">查看详情</el-button>
+        <el-button type="primary" class="mt-3" @click="goViewPropertyDetails(house)">查看详情</el-button>
       </el-col>
     </el-row>
 
@@ -68,24 +68,22 @@
         layout="prev, pager, next"
         :total="filteredHouses.length"
         :page-size="pageSize"
-        v-model:currentPage="currentPage"
+        v-model:current-page="currentPage"
         class="mt-4"
     />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, computed } from 'vue'
+import { computed, onMounted, ref } from 'vue';
 import router from "../router/router.ts";
+import axios from "axios";
+import { ElMessage } from 'element-plus'; // 确保引入消息提示
 
 // 导航栏相关逻辑
 const activeIndex = ref('1');
 const handleSelect = (key: string, keyPath: string[]) => {
   console.log(key, keyPath);
-};
-
-const goViewPropertyDetails = () => {
-  router.push("/UserPropertyDetails");
 };
 
 const goUserMine = () => {
@@ -94,115 +92,98 @@ const goUserMine = () => {
 
 // 房源列表数据
 interface House {
-  image: string;
+  id: number;
   title: string;
-  roomType: string;
-  area: number;
-  direction: string;
-  building: string;
-  price: number;
-  pricePerUnit: number;
+  rent: number;
+  rentMethod: boolean;
+  houseType: string;
+  useArea: string;
+  floor: string;
+  orientation: string;
+  pic: string;
+  houseDesc: string;
+  contact: string;
+  mobile: string;
+  time: number;
+  created: Date;
+  updated: Date;
+  statusCode: boolean;
 }
 
-const houses = ref<House[]>([
-  {
-    image: 'src/assets/login.jpg',
-    title: '位于海口市主干道滨海大道，位置好。',
-    roomType: '1室1厅',
-    area: 35.36,
-    direction: '南',
-    building: '国信大厦',
-    price: 41,
-    pricePerUnit: 11596,
-  },
-  {
-    image: 'src/assets/img01.jpg',
-    title: '临近市中心，交通便利。',
-    roomType: '2室1厅',
-    area: 75.5,
-    direction: '东',
-    building: '怡景园',
-    price: 100,
-    pricePerUnit: 13274,
-  },
-  {
-    image: 'src/assets/login.jpg',
-    title: '安静社区，适合家庭居住。',
-    roomType: '3室2厅',
-    area: 90.0,
-    direction: '西',
-    building: '绿地小区',
-    price: 150,
-    pricePerUnit: 16667,
-  },
-  {
-    image: 'src/assets/img01.jpg',
-    title: '靠近学校，学区房。',
-    roomType: '1室1厅',
-    area: 45.0,
-    direction: '北',
-    building: '学府大厦',
-    price: 65,
-    pricePerUnit: 14444,
-  },
-  {
-    image: 'src/assets/login.jpg',
-    title: '新装修，现代风格。',
-    roomType: '2室1厅',
-    area: 80.0,
-    direction: '南',
-    building: '海滨花园',
-    price: 120,
-    pricePerUnit: 15000,
-  },
-  {
-    image: 'src/assets/img01.jpg',
-    title: '步行可达超市，生活便利。',
-    roomType: '1室1厅',
-    area: 38.0,
-    direction: '东南',
-    building: '东城小区',
-    price: 50,
-    pricePerUnit: 13158,
-  },
-  {
-    image: 'src/assets/login.jpg',
-    title: '靠近公园，环境优美。',
-    roomType: '2室2厅',
-    area: 85.0,
-    direction: '西南',
-    building: '幸福苑',
-    price: 130,
-    pricePerUnit: 15294,
-  }
-  // 其他房源数据...
-]);
+// 房源列表数据
+const houses = ref<House[]>([]); // 存放房源数据
+const searchQuery = ref(''); // 搜索内容
+const currentPage = ref(1); // 当前页
+const pageSize = 5; // 每页显示数量
 
-// 搜索功能相关逻辑
-const searchQuery = ref('');
-const handleSearch = () => {
-  currentPage.value = 1;  // 搜索时重置到第一页
+const fetchHouseList = async () => {
+  try {
+    const response = await axios.get('/fangyuan/property/list');
+
+    const { code, msg, data } = response.data;
+    if (code === 1) {
+      // 成功获取数据
+      console.log('获取房源数据成功:', data);
+      // 从 data 中提取 records 数组
+      if (data && Array.isArray(data.records)) {
+        houses.value = data.records; // 将数据存入 houses
+      } else {
+        console.error('数据格式不正确:', data);
+        houses.value = []; // 确保 houses 是数组
+      }
+      console.log('房源数据:', houses.value);
+    } else {
+      // 处理错误信息
+      console.error('获取房源数据失败:', msg);
+      ElMessage.error(msg || '获取房源数据失败，请稍后重试。'); // 显示后端返回的错误消息
+    }
+  } catch (error) {
+    console.error('Failed to fetch houses:', error);
+    ElMessage.error('获取房源数据失败，请稍后重试。'); // 显示网络错误消息
+  }
 };
 
+
+
+// 搜索过滤逻辑
 const filteredHouses = computed(() => {
-  if (!searchQuery.value) {
-    return houses.value;
+  if (!Array.isArray(houses.value)) {
+    console.error('houses is not an array:', houses.value);
+    return []; // 确保返回一个数组
   }
-  return houses.value.filter((house) =>
-      house.title.includes(searchQuery.value) ||
-      house.building.includes(searchQuery.value)
+  if (!searchQuery.value) {
+    return houses.value; // 如果没有搜索条件，返回所有房源
+  }
+  return houses.value.filter(house =>
+      house.title.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+      house.houseDesc.toLowerCase().includes(searchQuery.value.toLowerCase())
   );
 });
 
-// 分页功能相关逻辑
-const currentPage = ref(1);//当前页
-const pageSize = 3;// 每页显示的房源数量
+// 分页逻辑
 const paginatedHouses = computed(() => {
   const start = (currentPage.value - 1) * pageSize;
   const end = start + pageSize;
   return filteredHouses.value.slice(start, end);
 });
+
+
+// 页面挂载时获取房源数据
+onMounted(() => {
+  fetchHouseList();
+});
+
+// 跳转到房源详情页
+const goViewPropertyDetails = (house: House) => {
+  router.push(`/houseDetail/${house.id}`); // 使用房源 ID 跳转
+};
+
+// 搜索功能
+const handleSearch = () => {
+  currentPage.value = 1; // 搜索时重置到第一页
+};
 </script>
+
 
 <style scoped>
 .container {
