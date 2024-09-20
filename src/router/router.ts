@@ -13,6 +13,8 @@ import PaySuccess from "../views/PaySuccess.vue";
 import UserProperty from "../views/UserProperty.vue";
 import UserPropertyDetails from "../views/UserPropertyDetails.vue";
 import UserMine from "../views/UserMine.vue";
+import UserRelease from "../views/UserRelease.vue";
+import UserInformation from "../views/UserInformation.vue";
 import UserOrders from "../views/UserOrders.vue";
 import UserCollection from "../views/UserCollection.vue";
 
@@ -43,7 +45,7 @@ const router = createRouter({
         {
             path: '/userIndex',
             name: 'userIndex',
-            component: UserIndex
+            component: UserIndex,
         },
         {
             path: '/userProperty',
@@ -58,8 +60,16 @@ const router = createRouter({
             component: UserOrdersDetail
         },
         {
-            path: '/userMine',
+            path:'/userMine',
             component: UserMine
+        },
+        {
+            path:'/userRelease',
+            component: UserRelease
+        },
+        {
+            path:'/userInformation',
+            component: UserInformation
         },
         {
             path: '/userOrders',
