@@ -1,7 +1,27 @@
 <script setup lang="ts">
+import router from "../router/router.ts";
+
+const goUserProperty = () => {
+  router.push("/UserProperty")
+}
+
+const goUserRelease = () => {
+  router.push("/UserRelease")
+}
+const goUserInformation = () =>{
+  router.push("/UserInformation")
+}
+
+import router from "../router/router.ts";
+
+function goOrders(){
+  router.push("/userOrders")
+}
+function goCollection(){
+  router.push("/userCollection")
+}
 
 </script>
-
 
 <template>
 
@@ -19,19 +39,19 @@
     <!-- 快捷功能按钮 -->
     <div class="container">
       <div class="shortcut-buttons d-flex justify-content-around flex-wrap">
-        <button class="btn btn-custom-like">
+        <button class="btn btn-custom-like" @click="goOrders">
           <i class="iconfont icon-like"></i>
           <span>我的订单</span>
         </button>
-        <button class="btn btn-custom-favorite">
+        <button class="btn btn-custom-favorite" @click="goCollection">
           <i class="iconfont icon-favorite"></i>
           <span>我的收藏</span>
         </button>
-        <button class="btn btn-custom-publish">
+        <button class="btn btn-custom-publish" @click="goUserRelease">
           <i class="iconfont icon-edit"></i>
           <span>我的发布</span>
         </button>
-        <button class="btn btn-custom-edit">
+        <button class="btn btn-custom-edit" @click="goUserInformation">
           <i class="iconfont icon-edit-info"></i>
           <span>信息编辑</span>
         </button>
