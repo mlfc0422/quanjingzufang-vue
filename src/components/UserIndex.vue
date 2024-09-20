@@ -66,25 +66,34 @@
   <!-- 底部导航栏 -->
   <nav class="navbar navbar-light nav-bottom">
     <ul class="nav w-100">
+
+        <li class="nav-item">
+          <router-link to="/userIndex" style="text-decoration: none">
+            <a class="nav-link">
+              <i class="icon-zhuye iconfont nav-icon"></i>主页
+            </a>
+          </router-link>
+        </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">
-          <i class="icon-zhuye iconfont nav-icon"></i>主页
-        </a>
+        <router-link to="/userProperty" style="text-decoration: none">
+          <a class="nav-link">
+            <i class=" iconfont icon-fangyuantuijian nav-icon"></i>房源
+          </a>
+        </router-link>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">
-          <i class=" iconfont icon-fangyuantuijian nav-icon"></i>房源
-        </a>
+        <router-link to="/userChatting" style="text-decoration: none">
+          <a class="nav-link">
+            <i class="iconfont icon-weiliao nav-icon"></i>微聊
+          </a>
+        </router-link>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">
-          <i class="iconfont icon-weiliao nav-icon"></i>微聊
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">
-          <i class="iconfont icon-wode nav-icon"></i>我的
-        </a>
+        <router-link to="/userMine" style="text-decoration: none">
+          <a class="nav-link">
+            <i class="iconfont icon-wode nav-icon"></i>我的
+          </a>
+        </router-link>
       </li>
     </ul>
   </nav>
@@ -237,3 +246,5 @@ body {
 }
 
 </style>
+<script setup lang="ts">
+</script>
