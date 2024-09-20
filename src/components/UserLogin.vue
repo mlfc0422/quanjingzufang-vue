@@ -37,7 +37,7 @@ const onSubmit = async () => {
       // 登录成功，处理成功逻辑，例如保存 token 和用户信息
       const {user} = data; // 假设 token 和 user 都在 data 中
       localStorage.setItem('jwt_token', data.token);
-      localStorage.setItem('id', user.id);
+      localStorage.setItem('id', data.id);
 
       // 登录成功后，可以进行页面跳转
       console.log('登录成功:', user);
@@ -68,7 +68,7 @@ const onSubmit = async () => {
             <!-- 账号输入框 -->
             <div class="form-group mb-3">
               <label for="account">账号</label>
-              <input type="text" class="form-control" id="username" placeholder="请输入账号" v-model="form.username" required />
+              <input type="text" class="form-control" id="account" placeholder="请输入账号" v-model="form.account" required />
             </div>
 
             <!-- 密码输入框 -->

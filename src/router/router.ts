@@ -85,19 +85,19 @@ const router = createRouter({
             component: rootIndex,
             children: [
                 {
-                    path: '/rootProperty',
+                    path: 'rootProperty',
                     component: RootProperty
                 },
                 {
-                    path: '/rootOrders',
+                    path: 'rootOrders',
                     component: RootOrders
                 },
                 {
-                    path: '/rootUsers',
+                    path: 'rootUsers',
                     component: RootUsers
                 },
                 {
-                    path: '/rootOrdersDetail',
+                    path: 'rootOrdersDetail',
                     component: RootOrdersDetail
                 },
             ]
