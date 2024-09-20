@@ -3,15 +3,15 @@ import router from "../router/router.ts";
 const goUserRelease = () => {
   router.push("/UserRelease")
 }
-const goUserInformation = () =>{
+const goUserInformation = () => {
   router.push("/UserInformation")
 }
 
-
-function goOrders(){
+function goOrders() {
   router.push("/userOrders")
 }
-function goCollection(){
+
+function goCollection() {
   router.push("/userCollection")
 }
 
@@ -119,7 +119,6 @@ function goCollection(){
   </div>
 
 </template>
-
 
 
 <style scoped>
