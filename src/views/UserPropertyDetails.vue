@@ -1,14 +1,9 @@
 <template>
   <el-affix>
-    <!--导航栏-->
-    <el-menu
-        :default-active="activeIndex"
-        class="el-menu-demo"
-        mode="horizontal"
-        @select="handleSelect"
-    >
+    <!-- 导航栏 -->
+    <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
       <div class="logo">全景租房网</div>
-      <el-menu-item index="2">首页</el-menu-item>
+      <el-menu-item index="2" @click="goHome">首页</el-menu-item>
       <el-menu-item index="1">房源详情</el-menu-item>
     </el-menu>
     <div class="h-6" />
@@ -18,28 +13,16 @@
     <div class="row">
       <!-- 房源图片 -->
       <div class="col-md-6">
-        <img
-            class="img-fluid rounded shadow-sm"
-            :src="currentHouse.image"
-            alt="house-image"
-        />
+        <img class="img-fluid rounded shadow-sm" :src="house.pic" alt="house-image" />
       </div>
       <div class="col-md-6">
         <!-- 房源详情 -->
         <div class="house-info p-3 bg-light rounded shadow-sm">
-          <h3 class="mb-3">{{ currentHouse.title }}</h3>
-          <p class="info">{{ currentHouse.info }}</p>
-          <p class="price">价格: {{ currentHouse.price }} 元</p>
-          <p class="address">地址: {{ currentHouse.address }}</p>
-          <p class="score">评分: {{ currentHouse.score }}</p>
-          <p class="details">详情：{{ currentHouse.details }}</p>
-          <p class="review">用户评价: {{ currentHouse.userReview }}</p>
-
-          <!-- 地图展示 -->
-          <div v-if="currentHouse.map" class="map-container mt-3">
-            <h4>地图:</h4>
-            <div class="map p-2 bg-light rounded">{{ currentHouse.map }}</div>
-          </div>
+          <h3 class="mb-3">{{ house.title }}</h3>
+          <p class="info">{{ house.houseDesc }}</p>
+          <p class="price">价格: {{ house.rent }} 元</p>
+          <p class="address">地址: {{ house.useArea }}</p>
+          <p class="details">详情：{{ house.houseType }}</p>
 
           <!-- 新增下单按钮 -->
           <div class="order-btn mt-4">
@@ -57,53 +40,72 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router' // 引入 vue-router
+import { ref, onMounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import axios from "axios"; // 引入路由
 
-const activeIndex = ref('1')
-const handleSelect = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath)
-}
+// 获取当前房源 ID
+const route = useRoute();
+const router = useRouter();
+const houseId = route.params.id; // 获取动态路由参数中的房源ID
 
-// 使用 Vue Router
-const router = useRouter()
+// 模拟房源数据（可替换为从后端获取数据的逻辑）
+const house = ref({
+  id: 0,
+  title: '',
+  rent: 0,
+  rentMethod: false,
+  houseType: '',
+  useArea: '',
+  floor: '',
+  orientation: '',
+  pic: '',
+  houseDesc: '',
+  contact: '',
+  mobile: '',
+  time: 0,
+  created: new Date(),
+  updated: new Date(),
+  statusCode: false
+});
+
+// 使用 axios 请求房源详情
+const fetchHouseDetails = async (id: number) => {
+  try {
+    const response = await axios.get(`/fangyuan/property/${id}`); // 发送 GET 请求，根据实际的后端 API 路径修改
+
+    const { code, msg, data } = response.data; // 解构响应数据
+    if (code === 1 && data) {
+      house.value = data; // 赋值房源详情数据
+    } else {
+      console.error('获取房源详情失败:', msg || '未知错误');
+    }
+  } catch (error) {
+    console.error('请求房源详情时发生错误:', error);
+  }
+};
+
+onMounted(() => {
+  // 获取房源详细信息
+  fetchHouseDetails(Number(houseId));
+});
+
+// 返回上一页
 const goBack = () => {
-  router.go(-1) // 返回上一页
-}
+  router.go(-1);
+};
 
-interface Property {
-  out_trade_no: '',
-  propertyId: '',
-  userId: '',
-  subject: '',
-  total_amount: '',
-  description: '',
-  createTime: '',
-  startDate: '',
-  endDate: '',
-  timeout_express: '10m',
-  product_code: 'FAST_INSTANT_TRADE_PAY'
-}
+// 返回首页
+const goHome = () => {
+  router.push('/');
+};
 
-// 当前房源对象
-const currentHouse = ref<Property>({
-  image: 'src/assets/login.jpg',
-  title: '房源1',
-  info: '这是一套不错的房子，靠近地铁，设施齐全。',
-  price: 1200000,
-  address: "海口市美兰区琼山大道65号",
-  details: "欢迎来到我们的房源介绍！这套房产位于繁华的市中心，交通便利，距离地铁站仅需步行五分钟，周围环境宁静，绿化率高，附近有大型公园和健身场所。房屋总面积约120平方米，采用开放式布局，客厅宽敞明亮，现代化厨房配备高端家电和充足的储物空间。每个卧室配有独立衣橱和空调，卫生间设计现代，配有浴缸和淋浴，整套房源还配备高速网络和智能家居系统。附近有多所知名学校和幼儿园，超市、购物中心和餐饮娱乐设施齐全，方便日常生活。售价120万元，随着城市发展，该区域房产价值持续上升，是自住和投资的理想选择。",
-  score: "5.0",
-  userReview: "很满意",
-  map: "地图链接"
-})
-
-// 下单功能
+// 下单操作
 const placeOrder = () => {
-  console.log("已下单房源: ", currentHouse.value.title);
-  // 这里可以进一步实现下单逻辑，如弹出确认对话框或发送请求
-}
+  console.log('确认下单');
+};
 </script>
+
 
 <style scoped>
 .logo {

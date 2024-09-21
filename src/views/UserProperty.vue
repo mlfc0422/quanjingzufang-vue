@@ -105,9 +105,6 @@ interface House {
   contact: string;
   mobile: string;
   time: number;
-  created: Date;
-  updated: Date;
-  statusCode: boolean;
 }
 
 // 房源列表数据
@@ -175,7 +172,7 @@ onMounted(() => {
 
 // 跳转到房源详情页
 const goViewPropertyDetails = (house: House) => {
-  router.push(`/houseDetail/${house.id}`); // 使用房源 ID 跳转
+  router.push(`/UserPropertyDetails/${house.id}`); // 使用房源 ID 跳转
 };
 
 // 搜索功能

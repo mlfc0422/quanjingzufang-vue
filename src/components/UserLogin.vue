@@ -37,6 +37,7 @@ const onSubmit = async () => {
   if (code === 1) {
     // 登录成功，处理成功逻辑，例如保存 token 和用户信息
     const {user} = data; // 假设 token 和 user 都在 data 中
+    //todo:不能及时获取最新的jwt令牌
     localStorage.setItem('jwt_token', data.token);
     localStorage.setItem('id', data.id);
 
