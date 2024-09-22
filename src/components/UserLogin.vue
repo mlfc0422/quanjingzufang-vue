@@ -39,7 +39,7 @@ const onSubmit = async () => {
     const {user} = data; // 假设 token 和 user 都在 data 中
     //todo:不能及时获取最新的jwt令牌
     localStorage.setItem('jwt_token', data.token);
-    localStorage.setItem('id', data.id);
+    localStorage.setItem('userId', data.id);
 
     // 登录成功后，可以进行页面跳转
     console.log('登录成功:', user);
