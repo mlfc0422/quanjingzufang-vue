@@ -22,7 +22,23 @@
           <p class="info">{{ house.houseDesc }}</p>
           <p class="price">价格: {{ house.rent }} 元</p>
           <p class="address">地址: {{ house.useArea }}</p>
-          <p class="details">详情：{{ house.houseType }}</p>
+          <p class="details">房屋类型: {{ house.houseType }}</p>
+          <p class="floor">楼层: {{ house.floor }}</p>
+          <p class="useArea">使用面积: {{ house.useArea }}</p>
+          <p class="orientation">朝向: {{ house.orientation }}</p>
+          <p class="contact">联系人: {{ house.contact }}</p>
+          <p class="mobile">联系电话: {{ house.mobile }}</p>
+          <p class="houseDesc">房屋描述: {{ house.houseDesc }}</p>
+
+          <!-- 租赁方式 -->
+          <p class="rent-method">
+            租赁方式: {{ house.rentMethod ? '整租' : '合租' }}
+          </p>
+
+          <!-- 看房时间 -->
+          <p class="viewing-time">
+            看房时间: {{ formatViewingTime(house.time) }}
+          </p>
 
           <!-- 新增下单按钮 -->
           <div class="order-btn mt-4">
@@ -44,6 +60,13 @@ import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import axios from "axios"; // 引入路由
 
+
+// 导航栏相关逻辑
+const activeIndex = ref('1');
+const handleSelect = (key: string, keyPath: string[]) => {
+  console.log(key, keyPath);
+};
+
 // 获取当前房源 ID
 const route = useRoute();
 const router = useRouter();
@@ -51,22 +74,22 @@ const houseId = route.params.id; // 获取动态路由参数中的房源ID
 
 // 模拟房源数据（可替换为从后端获取数据的逻辑）
 const house = ref({
-  id: 0,
-  title: '',
-  rent: 0,
-  rentMethod: false,
-  houseType: '',
-  useArea: '',
-  floor: '',
-  orientation: '',
-  pic: '',
-  houseDesc: '',
-  contact: '',
-  mobile: '',
-  time: 0,
-  created: new Date(),
-  updated: new Date(),
-  statusCode: false
+  id: 0,               // 房屋ID
+  title: '',           // 标题
+  rent: 0,             // 租金
+  rentMethod: false,   // 租赁方式（false表示合租，true表示整租）
+  houseType: '',       // 房屋类型
+  useArea: '',         // 使用面积
+  floor: '',           // 楼层
+  orientation: '',     // 朝向
+  pic: '',             // 图片
+  houseDesc: '',       // 房屋描述
+  contact: '',         // 联系人
+  mobile: '',          // 联系电话
+  time: 0,             // 看房时间
+  created: new Date(), // 创建时间
+  updated: new Date(), // 更新时间
+  statusCode: false    // 状态码（false表示无效，true表示有效）
 });
 
 // 使用 axios 请求房源详情
@@ -103,7 +126,22 @@ const goHome = () => {
 // 下单操作
 const placeOrder = () => {
   console.log('确认下单');
+}
+
+//为用户展示看房时间的方法数据
+const timeMapping: { [key: number]: string } = {
+  1: '上午',
+  2: '中午',
+  3: '下午',
+  4: '晚上',
+  5: '全天'
 };
+//为用户展示看房时间的方法
+// 为参数 'time' 指定类型
+function formatViewingTime(time: number): string {
+  return timeMapping[time] || '未知';
+}
+
 </script>
 
 

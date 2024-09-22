@@ -39,7 +39,7 @@
       <el-col :xs="24" :sm="6" class="house-image">
         <el-image
             style="width: 100%; height: auto; object-fit: cover;"
-            :src="house.image"
+            :src="house.pic"
             alt="house-image"
         />
       </el-col>
@@ -47,7 +47,7 @@
       <!-- 中间的标题和信息 -->
       <el-col :xs="24" :sm="10" class="house-details">
         <h3 class="house-title">{{ house.title }}</h3>
-        <p class="house-info">{{ house.houseType }} / {{ house.area }}㎡ / {{ house.direction }} / {{ house.building }}</p>
+        <p class="house-info">{{ house.houseType }} / {{ house.useArea }}㎡ / {{ house.orientation }}</p>
         <div class="house-tags">
           <el-tag type="primary">VR房源</el-tag>
           <el-tag type="success">随时看房</el-tag>
@@ -56,8 +56,7 @@
 
       <!-- 右侧价格和查看详情按钮 -->
       <el-col :xs="24" :sm="8" class="house-actions text-right">
-        <div class="house-price">{{ house.price }} 万</div>
-        <div class="house-price-unit">{{ house.pricePerUnit }} 元/平</div>
+        <div class="house-price">{{ house.rent }} </div>
         <el-button type="primary" class="mt-3" @click="goViewPropertyDetails(house)">查看详情</el-button>
       </el-col>
     </el-row>
@@ -92,19 +91,19 @@ const goUserMine = () => {
 
 // 房源列表数据
 interface House {
-  id: number;
-  title: string;
-  rent: number;
-  rentMethod: boolean;
-  houseType: string;
-  useArea: string;
-  floor: string;
-  orientation: string;
-  pic: string;
-  houseDesc: string;
-  contact: string;
-  mobile: string;
-  time: number;
+  id: number;               // 房屋ID
+  title: string;            // 标题
+  rent: number;             // 租金
+  rentMethod: boolean;      // 租赁方式（true表示整租，false表示合租）
+  houseType: string;        // 房屋类型
+  useArea: string;          // 使用面积
+  floor: string;            // 楼层
+  orientation: string;      // 朝向
+  pic: string;              // 图片
+  houseDesc: string;        // 房屋描述
+  contact: string;          // 联系人
+  mobile: string;           // 联系电话
+  time: number;             // 发布时间（时间戳）
 }
 
 // 房源列表数据
