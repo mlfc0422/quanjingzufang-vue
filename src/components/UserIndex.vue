@@ -34,28 +34,27 @@
     </div>
 
     <!-- 图标按钮部分 -->
-    <div class="container icon-buttons">
-      <div class="row text-center">
-        <div class="col-4">
-          <div class="icon-button" style="background-color: #fb6639;">
-            <i class="fas fa-building"></i>
-          </div>
-          <div class="icon-text">新房</div>
+    <el-row style="margin: 40px 0">
+      <el-col :span="8">
+        <div class="icon-button" style="background-color: #fb6639;">
+          <i class="fas fa-building"></i>
         </div>
-        <div class="col-4">
-          <div class="icon-button" style="background-color: #FFC107;">
-            <i class="fas fa-sign-out-alt"></i>
-          </div>
-          <div class="icon-text">租房</div>
+        <div class="icon-text">新房</div>
+      </el-col>
+      <el-col :span="8">
+        <div class="icon-button" style="background-color: #FFC107;">
+          <i class="fas fa-sign-out-alt"></i>
         </div>
-        <div class="col-4">
-          <div class="icon-button" style="background-color: #FF9800;">
-            <i class="fas fa-map"></i>
-          </div>
-          <div class="icon-text">地图找房</div>
+        <div class="icon-text">租房</div>
+      </el-col>
+      <el-col :span="8">
+        <div class="icon-button" style="background-color: #FF9800;">
+          <i class="fas fa-map"></i>
         </div>
-      </div>
-    </div>
+        <div class="icon-text">地图找房</div>
+      </el-col>
+    </el-row>
+
 
     <!-- 好客资讯部分 -->
     <div class="container news-section">
@@ -110,7 +109,7 @@ html, body {
 }
 
 .main {
-  min-height: auto;
+  height: calc(100vh - 60px);
   background: linear-gradient(120deg, #f6d365 0%, #f8a58e 100%);
   font-family: 'Arial', sans-serif;
   overflow-y: auto; /* 确保页面可以上下滚动 */
@@ -156,10 +155,6 @@ html, body {
   object-fit: cover;
   border-radius: 10px;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-}
-
-.icon-buttons {
-  margin: 40px 0;
 }
 
 .icon-button {
