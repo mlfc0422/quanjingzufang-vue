@@ -1,6 +1,22 @@
 <script setup lang="ts">
 import {ElMessage} from "element-plus";
 import router from "../router/router.ts";
+import {onMounted, ref} from "vue";
+import axios from "axios";
+
+const order = ref({
+  out_trade_no: '',
+  propertyId: '',
+  userId: '',
+  subject: '',
+  total_amount: '',
+  description: '',
+  createTime: '',
+  startDate: '',
+  endDate: '',
+  timeout_express: '10m',
+  product_code: 'FAST_INSTANT_TRADE_PAY'
+});
 
 const handleBackHome = () => {
   ElMessage({
@@ -9,6 +25,26 @@ const handleBackHome = () => {
   });
   router.push('/userIndex');
 };
+
+onMounted(async () => {
+
+  const urlParams = new URLSearchParams(window.location.search);
+  order.value.out_trade_no = urlParams.get('out_trade_no');
+  const response = await axios.put('/dingdan/order/alipay/return', order.value);
+  const responseData = response.data;
+  if (responseData.code === 1) {
+    ElMessage({
+      message: '支付成功',
+      type: 'success',
+    });
+  } else {
+    ElMessage({
+      message: '支付失败',
+      type: 'error',
+    });
+  }
+
+});
 </script>
 
 <template>

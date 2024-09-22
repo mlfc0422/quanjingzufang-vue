@@ -4,9 +4,9 @@ import axios from 'axios'
 import router from "../router/router.ts";
 
 const form = ref({
-  username: '',
+  userName: '',
   account: '',
-  phone: '',
+  phoneNumber: '',
   password: '',
   confirmPassword: '',
   agree: false,
@@ -39,7 +39,7 @@ const register = async () => {
   }
 
   try {
-    const response = await axios.post('/api/register', form.value)
+    const response = await axios.post('/yonghu/user/register', form.value)
     if (response.data.code === 1) {
       // 注册成功，处理成功逻辑，例如跳转到登录页面
       alert('注册成功！')
@@ -64,8 +64,8 @@ const register = async () => {
           <div class="card-header">创建您的账户</div>
           <form @submit.prevent="register" id="register-form" autocomplete="off">
             <div class="form-group">
-              <label for="username">用户名</label>
-              <input type="text" class="form-control" v-model="form.username" placeholder="请输入用户名" required>
+              <label for="userName">用户名</label>
+              <input type="text" class="form-control" v-model="form.userName" placeholder="请输入用户名" required>
             </div>
             <div class="form-group">
               <label for="account">账号</label>

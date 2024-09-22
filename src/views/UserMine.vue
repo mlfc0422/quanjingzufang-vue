@@ -1,11 +1,30 @@
 <script setup lang="ts">
+import router from "../router/router.ts";
+const goUserRelease = () => {
+  router.push("/UserRelease")
+}
+const goUserInformation = () => {
+  router.push("/UserInformation")
+}
+
+function goOrders() {
+  router.push("/userOrders")
+}
+
+function goCollection() {
+  router.push("/userCollection")
+}
 
 </script>
 
-
 <template>
+
+  <!--小图标-->
+  <link href="http://at.alicdn.com/t/c/font_4684069_c53nimhz4za.css" rel="stylesheet">
+
   <!-- 个人资料部分 -->
   <div class="main">
+    <!-- 个人资料部分 -->
     <div class="profile-header">
       <img src="#" alt="用户头像">
       <h5>hao <span class="gender-icon">♂</span></h5>
@@ -14,25 +33,24 @@
     <!-- 快捷功能按钮 -->
     <div class="container">
       <div class="shortcut-buttons d-flex justify-content-around flex-wrap">
-        <button class="btn btn-custom-like">
+        <button class="btn btn-custom-like" @click="goOrders">
           <i class="iconfont icon-like"></i>
-          <span>我的点赞</span>
+          <span>我的订单</span>
         </button>
-        <button class="btn btn-custom-favorite">
+        <button class="btn btn-custom-favorite" @click="goCollection">
           <i class="iconfont icon-favorite"></i>
           <span>我的收藏</span>
         </button>
-        <button class="btn btn-custom-publish">
+        <button class="btn btn-custom-publish" @click="goUserRelease">
           <i class="iconfont icon-edit"></i>
           <span>我的发布</span>
         </button>
-        <button class="btn btn-custom-edit">
+        <button class="btn btn-custom-edit" @click="goUserInformation">
           <i class="iconfont icon-edit-info"></i>
           <span>信息编辑</span>
         </button>
       </div>
     </div>
-
 
     <!-- 更多服务部分 -->
     <div class="container more-services mt-4">
@@ -69,32 +87,38 @@
     <nav class="navbar navbar-light nav-bottom">
       <ul class="nav w-100">
         <li class="nav-item">
-          <a class="nav-link" href="main-index.html">
-            <i class="fas fa-home nav-icon"></i><br>主页
-          </a>
+          <router-link to="/userIndex" style="text-decoration: none">
+            <a class="nav-link">
+              <i class="icon-zhuye iconfont nav-icon"></i>主页
+            </a>
+          </router-link>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">
-            <i class="fas fa-info-circle nav-icon"></i><br>资讯
-          </a>
+          <router-link to="/userProperty" style="text-decoration: none">
+            <a class="nav-link">
+              <i class=" iconfont icon-fangyuantuijian nav-icon"></i>房源
+            </a>
+          </router-link>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">
-            <i class="fas fa-comments nav-icon"></i><br>微聊
-          </a>
+          <router-link to="/userChatting" style="text-decoration: none">
+            <a class="nav-link">
+              <i class="iconfont icon-weiliao nav-icon"></i>微聊
+            </a>
+          </router-link>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="mine.html">
-            <i class="fas fa-user nav-icon"></i><br>我的
-          </a>
+          <router-link to="/userMine" style="text-decoration: none">
+            <a class="nav-link">
+              <i class="iconfont icon-wode nav-icon"></i>我的
+            </a>
+          </router-link>
         </li>
       </ul>
     </nav>
-
   </div>
 
 </template>
-
 
 
 <style scoped>
@@ -102,13 +126,13 @@
   background-color: #f5f5f5;
 }
 
+
 .profile-header {
   background: linear-gradient(to right, #6bf7a8, #9fb8e2);
-  padding: 50px;
+  padding: 45px;
   border-radius: 0 0 15px 15px;
   text-align: center;
   margin-bottom: 20px;
-  /* 添加下方边距 */
 }
 
 .profile-header img {
@@ -134,9 +158,7 @@
   border-radius: 10px;
   padding: 15px;
   margin-top: 10px;
-  /* 调整顶部边距 */
   margin-bottom: 20px;
-  /* 调整底部边距 */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -154,7 +176,6 @@
 
 .more-services {
   margin-top: 30px;
-  /* 增加顶部边距 */
   background-color: #ffffff;
   border-radius: 10px;
   padding: 20px;
@@ -169,24 +190,18 @@
   font-size: 0.85rem;
 }
 
-/* 底部导航栏样式 */
 .nav-bottom {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
   background: linear-gradient(to right, #6bf7a8, #87aae7);
-  /* 渐变背景色 */
-  padding: 12px 0;
+  padding: 8px 0;
   display: flex;
   justify-content: space-around;
   text-align: center;
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.15);
-  /* 阴影效果 */
-  border-radius: 15px 15px 0 0;
-  /* 圆角边框 */
-  z-index: 10;
-  /* 保证导航栏在最前 */
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+  height: 60px;
 }
 
 .nav-item {
@@ -195,42 +210,25 @@
 
 .nav-link {
   color: #fff;
-  /* 白色文字 */
-  font-size: 0.85rem;
-  transition: color 0.3s, transform 0.3s;
-  /* 颜色和缩放过渡效果 */
-}
-
-.nav-link:hover {
-  color: #f1f1f1;
-  transform: scale(1.1);
-  /* 悬停时的放大效果 */
+  font-weight: bold;
+  transition: color 0.3s;
+  font-size: 0.9rem;
+  line-height: 1.2;
 }
 
 .nav-icon {
   font-size: 1.5rem;
   display: block;
-  margin-bottom: 5px;
-  transition: transform 0.3s;
-  /* 图标的缩放过渡效果 */
+  margin-bottom: -3px;
 }
-
-.nav-link:hover .nav-icon {
-  transform: scale(1.2);
-  /* 悬停时的图标放大效果 */
-}
-
 
 .service-item i {
   font-size: 1.2rem;
-  /* 设置图标字体大小 */
 }
-
 
 /* 自定义按钮样式 */
 .btn-custom-like {
   background-color: #ff6b6b;
-  /* 自定义“我的点赞”按钮背景色 */
   color: white;
   border: none;
   border-radius: 15px;
@@ -241,12 +239,10 @@
 
 .btn-custom-like:hover {
   background-color: #ff5252;
-  /* 悬停时的颜色 */
 }
 
 .btn-custom-favorite {
   background-color: #ffa726;
-  /* 自定义“我的收藏”按钮背景色 */
   color: white;
   border: none;
   border-radius: 15px;
@@ -257,12 +253,10 @@
 
 .btn-custom-favorite:hover {
   background-color: #ff9800;
-  /* 悬停时的颜色 */
 }
 
 .btn-custom-publish {
   background-color: #42a5f5;
-  /* 自定义“我的发布”按钮背景色 */
   color: white;
   border: none;
   border-radius: 15px;
@@ -273,12 +267,10 @@
 
 .btn-custom-publish:hover {
   background-color: #1e88e5;
-  /* 悬停时的颜色 */
 }
 
 .btn-custom-edit {
   background-color: #66bb6a;
-  /* 自定义“信息编辑”按钮背景色 */
   color: white;
   border: none;
   border-radius: 15px;
@@ -289,6 +281,19 @@
 
 .btn-custom-edit:hover {
   background-color: #43a047;
-  /* 悬停时的颜色 */
+}
+
+/* 响应式设计 */
+@media (max-width: 576px) {
+  .shortcut-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .shortcut-buttons .btn {
+    flex: 1 1 calc(50% - 20px);
+    /* 两个按钮一行 */
+  }
 }
 </style>

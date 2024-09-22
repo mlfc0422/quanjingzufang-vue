@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import { reactive, ref } from 'vue';
+import {reactive, ref} from 'vue';
 import axios from 'axios';
 import router from "../router/router.ts";
+import {ElMessage} from "element-plus";
 
 const form = reactive({
-  username: '',
+  id: '',
+  account: '',
   password: '',
-  agree: false
 });
 
 // 用于存储错误消息
@@ -21,42 +22,35 @@ const goToForgotPassword = () => {
 const goToRegister = () => {
   router.push('/UserRegister');
 };
+
 // 提交表单的函数
 const onSubmit = async () => {
-  if (!form.agree) {
-    alert('请同意用户服务协议');
-    return;
-  }
 
-  try {
-    const response = await axios.post('/api/login', {
-      username: form.username,
-      password: form.password
+  const response = await axios.post('/yonghu/user/login', {
+    account: form.account,
+    password: form.password
+  });
+
+  // 假设返回的数据结构为 Rest<T>
+  const {code, msg, data} = response.data;
+
+  if (code === 1) {
+    // 登录成功，处理成功逻辑，例如保存 token 和用户信息
+    const {user} = data; // 假设 token 和 user 都在 data 中
+    //todo:不能及时获取最新的jwt令牌
+    localStorage.setItem('jwt_token', data.token);
+    localStorage.setItem('id', data.id);
+
+    // 登录成功后，可以进行页面跳转
+    console.log('登录成功:', user);
+    await router.push('/userIndex');
+  } else {
+    // 登录失败，使用后端返回的消息
+    ElMessage({
+      message: msg || '登录失败，请稍后重试',
+      type: 'error',
+      duration: 3000
     });
-
-    // 假设返回的数据结构为 Rest<T>
-    const { code, msg, data } = response.data;
-
-    if (code === 1) {
-      // 登录成功，处理成功逻辑，例如保存 token 和用户信息
-      const { token, user } = data; // 假设 token 和 user 都在 data 中
-      localStorage.setItem('token', token);
-      localStorage.setItem('user', JSON.stringify(user));
-
-      // 登录成功后，可以进行页面跳转
-      console.log('登录成功:', user);
-      // 例如：window.location.href = '/home';
-    } else {
-      // 登录失败，使用后端返回的消息
-      errorMessage.value = msg;
-    }
-  } catch (error) {
-    // 处理错误，例如显示错误消息
-    if (axios.isAxiosError(error) && error.response) {
-      errorMessage.value = error.response.data.msg || '登录失败，请重试';
-    } else {
-      errorMessage.value = '发生未知错误，请重试';
-    }
   }
 };
 </script>
@@ -64,38 +58,35 @@ const onSubmit = async () => {
 
 <template>
   <div class="main">
-    <!-- 主容器 -->
     <div class="container d-flex justify-content-center align-items-center">
       <div class="login-main">
         <div class="card shadow-sm p-4">
           <div class="card-header">登录到您的账户</div>
           <form id="login-form" @submit.prevent="onSubmit" autocomplete="off">
-            <div class="form-group mb-3"> <!-- 添加 mb-3 类以增加底部间距 -->
-              <label for="username">账号</label>
-              <input type="text" class="form-control" id="username" placeholder="请输入账号" v-model="form.username" required />
-            </div>
-            <div class="form-group mb-3"> <!-- 添加 mb-3 类以增加底部间距 -->
-              <label for="password">
-                <i class="iconfont icon-suo"></i> 密码
-              </label>
-              <input
-                  type="password"
-                  class="form-control"
-                  id="password"
-                  placeholder="请输入密码"
-                  v-model="form.password"
-                  name="password"
-                  required
-              />
+            <!-- 账号输入框 -->
+            <div class="form-group mb-3">
+              <label for="account">账号</label>
+              <input type="text" class="form-control" id="account" placeholder="请输入账号" v-model="form.account"
+                     required/>
             </div>
 
-            <div class="d-flex justify-content-between align-items-center">
-              <button type="submit" class="btn btn-primary">登录</button>
-              <div>
-                <a class="small clickable" @click.prevent="goToForgotPassword">忘记密码？</a>
-                <span>|</span>
-                <a class="small clickable" @click.prevent="goToRegister">立即注册</a>
-              </div>
+            <!-- 密码输入框 -->
+            <div class="form-group mb-3">
+              <label for="password">密码</label>
+              <input type="password" class="form-control" id="password" placeholder="请输入密码" v-model="form.password"
+                     required/>
+            </div>
+
+            <!-- 登录按钮，单独一行 -->
+            <div class="mb-3">
+              <button type="submit" class="btn btn-primary w-100">登录</button>
+            </div>
+
+            <!-- 忘记密码和立即注册，单独一行居中显示 -->
+            <div class="text-center">
+              <a class="small clickable" @click.prevent="goToForgotPassword">忘记密码？</a>
+              <span class="mx-2">|</span>
+              <a class="small clickable" @click.prevent="goToRegister">立即注册</a>
             </div>
           </form>
         </div>
@@ -103,6 +94,7 @@ const onSubmit = async () => {
     </div>
   </div>
 </template>
+
 
 <style scoped>
 .main {
