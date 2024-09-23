@@ -83,7 +83,7 @@ const userListings = ref<Listing[]>([
   },
   {
     id: 3,
-    image: 'src/assets/img01.jpg',
+    image: 'src/assets/轮播图1.jpg',
     title: '三室两厅精装',
     price: 12000,
     address: '广州市天河区',
@@ -91,7 +91,7 @@ const userListings = ref<Listing[]>([
   },
   {
     id: 4,
-    image: 'src/assets/login.jpg',
+    image: 'src/assets/轮播图2.jpg',
     title: '单身公寓出租',
     price: 3000,
     address: '深圳市福田区',
@@ -115,7 +115,7 @@ const userListings = ref<Listing[]>([
   },
   {
     id: 7,
-    image: 'src/assets/img01.jpg',
+    image: 'src/assets/轮播图1.jpg',
     title: '经济型一居室',
     price: 4000,
     address: '武汉市江汉区',
