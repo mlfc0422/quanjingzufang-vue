@@ -1,222 +1,122 @@
 <script setup lang="ts">
 
-import {onMounted, ref} from "vue";
-import axios from "axios";
-import {useRoute, useRouter} from "vue-router";
+import {ref} from "vue";
+import router from "../router/router.ts";
 
-// 路由和响应数据
-const route = useRoute();
-const router = useRouter();
-const orderId = route.params.out_trade_no; // 获取路由参数中的订单ID
-const orderData = ref(null); // 用于存储订单数据
+const activeIndex = ref('1')
+const handleSelect = (key: string, keyPath: string[]) => {
+  console.log(key, keyPath)
+}
+const goUserMine = () => {
+  router.push("/UserMine")
+}
 
-// 获取订单详情的请求
-const fetchOrderDetails = async () => {
-  try {
-    const response = await axios.get(`/dingdan/order/${orderId}`);
-    const {code, msg, data} = response.data;
+const activeNames = ref(['1'])
+const handleChange = (val: string[]) => {
+  console.log(val)
+}
 
-    if (code === 1) {
-      order.value = data;
-    } else {
-      console.error('获取订单详情失败:', msg || '未知错误');
-    }
-  } catch (error) {
-    console.error('请求订单详情时出错:', error);
-  }
-};
-
-// 页面加载时获取订单详情
-onMounted(() => {
-  console.log('订单ID:', orderId);
-  fetchOrderDetails();
-});
-
-
-const order = ref({
-  out_trade_no: '',
-  propertyId: '',
-  userId: '',
-  subject: '',
-  total_amount: '',
-  description: '',
-  createTime: '',
-  startDate: '',
-  endDate: '',
-  timeout_express: '10m',
-  product_code: 'FAST_INSTANT_TRADE_PAY'
-});
-
-const confirmOrder = async () => {
-  try {
-    const response = await axios.post('/dingdan/order/alipay', order.value);
-    const responseData = response.data;
-
-    if (responseData.code === 1) {
-      // Handle successful order confirmation
-      console.log('Order confirmed:', responseData.data);
-
-      // 使用 _self 在当前窗口中打开新页面
-      const paymentWindow = window.open('', '_self');
-
-      if (paymentWindow) {
-        // 在当前标签页中写入返回的 HTML
-        paymentWindow.document.write(responseData.data);
-        paymentWindow.document.close(); // 关闭文档流，确保内容加载
-      } else {
-        console.error('标签页打开失败，请检查浏览器设置');
-      }
-    } else {
-      // Handle order confirmation failure
-      console.error('Order confirmation failed:', responseData.msg);
-    }
-  } catch (error) {
-    console.error('Error confirming order:', error);
-  }
-};
 </script>
 
-
 <template>
-  <div class="ordersDetail-container">
-    <el-card class="order-card">
-      <!--订单 详情-->
-      <div class="order-detail-global">
 
-        <el-row style="margin: 1px 0 0 0;border-top-left-radius: 6px;
-                                          border-top-right-radius: 6px;
-                                          background-color: rgba(218, 218, 218, 0.68);">
-          <el-col>
-            <div class="order-id">
-              <span class="label">订单编号:</span><span>{{ order.out_trade_no }}</span>
-            </div>
-          </el-col>
-        </el-row>
+  <!-- 导航栏 -->
+  <el-affix>
+    <el-menu
+        :default-active="activeIndex"
+        class="el-menu-demo"
+        mode="horizontal"
+        @select="handleSelect">
+      <router-link to="/userIndex" style="text-decoration: none"><div class="logo">全景租房网</div></router-link>
+      <el-menu-item index="2" @click="goUserMine">个人中心</el-menu-item>
+      <el-menu-item index="1">订单详情</el-menu-item>
+    </el-menu>
+  </el-affix>
 
-        <el-row style="margin: 0;padding: 10px 20px 0 20px;border: 1px solid rgba(218, 218, 218, 0.68);">
-          <el-col :span="5">
-            <div class="order-detail-item">
-              <span class="label">用户昵称:</span>
-            </div>
-          </el-col>
-          <el-col :span="7">
-            <div class="order-detail-item">
-              <span>{{ order.userId }}</span>
-            </div>
-          </el-col>
-          <el-col :span="5">
-            <div class="order-detail-item">
-              <span class="label">房源ID:</span>
-            </div>
-          </el-col>
-          <el-col :span="7">
-            <div class="order-detail-item">
-              <span>{{ order.propertyId }}</span>
-            </div>
-          </el-col>
-        </el-row>
-        <el-row style="margin: 0;padding: 10px 20px 0 20px;border: 1px solid rgba(218, 218, 218, 0.68);border-top: 0;">
-          <el-col :span="5">
-            <div class="order-detail-item">
-              <span class="label">订单创建日期:</span>
-            </div>
-          </el-col>
-          <el-col :span="7">
-            <div class="order-detail-item">
-              <span>{{ order.createTime }}</span>
-            </div>
-          </el-col>
-          <el-col :span="5">
-            <div class="order-detail-item">
-              <span class="label">租赁开始日期:</span>
-            </div>
-          </el-col>
-          <el-col :span="7">
-            <div class="order-detail-item">
-              <span>{{ order.startDate }}</span>
-            </div>
-          </el-col>
-        </el-row>
-        <el-row style="margin: 0;padding: 10px 20px 0 20px;border: 1px solid rgba(218, 218, 218, 0.68);border-top: 0;">
-          <el-col :span="5">
-            <div class="order-detail-item">
-              <span class="label">租赁结束日期:</span>
-            </div>
-          </el-col>
-          <el-col :span="7">
-            <div class="order-detail-item">
-              <span>{{ order.endDate }}</span>
-            </div>
-          </el-col>
-          <el-col :span="5">
-            <div class="order-detail-item">
-              <span class="label">总价:</span>
-            </div>
-          </el-col>
-          <el-col :span="7">
-            <div class="order-detail-item">
-              <span>{{ order.total_amount }}</span>
-            </div>
-          </el-col>
-        </el-row>
-        <el-row style="margin: 0;border-bottom-left-radius: 6px;
-                                          border: 1px solid rgba(218, 218, 218, 0.68);
-                                          border-top: 0;
-                                          border-bottom-right-radius: 6px;
-                                          height: 50px">
-          <el-col :span="24">
-            <div class="confirm-button-col">
-              <el-button type="primary" @click="confirmOrder">确认订单</el-button>
-            </div>
-          </el-col>
-        </el-row>
-      </div>
-    </el-card>
-  </div>
+  <!-- 订单详情 -->
+  <el-row style="
+      padding: 20px;box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), /* 底部阴影，增加立体感 */
+      0 0 15px rgba(0, 0, 0, 0.05); /* 四周扩散的阴影 */margin: 20px 20px 60px;">
+    <el-row style="width: 100%;">
+      <el-col :span="24" style="text-align: center">
+        <el-image src="src/assets/轮播图1.jpg" style="width: 100%;height: 64vh;border-radius: 5px"></el-image>
+      </el-col>
+    </el-row>
+
+    <el-row style="margin-top: 10px;padding: 15px;width: 100%">
+      <el-col style="text-align: center;padding:  0">
+        <span>房源介绍</span>
+      </el-col>
+    </el-row>
+
+    <el-row style="width: 100%">
+      <el-col style="text-align: right;padding: 15px">2220元</el-col>
+    </el-row>
+    <el-row style="width: 100%;">
+      <el-col :span="24">
+        <div class="demo-collapse">
+          <el-collapse v-model="activeNames" @change="handleChange">
+            <el-collapse-item title="更多" name="1" style="padding: 0 15px;">
+
+              <el-row style="width: 100%">
+                <el-col :span="12" style="text-align: left">订单编号</el-col>
+                <el-col :span="12" style="text-align: right">231231312313</el-col>
+              </el-row>
+
+              <el-row style="width: 100%">
+                <el-col :span="12" style="text-align: left">房源编号</el-col>
+                <el-col :span="12" style="text-align: right">231231</el-col>
+              </el-row>
+
+              <el-row style="width: 100%">
+                <el-col :span="12" style="text-align: left">开始日期</el-col>
+                <el-col :span="12" style="text-align: right">2022/10/12</el-col>
+              </el-row>
+
+              <el-row style="width: 100%">
+                <el-col :span="12" style="text-align: left">结束日期</el-col>
+                <el-col :span="12" style="text-align: right">2024/3/12</el-col>
+              </el-row>
+            </el-collapse-item>
+          </el-collapse>
+        </div>
+      </el-col>
+    </el-row>
+  </el-row>
+
+  <nav class="navbar navbar-light nav-bottom">
+    <el-row style="padding: 0 15px">
+      <el-col>
+          <el-button type="danger" style="margin-right: 3px">删除订单</el-button>
+      </el-col>
+    </el-row>
+  </nav>
+
 </template>
 
 <style scoped>
-.ordersDetail-container {
-  width: 100%;
-  height: 100%;
-}
-
-.order-card {
-  border-radius: 8px;
-  height: 100%;
-}
-
-/*订单详情*/
-
-.order-id {
-  width: 100%;
-  height: 100%;
-  padding: 20px;
-  border-top-left-radius: 6px;
-  border-top-right-radius: 6px;
-  background: rgba(213, 213, 213, 0.05);
-}
-
-.order-detail-global {
-  width: 90%;
-  margin-left: 5%;
-  border-radius: 4px;
-}
-
-.order-detail-item {
-  margin-bottom: 10px;
-}
-
-.label {
+.logo {
+  font-size: 24px;
   font-weight: bold;
-  margin-right: 10px;
-}
-
-.confirm-button-col {
+  background-color: #409eff;
   display: flex;
-  justify-content: flex-end;
   align-items: center;
-  height: 100%; /* 确保按钮垂直居中 */
-  padding-right: 10px;
+  justify-content: center;
+  padding: 0 20px;
+  height: 60px;
+  color: white;
+}
+.nav-bottom {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #fff;
+  padding: 8px 0;
+  display: flex;
+  justify-content: flex-end; /* 确保内容靠右对齐 */
+  align-items: center; /* 确保内容垂直居中 */
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+  height: 60px;
 }
 </style>
