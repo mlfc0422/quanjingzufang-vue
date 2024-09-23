@@ -135,6 +135,24 @@ const timeMapping: { [key: number]: string } = {
   3: '下午',
   4: '晚上',
   5: '全天'
+const placeOrder = async () => {
+  const orderData = {
+    propertyId: houseId,
+    userId: localStorage.getItem('userId'),
+    total_amount: house.value.rent, // 订单总金额
+    subject: house.value.title, // 订单标题
+  };
+
+  // 发送新增订单的请求
+  const response = await axios.post('/dingdan/order/add', orderData);
+  const { code, msg ,data} = response.data; // 解构响应数据
+  if (code === 1) {
+    // 订单创建成功，跳转到用户订单详情页面
+    console.log('新增订单成功:', data);
+    await router.push(`/userOrdersDetail/${data.out_trade_no}`);
+  } else {
+    console.error('新增订单失败:', msg || '未知错误');
+  }
 };
 //为用户展示看房时间的方法
 // 为参数 'time' 指定类型

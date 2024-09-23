@@ -57,8 +57,9 @@ const router = createRouter({
 
         },
         {
-            path: '/userOrdersDetail',
-            component: UserOrdersDetail
+            path: '/userOrdersDetail/:out_trade_no',
+            component: UserOrdersDetail,
+            props: true
         },
         {
             path:'/userMine',
