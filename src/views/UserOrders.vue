@@ -8,7 +8,6 @@ const activeIndex = ref('1');
 
 // 订单列表
 interface Order {
-  id: string;
   out_trade_no: string;
   status: string;
   imageUrl: string;
@@ -45,9 +44,9 @@ const fetchOrders = async () => {
 
 
 // 查看订单详情的处理函数
-const handleView = (order: any) => {
+const handleView = (orders: any) => {
   // 假设订单详情页面的路由路径为 /orderDetail/:id
-  router.push(`/orderDetail/${order.id}`);
+  router.push(`/UserOrdersDetail/${orders.out_trade_no}`);
 };
 
 // 导航到个人中心
@@ -62,16 +61,6 @@ const handleSelect = (key: string) => {
 
 // 页面加载时获取订单数据
 onMounted(() => {
-  // 添加一条测试数据
-  orders.value.push({
-    id: 'test-id',
-    out_trade_no: '1234567890',
-    status: '已完成',
-    imageUrl: 'https://via.placeholder.com/100',
-    subject: '测试订单',
-    total_amount: 100,
-    createTime: '2024-09-23 10:00:00'
-  });
 
   fetchOrders();
 });

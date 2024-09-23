@@ -80,8 +80,9 @@ const router = createRouter({
             component: UserOrders
         },
         {
-            path: '/userOrdersDetail/',
-            component:userOrdersDetail
+            path: '/userOrdersDetail/:out_trade_no',
+            component:userOrdersDetail,
+            props: true
         },
         {
             path: '/userCollection',
