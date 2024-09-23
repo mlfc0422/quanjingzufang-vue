@@ -7,7 +7,6 @@ import UserIndex from "../components/UserIndex.vue";
 import RootOrders from "../views/RootOrders.vue";
 import RootUsers from "../views/RootUsers.vue";
 import RootOrdersDetail from "../views/RootOrdersDetail.vue";
-import UserOrdersDetail from "../views/UserOrdersDetail.vue";
 import RootProperty from "../views/RootProperty.vue";
 import PaySuccess from "../views/PaySuccess.vue";
 import UserProperty from "../views/UserProperty.vue";
@@ -17,6 +16,8 @@ import UserRelease from "../views/UserRelease.vue";
 import UserInformation from "../views/UserInformation.vue";
 import UserOrders from "../views/UserOrders.vue";
 import UserCollection from "../views/UserCollection.vue";
+import UserConfirmationPayment from "../views/UserConfirmationPayment.vue";
+import userOrdersDetail from "../views/UserOrdersDetail.vue";
 
 
 const router = createRouter({
@@ -58,8 +59,8 @@ const router = createRouter({
 
         },
         {
-            path: '/userOrdersDetail/:out_trade_no',
-            component: UserOrdersDetail,
+            path: '/userConfirmationPayment',
+            component: UserConfirmationPayment,
             props: true
         },
         {
@@ -77,6 +78,10 @@ const router = createRouter({
         {
             path: '/userOrders',
             component: UserOrders
+        },
+        {
+            path: '/userOrdersDetail/',
+            component:userOrdersDetail
         },
         {
             path: '/userCollection',

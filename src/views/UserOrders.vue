@@ -7,7 +7,18 @@ import axios from 'axios';
 const activeIndex = ref('1');
 
 // 订单列表
-const orders = ref([]);
+interface Order {
+  id: string;
+  out_trade_no: string;
+  status: string;
+  imageUrl: string;
+  subject: string;
+  total_amount: number;
+  createTime: string;
+}
+
+const orders = ref<Order[]>([]);
+
 
 // Vue Router 实例
 const router = useRouter();
@@ -51,6 +62,17 @@ const handleSelect = (key: string) => {
 
 // 页面加载时获取订单数据
 onMounted(() => {
+  // 添加一条测试数据
+  orders.value.push({
+    id: 'test-id',
+    out_trade_no: '1234567890',
+    status: '已完成',
+    imageUrl: 'https://via.placeholder.com/100',
+    subject: '测试订单',
+    total_amount: 100,
+    createTime: '2024-09-23 10:00:00'
+  });
+
   fetchOrders();
 });
 </script>
@@ -83,7 +105,7 @@ onMounted(() => {
                   <span :style="{ color: order.status === '已完成' ? '#28a745' : '#b80000' }">{{ order.status }}</span>
                 </el-col>
               </el-row>
-              <el-row style="padding: 10px 0;">
+              <el-row style="padding: 10px 0 0 0;">
                 <el-col :span="6">
                   <el-image
                       style="height: 100px; border-radius: 5px; overflow: hidden;"
@@ -101,12 +123,14 @@ onMounted(() => {
                         <span class="price">{{ order.total_amount }}</span>
                         <span class="currency">元</span> <!-- 订单金额单位 -->
                       </div>
-                      <el-button @click="handleView(order)" size="small" class="custom-button">查看</el-button>
                     </el-col>
                   </el-row>
-                  <el-row style="margin-top: 5px;">
-                    <el-col :span="24">
-                      <span style="font-size: 12px; color: #999;">订单时间：{{ order.createTime }}</span> <!-- 订单时间 -->
+                  <el-row style="margin-top: 5px; display: flex; align-items: flex-end;height: 65%">
+                    <el-col :span="20" style="display: flex; align-items: flex-end;">
+                      <span style="font-size: 12px; color: #999;padding: 0 0 0 5px">订单时间：{{ order.createTime }}</span> <!-- 订单时间 -->
+                    </el-col>
+                    <el-col :span="4" style="display: flex; align-items: flex-end; justify-content: flex-end;">
+                      <el-button @click="handleView(order)" size="small" class="custom-button">查看</el-button>
                     </el-col>
                   </el-row>
                 </el-col>
