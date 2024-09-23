@@ -32,7 +32,6 @@
           <h3 class="mb-3">{{ house.title }}</h3>
           <p class="info">{{ house.houseDesc }}</p>
           <p class="price">价格: {{ house.rent }} 元/月</p>
-          <p class="address">地址: {{ house.useArea }}</p>
           <p class="details">房屋类型: {{ house.houseType }}</p>
           <p class="floor">楼层: {{ house.floor }}</p>
           <p class="useArea">使用面积: {{ house.useArea }}</p>
