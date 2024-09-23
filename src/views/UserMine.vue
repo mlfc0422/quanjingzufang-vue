@@ -7,11 +7,11 @@ const goUserInformation = () => {
   router.push("/UserInformation")
 }
 
-
-function goOrders(){
+function goOrders() {
   router.push("/userOrders")
 }
-function goCollection(){
+
+function goCollection() {
   router.push("/userCollection")
 }
 

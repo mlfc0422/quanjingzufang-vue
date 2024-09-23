@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { reactive, ref } from 'vue';
+import {reactive, ref} from 'vue';
 import axios from 'axios';
 import router from "../router/router.ts";
+import {ElMessage} from "element-plus";
 
 const form = reactive({
   id: '',
@@ -21,38 +22,35 @@ const goToForgotPassword = () => {
 const goToRegister = () => {
   router.push('/UserRegister');
 };
+
 // 提交表单的函数
 const onSubmit = async () => {
 
-  try {
-    const response = await axios.post('/yonghu/user/login', {
-      account: form.account,
-      password: form.password
+  const response = await axios.post('/yonghu/user/login', {
+    account: form.account,
+    password: form.password
+  });
+
+  // 假设返回的数据结构为 Rest<T>
+  const {code, msg, data} = response.data;
+
+  if (code === 1) {
+    // 登录成功，处理成功逻辑，例如保存 token 和用户信息
+    const {user} = data; // 假设 token 和 user 都在 data 中
+    //todo:不能及时获取最新的jwt令牌
+    localStorage.setItem('jwt_token', data.token);
+    localStorage.setItem('userId', data.id);
+
+    // 登录成功后，可以进行页面跳转
+    console.log('登录成功:', user);
+    await router.push('/userIndex');
+  } else {
+    // 登录失败，使用后端返回的消息
+    ElMessage({
+      message: msg || '登录失败，请稍后重试',
+      type: 'error',
+      duration: 3000
     });
-
-    // 假设返回的数据结构为 Rest<T>
-    const { code, msg, data } = response.data;
-
-    if (code === 1) {
-      // 登录成功，处理成功逻辑，例如保存 token 和用户信息
-      const {user} = data; // 假设 token 和 user 都在 data 中
-      localStorage.setItem('jwt_token', data.token);
-      localStorage.setItem('id', user.id);
-
-      // 登录成功后，可以进行页面跳转
-      console.log('登录成功:', user);
-      await router.push('/userIndex');
-    } else {
-      // 登录失败，使用后端返回的消息
-      errorMessage.value = msg;
-    }
-  } catch (error) {
-    // 处理错误，例如显示错误消息
-    if (axios.isAxiosError(error) && error.response) {
-      errorMessage.value = error.response.data.msg || '登录失败，请重试';
-    } else {
-      errorMessage.value = '发生未知错误，请重试';
-    }
   }
 };
 </script>
@@ -68,13 +66,15 @@ const onSubmit = async () => {
             <!-- 账号输入框 -->
             <div class="form-group mb-3">
               <label for="account">账号</label>
-              <input type="text" class="form-control" id="username" placeholder="请输入账号" v-model="form.username" required />
+              <input type="text" class="form-control" id="account" placeholder="请输入账号" v-model="form.account"
+                     required/>
             </div>
 
             <!-- 密码输入框 -->
             <div class="form-group mb-3">
               <label for="password">密码</label>
-              <input type="password" class="form-control" id="password" placeholder="请输入密码" v-model="form.password" required />
+              <input type="password" class="form-control" id="password" placeholder="请输入密码" v-model="form.password"
+                     required/>
             </div>
 
             <!-- 登录按钮，单独一行 -->
