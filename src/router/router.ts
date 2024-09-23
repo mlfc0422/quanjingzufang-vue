@@ -56,6 +56,7 @@ const router = createRouter({
             path: '/userPropertyDetails/:id',
             component: UserPropertyDetails,
             props: true
+
         },
         {
             path: '/userConfirmationPayment/:out_trade_no',
