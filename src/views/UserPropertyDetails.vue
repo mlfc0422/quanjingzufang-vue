@@ -130,7 +130,8 @@ const timeMapping: { [key: number]: string } = {
   2: '中午',
   3: '下午',
   4: '晚上',
-  5: '全天'
+  5: '全天',
+}
 const placeOrder = async () => {
   const orderData = {
     propertyId: houseId,
