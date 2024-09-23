@@ -64,6 +64,7 @@
       <div class="news-item">限购 • 房企半年度销售业绩...</div>
       <div class="news-item">限购 • 上半年土地市场两重...</div>
     </div>
+  </div>
 
   <!-- 底部导航栏 -->
   <nav class="navbar navbar-light nav-bottom">

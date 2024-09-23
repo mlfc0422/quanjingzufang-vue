@@ -87,7 +87,7 @@ function goCollection(){
     <nav class="navbar navbar-light nav-bottom">
       <ul class="nav w-100">
         <li class="nav-item">
-          <router-link to="/useIndex" style="text-decoration: none">
+          <router-link to="/userIndex" style="text-decoration: none">
             <a class="nav-link">
               <i class="icon-zhuye iconfont nav-icon"></i>主页
             </a>
