@@ -59,7 +59,7 @@ const router = createRouter({
 
         },
         {
-            path: '/userConfirmationPayment/:out_trade_no',
+            path: '/userConfirmationPayment',
             component: UserConfirmationPayment,
             props: true
         },

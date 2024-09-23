@@ -83,9 +83,10 @@ const confirmOrder = async () => {
       <!--订单 详情-->
       <div class="order-detail-global">
 
-        <el-row style="margin: 1px 0 0 0;border-top-left-radius: 6px;
-                                          border-top-right-radius: 6px;
-                                          background-color: rgba(218, 218, 218, 0.68);">
+        <el-row style=
+                    "margin: 1px 0 0 0;border-top-left-radius: 2px;
+                    border: 1px solid rgba(218, 218, 218, 0.68);border-bottom: 0;
+                    border-top-right-radius: 2px;">
           <el-col>
             <div class="order-id">
               <span class="label">订单编号:</span><span>{{ order.out_trade_no }}</span>
@@ -93,10 +94,12 @@ const confirmOrder = async () => {
           </el-col>
         </el-row>
 
-        <el-row style="margin: 0;padding: 10px 20px 0 20px;border: 1px solid rgba(218, 218, 218, 0.68);">
+        <el-row style=
+                    "margin: 0;padding: 10px 20px 0 20px;
+                    border: 1px solid rgba(218, 218, 218, 0.68);">
           <el-col :span="5">
             <div class="order-detail-item">
-              <span class="label">用户昵称:</span>
+              <span>用户昵称:</span>
             </div>
           </el-col>
           <el-col :span="7">
@@ -106,7 +109,7 @@ const confirmOrder = async () => {
           </el-col>
           <el-col :span="5">
             <div class="order-detail-item">
-              <span class="label">房源ID:</span>
+              <span>房源ID:</span>
             </div>
           </el-col>
           <el-col :span="7">
@@ -115,10 +118,12 @@ const confirmOrder = async () => {
             </div>
           </el-col>
         </el-row>
-        <el-row style="margin: 0;padding: 10px 20px 0 20px;border: 1px solid rgba(218, 218, 218, 0.68);border-top: 0;">
+        <el-row style=
+                    "margin: 0;padding: 10px 20px 0 20px;
+                    border: 1px solid rgba(218, 218, 218, 0.68);border-top: 0;">
           <el-col :span="5">
             <div class="order-detail-item">
-              <span class="label">订单创建日期:</span>
+              <span>订单创建日期:</span>
             </div>
           </el-col>
           <el-col :span="7">
@@ -128,7 +133,7 @@ const confirmOrder = async () => {
           </el-col>
           <el-col :span="5">
             <div class="order-detail-item">
-              <span class="label">租赁开始日期:</span>
+              <span>租赁开始日期:</span>
             </div>
           </el-col>
           <el-col :span="7">
@@ -137,10 +142,12 @@ const confirmOrder = async () => {
             </div>
           </el-col>
         </el-row>
-        <el-row style="margin: 0;padding: 10px 20px 0 20px;border: 1px solid rgba(218, 218, 218, 0.68);border-top: 0;">
+        <el-row style=
+                    "margin: 0;padding: 10px 20px 0 20px;
+                    border: 1px solid rgba(218, 218, 218, 0.68);border-top: 0;">
           <el-col :span="5">
             <div class="order-detail-item">
-              <span class="label">租赁结束日期:</span>
+              <span>租赁结束日期:</span>
             </div>
           </el-col>
           <el-col :span="7">
@@ -150,7 +157,7 @@ const confirmOrder = async () => {
           </el-col>
           <el-col :span="5">
             <div class="order-detail-item">
-              <span class="label">总价:</span>
+              <span>总价:</span>
             </div>
           </el-col>
           <el-col :span="7">
@@ -159,11 +166,10 @@ const confirmOrder = async () => {
             </div>
           </el-col>
         </el-row>
-        <el-row style="margin: 0;border-bottom-left-radius: 6px;
-                                          border: 1px solid rgba(218, 218, 218, 0.68);
-                                          border-top: 0;
-                                          border-bottom-right-radius: 6px;
-                                          height: 50px">
+        <el-row style=
+                    "margin: 0;border-bottom-left-radius: 2px;
+                    border: 1px solid rgba(218, 218, 218, 0.68);border-top: 0;
+                    border-bottom-right-radius: 2px;height: 50px;">
           <el-col :span="24">
             <div class="confirm-button-col">
               <el-button type="primary" @click="confirmOrder">确认订单</el-button>
@@ -177,13 +183,19 @@ const confirmOrder = async () => {
 
 <style scoped>
 .ordersDetail-container {
-  width: 100%;
-  height: 100%;
+  display: flex;
+  justify-content: center; /* 水平居中 */
+  align-items: center; /* 垂直居中 */
+  height: 100vh; /* 使容器高度为视口高度 */
+  background: linear-gradient(45deg, #3a8ee6, #b9ebfb); /* 背景渐变 */
 }
 
 .order-card {
-  border-radius: 8px;
-  height: 100%;
+  width: 80%; /* 根据需要调整宽度 */
+  max-width: 800px; /* 根据需要调整最大宽度 */
+  border-radius: 6px;
+  background-color: rgba(255, 255, 255, 0.8); /* 设置背景颜色和透明度 */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* 添加阴影 */
 }
 
 /*订单详情*/
