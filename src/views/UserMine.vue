@@ -1,5 +1,38 @@
 <script setup lang="ts">
 import router from "../router/router.ts";
+import {onMounted, ref} from "vue";
+import axios from "axios";
+
+// 页面加载时获取用户信息
+onMounted(() => {
+  fetchUserInfo();
+});
+
+const id = localStorage.getItem('userId');
+
+// 用户信息
+const userInfo = ref({
+  avatar: '', // 用户头像URL
+  userName: '',  // 用户名
+  gender: ''     // 性别
+});
+
+// 获取用户信息的函数
+const fetchUserInfo = async () => {
+  try {
+    const response = await axios.get(`/yonghu/user/${id}`);
+    const { code, data } = response.data;
+    if (code === 1) {
+      userInfo.value = data; // 假设 data 包含 avatarUrl、username、gender
+    } else {
+      console.error('获取用户信息失败');
+    }
+  } catch (error) {
+    console.error('请求用户信息时出错:', error);
+  }
+};
+
+
 const goUserRelease = () => {
   router.push("/UserRelease")
 }
@@ -26,8 +59,17 @@ function goCollection() {
   <div class="main">
     <!-- 个人资料部分 -->
     <div class="profile-header">
-      <img src="#" alt="用户头像">
-      <h5>hao <span class="gender-icon">♂</span></h5>
+      <!-- 动态绑定用户头像 -->
+      <img :src="userInfo.avatar" alt="用户头像" />
+
+      <!-- 动态显示用户名和性别 -->
+      <h5>{{ userInfo.userName }}
+        <span class="gender-icon">
+        <!-- 根据性别显示不同的图标 -->
+        <span v-if="userInfo.gender === '男'">♂</span>
+        <span v-if="userInfo.gender === '女'">♀</span>
+      </span>
+      </h5>
     </div>
 
     <!-- 快捷功能按钮 -->
