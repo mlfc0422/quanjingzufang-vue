@@ -13,7 +13,6 @@ const orderDetail = ref({
   startDate: '',
   endDate: '',
   price: 0,
-  startDate: '',
   total_amount: 0,
   subject: '',
   propertyId: 0,
@@ -49,6 +48,7 @@ const fetchOrderDetails = async () => {
 };
 
 onMounted(() => {
+
   console.log('订单ID:', orderId);
   fetchOrderDetails();
 });
@@ -80,7 +80,7 @@ onMounted(() => {
 
     <el-row style="margin-top: 10px;padding: 15px;width: 100%">
       <el-col style="text-align: center;padding: 0">
-        <span>房源介绍</span>
+        <span>房源描述-->待写入</span>
       </el-col>
     </el-row>
 
@@ -94,38 +94,38 @@ onMounted(() => {
           <el-collapse v-model="activeNames" @change="handleChange">
             <el-collapse-item title="更多" name="1" style="padding: 0 15px;">
               <el-row style="width: 100%">
-                <el-col :span="12" style="text-align: left">订单编号</el-col>
-                <el-col :span="12" style="text-align: right">{{ orderDetail?.out_trade_no }}</el-col> <!-- 展示订单编号 -->
+                <el-col :span="12" style="text-align: left"><span class="detail-font">订单编号</span></el-col>
+                <el-col :span="12" style="text-align: right"><span class="detail-font">{{ orderDetail?.out_trade_no }}</span></el-col> <!-- 展示订单编号 -->
               </el-row>
 
               <el-row style="width: 100%">
-                <el-col :span="12" style="text-align: left">开始日期</el-col>
-                <el-col :span="12" style="text-align: right">{{ orderDetail?.startDate }}</el-col> <!-- 展示开始日期 -->
+                <el-col :span="12" style="text-align: left"><span class="detail-font">开始日期</span></el-col>
+                <el-col :span="12" style="text-align: right"><span class="detail-font">{{ orderDetail?.startDate }}</span></el-col> <!-- 展示开始日期 -->
               </el-row>
 
               <el-row style="width: 100%">
-                <el-col :span="12" style="text-align: left">结束日期</el-col>
-                <el-col :span="12" style="text-align: right">{{ orderDetail?.endDate }}</el-col> <!-- 展示结束日期 -->
+                <el-col :span="12" style="text-align: left"><span class="detail-font">结束日期</span></el-col>
+                <el-col :span="12" style="text-align: right"><span class="detail-font">{{ orderDetail?.endDate }}</span></el-col> <!-- 展示结束日期 -->
               </el-row>
 
               <el-row style="width: 100%">
-                <el-col :span="12" style="text-align: left">房源名称</el-col>
-                <el-col :span="12" style="text-align: right">{{ orderDetail?.subject }}</el-col> <!-- 展示房源名称 -->
+                <el-col :span="12" style="text-align: left"><span class="detail-font">房源名称</span></el-col>
+                <el-col :span="12" style="text-align: right"><span class="detail-font">{{ orderDetail?.subject }}</span></el-col> <!-- 展示房源名称 -->
               </el-row>
 
               <el-row style="width: 100%">
-                <el-col :span="12" style="text-align: left">房源编号</el-col>
-                <el-col :span="12" style="text-align: right">{{ orderDetail?.propertyId }}</el-col> <!-- 展示房源编号 -->
+                <el-col :span="12" style="text-align: left"><span class="detail-font">房源编号</span></el-col>
+                <el-col :span="12" style="text-align: right"><span class="detail-font">{{ orderDetail?.propertyId }}</span></el-col> <!-- 展示房源编号 -->
               </el-row>
 
               <el-row style="width: 100%">
-                <el-col :span="12" style="text-align: left">状态</el-col>
-                <el-col :span="12" style="text-align: right">{{ orderDetail?.status }}</el-col> <!-- 展示订单状态 -->
+                <el-col :span="12" style="text-align: left"><span class="detail-font">状态</span></el-col>
+                <el-col :span="12" style="text-align: right"><span class="detail-font">{{ orderDetail?.status }}</span></el-col> <!-- 展示订单状态 -->
               </el-row>
 
               <el-row style="width: 100%">
-                <el-col :span="12" style="text-align: left">创建时间</el-col>
-                <el-col :span="12" style="text-align: right">{{ orderDetail?.createTime }}</el-col> <!-- 展示创建时间 -->
+                <el-col :span="12" style="text-align: left"><span class="detail-font">创建时间</span></el-col>
+                <el-col :span="12" style="text-align: right"><span class="detail-font">{{ orderDetail?.createTime }}</span></el-col> <!-- 展示创建时间 -->
               </el-row>
             </el-collapse-item>
           </el-collapse>
@@ -170,5 +170,8 @@ onMounted(() => {
   align-items: center; /* 确保内容垂直居中 */
   box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
   height: 60px;
+}
+.detail-font{
+  font-size: 16px;
 }
 </style>
