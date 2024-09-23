@@ -115,7 +115,7 @@ const placeOrder = async () => {
   if (code === 1) {
     // 订单创建成功，跳转到用户订单详情页面
     console.log('新增订单成功:', data);
-    await router.push(`/userOrdersDetail/${data.out_trade_no}`);
+    await router.push(`/userConfirmationPayment/${data.out_trade_no}`);
   } else {
     console.error('新增订单失败:', msg || '未知错误');
   }
