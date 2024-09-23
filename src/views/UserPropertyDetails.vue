@@ -39,6 +39,7 @@
           <p class="orientation">朝向: {{ house.orientation }}</p>
           <p class="contact">联系人: {{ house.contact }}</p>
           <p class="mobile">联系电话: {{ house.mobile }}</p>
+          <p class="houseDesc">房屋描述: {{ house.houseDesc }}</p>
 
           <!-- 租赁方式 -->
           <p class="rent-method">租赁方式: {{ house.rentMethod ? '整租' : '合租' }}</p>
@@ -64,34 +65,38 @@
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import axios from "axios";
+import axios from "axios"; // 引入路由
 
+
+// 导航栏相关逻辑
 const activeIndex = ref('1');
 const handleSelect = (key: string, keyPath: string[]) => {
   console.log(key, keyPath);
 };
 
+// 获取当前房源 ID
 const route = useRoute();
 const router = useRouter();
-const houseId = route.params.id;
+const houseId = route.params.id; // 获取动态路由参数中的房源ID
 
+// 模拟房源数据（可替换为从后端获取数据的逻辑）
 const house = ref({
-  id: 1,
-  title: '舒适一居室公寓',
-  rent: 3000,
-  rentMethod: true,
-  houseType: '公寓',
-  useArea: '50㎡',
-  floor: '5/12',
-  orientation: '南',
-  pic: 'src/assets/img01.jpg',
-  houseDesc: '这是一套舒适的一居室公寓，位于繁华的市中心，周围有超市、餐馆和公园。公寓内部设计现代，配备齐全的家具和电器，阳光充足，通风良好。非常适合单身人士或情侣居住，生活便利。附近有多条公交线路和地铁站，出行非常方便。',
-  contact: '张先生',
-  mobile: '13800001234',
-  time: Date.now() + 86400000,
-  created: new Date('2024-09-01'),
-  updated: new Date(),
-  statusCode: true
+  id: 0,               // 房屋ID
+  title: '',           // 标题
+  rent: 0,             // 租金
+  rentMethod: false,   // 租赁方式（false表示合租，true表示整租）
+  houseType: '',       // 房屋类型
+  useArea: '',         // 使用面积
+  floor: '',           // 楼层
+  orientation: '',     // 朝向
+  pic: '',             // 图片
+  houseDesc: '',       // 房屋描述
+  contact: '',         // 联系人
+  mobile: '',          // 联系电话
+  time: 0,             // 看房时间
+  created: new Date(), // 创建时间
+  updated: new Date(), // 更新时间
+  statusCode: false    // 状态码（false表示无效，true表示有效）
 });
 
 // 我的图片数组
@@ -120,46 +125,56 @@ const fetchHouseDetails = async (id: number) => {
 };
 
 onMounted(() => {
+  // 获取房源详细信息
   fetchHouseDetails(Number(houseId));
 });
 
+// 返回上一页
 const goBack = () => {
   router.go(-1);
 };
 
+// 返回首页
 const goHome = () => {
   router.push('/');
 };
 
-const placeOrder = async () => {
-  const orderData = {
-    propertyId: houseId,
-    userId: localStorage.getItem('userId'),
-    total_amount: house.value.rent,
-    subject: house.value.title,
-  };
 
-  const response = await axios.post('/dingdan/order/add', orderData);
-  const { code, msg, data } = response.data;
-  if (code === 1) {
-    await router.push(`/userOrdersDetail/${data.out_trade_no}`);
-  } else {
-    console.error('新增订单失败:', msg || '未知错误');
-  }
-};
-
+//为用户展示看房时间的方法数据
 const timeMapping: { [key: number]: string } = {
   1: '上午',
   2: '中午',
   3: '下午',
   4: '晚上',
-  5: '全天'
-};
+  5: '全天',
+}
+const placeOrder = async () => {
+  const orderData = {
+    propertyId: houseId,
+    userId: localStorage.getItem('userId'),
+    total_amount: house.value.rent, // 订单总金额
+    subject: house.value.title, // 订单标题
+  };
 
+  // 发送新增订单的请求
+  const response = await axios.post('/dingdan/order/add', orderData);
+  const { code, msg ,data} = response.data; // 解构响应数据
+  if (code === 1) {
+    // 订单创建成功，跳转到用户订单详情页面
+    console.log('新增订单成功:', data);
+    await router.push(`/userOrdersDetail/${data.out_trade_no}`);
+  } else {
+    console.error('新增订单失败:', msg || '未知错误');
+  }
+};
+//为用户展示看房时间的方法
+// 为参数 'time' 指定类型
 function formatViewingTime(time: number): string {
   return timeMapping[time] || '未知';
 }
+
 </script>
+
 
 <style scoped>
 body {
@@ -178,6 +193,7 @@ body {
   color: white;
 }
 
+/* 页面整体布局 */
 .container {
   max-width: 1200px;
   margin: auto;
@@ -193,8 +209,6 @@ body {
   height: 600px; /* 根据需要设置图片高度 */
   object-fit: cover; /* 保持图片比例，裁剪溢出部分 */
 }
-
-
 
 .house-info {
   background-color: #ffffff;
@@ -226,23 +240,6 @@ body {
 .price {
   font-weight: bold;
   color: #e74c3c;
-  font-size: 22px;
-  margin-bottom: 20px;
-}
-
-.viewing-time {
-  margin-top: 10px;
-  font-size: 15px;
-  color: #3b82f6;
-}
-
-.order-btn .el-button {
-  background-image: linear-gradient(45deg, #6a5acd, #3b82f6);
-  color: white;
-  border-radius: 50px;
-  font-size: 16px;
-  padding: 10px 30px;
-  transition: background 0.3s;
 }
 
 .order-btn .el-button:hover {

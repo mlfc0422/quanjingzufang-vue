@@ -55,74 +55,22 @@ const goUserMine = () => {
   router.push("/UserMine")
 }
 
-interface Listing {
+// 房源列表数据
+interface House {
   id: number;
-  image: string;
   title: string;
-  price: number;
-  address: string;
-  description: string;
+  rent: number;
+  rentMethod: boolean;
+  houseType: string;
+  useArea: string;
+  floor: string;
+  orientation: string;
+  pic: string;
+  houseDesc: string;
+  contact: string;
+  mobile: string;
+  time: number;
 }
-
-const userListings = ref<Listing[]>([
-  {
-    id: 1,
-    image: 'src/assets/login.jpg',
-    title: '精装一居室出租',
-    price: 5000,
-    address: '北京市朝阳区',
-    description: '靠近地铁，配套设施齐全。'
-  },
-  {
-    id: 2,
-    image: 'src/assets/img01.jpg',
-    title: '两室一厅带阳台',
-    price: 8000,
-    address: '上海市浦东新区',
-    description: '采光充足，附近有超市、学校。'
-  },
-  {
-    id: 3,
-    image: 'src/assets/轮播图1.jpg',
-    title: '三室两厅精装',
-    price: 12000,
-    address: '广州市天河区',
-    description: '环境优美，交通便利。'
-  },
-  {
-    id: 4,
-    image: 'src/assets/轮播图2.jpg',
-    title: '单身公寓出租',
-    price: 3000,
-    address: '深圳市福田区',
-    description: '配备家电，临近地铁站。'
-  },
-  {
-    id: 5,
-    image: 'src/assets/img01.jpg',
-    title: '温馨两居室',
-    price: 6500,
-    address: '杭州市西湖区',
-    description: '适合家庭，靠近公园。'
-  },
-  {
-    id: 6,
-    image: 'src/assets/login.jpg',
-    title: '豪华复式公寓',
-    price: 15000,
-    address: '南京市建邺区',
-    description: '视野开阔，设施完善。'
-  },
-  {
-    id: 7,
-    image: 'src/assets/轮播图1.jpg',
-    title: '经济型一居室',
-    price: 4000,
-    address: '武汉市江汉区',
-    description: '租金合理，交通方便。'
-  },
-  // 添加更多房源数据
-])
 
 
 

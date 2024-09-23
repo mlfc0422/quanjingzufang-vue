@@ -52,8 +52,9 @@ const router = createRouter({
             component: UserProperty
         },
         {
-            path: '/userPropertyDetails',
+            path: '/userPropertyDetails/:id',
             component: UserPropertyDetails,
+            props: true
 
         },
         {
