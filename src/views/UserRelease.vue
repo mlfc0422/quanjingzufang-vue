@@ -259,7 +259,7 @@ const submitForm = async () => {
 
 onMounted(() => {
   // 获取房源列表
-  axios.get(`/fangyuan/property/list/${id}`)
+  axios.get(`/fangyuan/property/listMyProperty/${id}`)
       .then(response => {
         const { code, msg, data } = response.data;
         if (code === 1 && data) {
