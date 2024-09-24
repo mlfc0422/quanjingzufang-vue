@@ -51,7 +51,9 @@
         <el-input v-model="form.rent" type="number" />
       </el-form-item>
       <el-form-item label="租赁方式">
-        <el-switch v-model="form.rentMethod" active-text="整租" inactive-text="合租" />
+        <el-select v-model="methodDisplay" placeholder="租赁方式">
+          <el-option v-for="(label, value) in methodOptions" :key="value" :label="label" :value="value" />
+        </el-select>
       </el-form-item>
       <el-form-item label="房屋类型">
         <el-input v-model="form.houseType" />
@@ -95,25 +97,22 @@
         <el-input v-model="form.mobile" />
       </el-form-item>
       <el-form-item label="看房时间">
-        <el-select v-model="form.time" placeholder="选择看房时间">
-          <el-option label="上午" value="1" />
-          <el-option label="中午" value="2" />
-          <el-option label="下午" value="3" />
-          <el-option label="晚上" value="4" />
-          <el-option label="全天" value="5" />
+        <el-select v-model="timeDisplay" placeholder="选择看房时间">
+          <el-option v-for="(label, value) in timeOptions" :key="value" :label="label" :value="value" />
         </el-select>
       </el-form-item>
     </el-form>
     <template #footer>
       <el-button @click="dialogVisible = false">取消</el-button>
-      <el-button type="primary" @click="submitForm">{{ isEditing ? '保存' : '发布' }}</el-button>
+      <el-button type="primary" @click="submitForm" v-if="!isEditing">发布</el-button>
+      <el-button type="primary" @click="updateForm" v-if="isEditing === true">保存</el-button>
     </template>
   </el-dialog>
 
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import {computed, ref} from 'vue'
 
 //导航栏
 import router from "../router/router.ts";
@@ -218,7 +217,44 @@ const addNewListing = () => {
   isEditing.value = false
   dialogVisible.value = true
 }
+//租赁方式
+const methodOptions = {
+  true: '合租',
+  false: '整租'
+}
+// 使用 computed 来展示看房时间对应的文字
+const methodDisplay = computed({
+  get() {
+    const rentMethod = form.value.rentMethod !== undefined ? form.value.rentMethod : true; // 默认值为 true
+    return methodOptions[rentMethod as true | false] || ''; // 使用类型断言
+  },
+  set(value) {
+    form.value.rentMethod = value === 'true'; // 根据选择的值，保存布尔值
+  },
+})
 
+//看房时间
+// 1-上午, 2-中午, 3-下午, 4-晚上, 5-全天
+const timeOptions = {
+  1: '上午',
+  2: '中午',
+  3: '下午',
+  4: '晚上',
+  5: '全天',
+}
+// 使用 computed 来展示看房时间对应的文字
+const timeDisplay = computed({
+  get() {
+    const time = form.value.time !== undefined ? form.value.time : 1; // 默认值为 1
+    return timeOptions[time as 1 | 2 | 3 | 4 | 5] || ''; // 使用类型断言
+  },
+  set(value) {
+    form.value.time = value; // 当选择时间段时，保存数字值
+  },
+})
+const updateForm = () => {
+  console.log(form.value.title)
+}
 // 提交表单
 const submitForm = () => {
   if (isEditing.value) {
