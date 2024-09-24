@@ -98,6 +98,8 @@ onMounted(() => {
         console.error('获取房源列表时发生错误:', error);
       });
 })
+}
+
 </script>
 
 <style scoped>
