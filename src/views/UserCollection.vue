@@ -26,6 +26,7 @@
           <p class="text-truncate">描述: {{ house.description }}</p>
           <div class="d-flex justify-content-between mt-3">
             <el-button type="danger" size="small" @click="deleteListing(house.id)">取消收藏</el-button>
+            <el-button type="success" size="small" @click="goPropertyDetails(house.id)">查看详情</el-button>
           </div>
         </el-card>
       </div>
@@ -59,6 +60,28 @@ interface Listing {
 const userListings = ref<Listing[]>([])
 const deleteListing = (id: number) => {
   console.log(`取消收藏: ${id}`)
+const userListings = ref<Listing[]>([])
+const deleteListing = async (id: number) => {
+  try {
+    // 调用API删除收藏的房源
+    const response = await fetch(`/listings/${id}`, {
+      method: 'DELETE',
+    });
+    if (response.ok) {
+      // 更新userListings列表
+      userListings.value = userListings.value.filter(house => house.id !== id);
+      console.log(`取消收藏: ${id}`);
+    } else {
+      console.error(`删除房源失败: ${response.statusText}`);
+    }
+  } catch (error) {
+    console.error(`删除房源失败: ${error}`);
+  }
+}
+
+const goPropertyDetails = (id: number) => {
+  router.push({ name: 'UserPropertyDetails', params: { id } });
+  console.log(`查看详情: ${id}`);
 }
 
 onMounted(() => {
