@@ -45,7 +45,7 @@
 
           <!-- 返回登录页面的链接 -->
           <div class="links-container">
-            <a href="login.html" class="small">返回登录页面</a>
+            <a href="" class="small">返回登录页面</a>
           </div>
         </form>
       </div>
@@ -53,10 +53,8 @@
   </div>
 </div>
 </template>
-<script lang="ts">
 
-</script>
-<script setup>
+<script setup lang="ts">
 // document.getElementById("reset-password-form").addEventListener("submit", function (event) {
 //   event.preventDefault(); // 阻止表单默认提交行为
 //
@@ -95,8 +93,7 @@
 
 <style scoped>
 .main {
-  background: linear-gradient(to right, #af6bf7, #9fb8e2);
-  background-repeat: no-repeat;
+  background: linear-gradient(to right, #af6bf7, #9fb8e2) no-repeat;
   background-size: cover;
   min-height: 100vh;
   display: flex;

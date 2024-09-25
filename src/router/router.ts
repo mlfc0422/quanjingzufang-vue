@@ -18,11 +18,22 @@ import UserOrders from "../views/UserOrders.vue";
 import UserCollection from "../views/UserCollection.vue";
 import UserConfirmationPayment from "../views/UserConfirmationPayment.vue";
 import userOrdersDetail from "../views/UserOrdersDetail.vue";
+import UserForget from "../components/UserForget.vue";
+import MapContainer from "../components/MapContainer.vue";
+import MapCode from "../components/MapCode.vue";
 
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
+        {
+            path: '/mapcode',
+            component: MapCode
+        },
+        {
+            path: '/map',
+            component: MapContainer
+        },
         {
             path: '/',
             redirect: '/userLogin'
@@ -88,6 +99,10 @@ const router = createRouter({
         {
             path: '/userCollection',
             component:UserCollection
+        },
+        {
+            path: '/userForget',
+            component: UserForget
         },
         {
             path: '/rootIndex',

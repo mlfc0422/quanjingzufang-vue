@@ -56,6 +56,9 @@
       </div>
     </div>
 
+    <div>
+      <div id="container"></div>
+    </div>
     <!-- 返回上一页按钮 -->
     <div class="mt-4 text-center">
       <el-button type="primary" @click="goBack">返回上一页</el-button>
@@ -64,10 +67,10 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import axios from "axios"; // 引入路由
-
+import axios from 'axios'; // 引入 axios
+import AMapLoader from '@amap/amap-jsapi-loader';
 
 // 导航栏相关逻辑
 const activeIndex = ref('1');
@@ -80,47 +83,50 @@ const route = useRoute();
 const router = useRouter();
 const houseId = route.params.id; // 获取动态路由参数中的房源ID
 const userId = localStorage.getItem('userId'); // 获取用户ID
-// 模拟房源数据（可替换为从后端获取数据的逻辑）
 const house = ref({
-  id: '',               // 房屋ID
-  title: '',           // 标题
-  rent: 0,             // 租金
-  rentMethod: false,   // 租赁方式（false表示合租，true表示整租）
-  houseType: '',       // 房屋类型
-  useArea: '',         // 使用面积
-  floor: '',           // 楼层
-  orientation: '',     // 朝向
-  pic: '',             // 图片
-  houseDesc: '',       // 房屋描述
-  contact: '',         // 联系人
-  mobile: '',          // 联系电话
-  time: 0,             // 看房时间
-  created: new Date(), // 创建时间
-  updated: new Date(), // 更新时间
-  statusCode: false,   // 状态码（false表示无效，true表示有效）
-  urls: []             // 图片数组
+  id: '',
+  title: '',
+  rent: 0,
+  rentMethod: false,
+  houseType: '',
+  useArea: '',
+  floor: '',
+  orientation: '',
+  pic: '',
+  houseDesc: '',
+  contact: '',
+  mobile: '',
+  time: 0,
+  created: new Date(),
+  updated: new Date(),
+  statusCode: false,
+  urls: [],
+  address: '海南师范大学', // 地址
 });
-
-// 我的图片数组
 const images = ref([]);
 
-
+// 经纬度相关
+const lnglat = ref('');
+let map = null;
+let geocoder = null;
+let marker = null;
 
 const fetchHouseDetails = async (id: string) => {
-  console.log(`请求房源详情，ID: ${id}`); // 打印请求的 ID
+  console.log(`请求房源详情，ID: ${id}`);
   try {
     const response = await axios.get(`/fangyuan/property/${id}`, {
       params: {
         UserId: userId,
       }
     });
-    console.log('响应数据:', response.data); // 打印响应数据
+    console.log('响应数据:', response.data);
     const { code, msg, data } = response.data;
 
     if (code === 1 && data) {
-      house.value = data.property; // 更新为 data.property
-      images.value = data.urls; // 更新图片数组
-      console.log('获取房源详情成功:', house.value); // 打印成功获取的数据
+      house.value = data.property;
+      images.value = data.urls;
+      // 使用地址进行经纬度转换
+      geoCode(); // 获取经纬度
     } else {
       console.error('获取房源详情失败:', msg || '未知错误');
     }
@@ -130,9 +136,48 @@ const fetchHouseDetails = async (id: string) => {
 };
 
 onMounted(() => {
-  // 获取房源详细信息
   fetchHouseDetails(String(houseId));
+
+  // 加载高德地图
+  window._AMapSecurityConfig = {
+    securityJsCode: '919b72e2406397582c5a6a56a2f7f5cb',
+  };
+  AMapLoader.load({
+    key: '716d2d104b91d6199612161379983172',
+    version: '2.0',
+    plugins: ['AMap.Geocoder'],
+  }).then((AMap) => {
+    map = new AMap.Map('container', {
+      resizeEnable: true,
+    });
+
+    geocoder = new AMap.Geocoder({
+      city: '0898',
+    });
+
+    marker = new AMap.Marker();
+  }).catch((e) => {
+    console.error(e);
+  });
 });
+
+onUnmounted(() => {
+  map?.destroy();
+});
+
+const geoCode = () => {
+  geocoder.getLocation(house.value.address, (status, result) => {
+    if (status === 'complete' && result.geocodes.length) {
+      const lnglatVal = result.geocodes[0].location;
+      lnglat.value = `${lnglatVal.lng}, ${lnglatVal.lat}`;
+      marker.setPosition(lnglatVal);
+      map.add(marker);
+      map.setFitView(marker);
+    } else {
+      console.error('根据地址查询位置失败');
+    }
+  });
+};
 
 // 返回上一页
 const goBack = () => {
@@ -144,40 +189,36 @@ const goHome = () => {
   router.push('/UserMine');
 };
 
-
-//为用户展示看房时间的方法数据
-const timeMapping: { [key: number]: string } = {
-  1: '上午',
-  2: '中午',
-  3: '下午',
-  4: '晚上',
-  5: '全天',
-}
+// 订单相关逻辑
 const placeOrder = async () => {
   const orderData = {
     propertyId: houseId,
     userId: localStorage.getItem('userId'),
-    total_amount: house.value.rent, // 订单总金额
-    subject: house.value.title, // 订单标题
+    total_amount: house.value.rent,
+    subject: house.value.title,
   };
 
-  // 发送新增订单的请求
   const response = await axios.post('/dingdan/order/add', orderData);
-  const { code, msg ,data} = response.data; // 解构响应数据
+  const { code, msg, data } = response.data;
   if (code === 1) {
-    // 订单创建成功，跳转到用户订单详情页面
     console.log('新增订单成功:', data);
     await router.push(`/userConfirmationPayment/${data.out_trade_no}`);
   } else {
     console.error('新增订单失败:', msg || '未知错误');
   }
 };
-//为用户展示看房时间的方法
-// 为参数 'time' 指定类型
+
+// 看房时间格式化
+const timeMapping: { [key: number]: string } = {
+  1: '上午',
+  2: '中午',
+  3: '下午',
+  4: '晚上',
+  5: '全天',
+};
 function formatViewingTime(time: number): string {
   return timeMapping[time] || '未知';
 }
-
 </script>
 
 
@@ -278,4 +319,8 @@ body {
   background-size: contain;
 }
 
+#container {
+  height: 400px;
+  width: 100%;
+}
 </style>

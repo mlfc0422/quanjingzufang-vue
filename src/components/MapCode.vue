@@ -40,7 +40,7 @@ onMounted(() => {
     });
 
     geocoder = new AMap.Geocoder({
-      city: '010',
+      city: '0898',
     });
 
     marker = new AMap.Marker();
