@@ -242,30 +242,51 @@ const updateForm = async () => {
 }
 
 
-const deleteListing = (id: number) => {
+const deleteListing = async (id: number) => {
   // 使用 ElMessageBox 提示确认是否删除
   ElMessageBox.confirm('确定要删除该房源吗？', '删除确认', {
     confirmButtonText: '确定',
     cancelButtonText: '取消',
     type: 'warning',
   })
-      .then(() => {
-        // 确认删除，执行过滤操作
-        userListings.value = userListings.value.filter(house => house.id !== id)
-        // 删除成功提示
-        ElMessage({
-          type: 'success',
-          message: '删除成功!',
-        })
+      .then(async () => {
+        try {
+          // 发送删除请求
+          const response = await axios.delete(`/fangyuan/property/batch/${id}`);
+          const { code, msg } = response.data;
+
+          if (code === 1) {
+            // 确认删除，执行过滤操作
+            userListings.value = userListings.value.filter(house => house.id !== id);
+            // 删除成功提示
+            ElMessage({
+              type: 'success',
+              message: '删除成功!',
+            });
+          } else {
+            // 处理删除失败的情况
+            ElMessage({
+              type: 'error',
+              message: msg || '删除失败!',
+            });
+          }
+        } catch (error) {
+          // 处理请求错误
+          ElMessage({
+            type: 'error',
+            message: '删除请求出错，请重试!',
+          });
+        }
       })
       .catch(() => {
         // 用户取消删除操作
         ElMessage({
           type: 'info',
           message: '已取消删除',
-        })
-      })
-}
+        });
+      });
+};
+
 
 const fileList = ref([]); // 上传的文件列表
 const handleChange = (file, newFileList) => {
