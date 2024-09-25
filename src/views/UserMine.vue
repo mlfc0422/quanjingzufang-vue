@@ -166,6 +166,7 @@ function goCollection() {
 <style scoped>
 .main {
   background-color: #f5f5f5;
+  height: calc(100vh - 60px);
 }
 
 

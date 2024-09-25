@@ -21,6 +21,8 @@ import userOrdersDetail from "../views/UserOrdersDetail.vue";
 import UserForget from "../components/UserForget.vue";
 import MapContainer from "../components/MapContainer.vue";
 import MapCode from "../components/MapCode.vue";
+import RootPropertyDetail from "../views/RootPropertyDetail.vue";
+import RootUsersDetail from "../views/RootUsersDetail.vue";
 
 
 const router = createRouter({
@@ -114,17 +116,25 @@ const router = createRouter({
                     component: RootProperty
                 },
                 {
+                    path: 'rootPropertyDetail',
+                    component:RootPropertyDetail
+                },
+                {
                     path: 'rootOrders',
                     component: RootOrders
+                },
+                {
+                    path: 'rootOrdersDetail',
+                    component: RootOrdersDetail
                 },
                 {
                     path: 'rootUsers',
                     component: RootUsers
                 },
                 {
-                    path: 'rootOrdersDetail',
-                    component: RootOrdersDetail
-                },
+                    path: 'rootUsersDetail',
+                    component: RootUsersDetail
+                }
             ]
         },
     ]
