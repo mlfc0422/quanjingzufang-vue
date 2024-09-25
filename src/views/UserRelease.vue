@@ -109,10 +109,8 @@
 
 <script lang="ts" setup>
 import {onMounted, ref,computed} from 'vue'
-
-//导航栏
+import { ElMessageBox, ElMessage } from 'element-plus'; // 确保引入消息提示
 import router from "../router/router.ts";
-import {ElMessage, ElMessageBox} from 'element-plus'
 import axios from "axios";
 
 const activeIndex = ref('1')
@@ -127,7 +125,7 @@ const id = localStorage.getItem('userId') // 获取当前登录用户的 ID
 // 房源列表数据
 interface House {
   ownerId: string;          // 房东 ID
-  id: number;               // 房源 ID
+  id: string;               // 房源 ID
   title: string;            // 房源标题
   rent: number;             // 租金
   rentMethod: boolean;      // 租赁方式（如：整租或合租）
@@ -173,6 +171,7 @@ const methodOptions = {
   true: '合租',
   false: '整租'
 }
+
 // 使用 computed 来展示看房时间对应的文字
 const methodDisplay = computed({
   get() {
@@ -193,6 +192,7 @@ const timeOptions = {
   4: '晚上',
   5: '全天',
 }
+
 // 使用 computed 来展示看房时间对应的文字
 const timeDisplay = computed({
   get() {
@@ -203,12 +203,44 @@ const timeDisplay = computed({
     form.value.time = value; // 当选择时间段时，保存数字值
   },
 })
-const updateForm = () => {
-  console.log(form.value.title)
+
+const updateForm = async () => {
+  const response = await axios.put(`/fangyuan/property/update`, form.value);
+  if (response.data.code === 1) {
+    console.log('更新房源成功:', response.data);
+    ElMessage({
+      type: 'success',
+      message: '更新成功!',
+    });
+  } else {
+    console.error('更新房源失败:', response.data.msg || '未知错误');
+    ElMessage({
+      type: 'error',
+      message: '更新失败!',
+    });
+  }
+
+  if (fileList.value.length > 0) {
+    console.log('开始上传图片', fileList.value);
+    const imageUploadPromises = fileList.value.map(file => {
+      const formData = new FormData();
+      formData.append('image', file.raw);
+
+      return axios.post(`fangyuan/property/addimg/${form.value.id}`, formData, {
+        headers: {'Content-Type': 'multipart/form-data'}
+      });
+    });
+
+    await Promise.all(imageUploadPromises); // 等待所有图片上传完成
+    console.log('所有图片上传成功');
+
+  } else {
+    console.warn('没有文件需要上传');
+  }
+  dialogVisible.value = false;
+  await fetchMyListings();
 }
 
-
-import { ElMessageBox, ElMessage } from 'element-plus'
 
 const deleteListing = (id: number) => {
   // 使用 ElMessageBox 提示确认是否删除
@@ -296,7 +328,7 @@ const submitForm = async () => {
   }
 };
 
-onMounted(() => {
+const fetchMyListings = async () => {
   // 获取房源列表
   axios.get(`/fangyuan/property/listMyProperty/${id}`)
       .then(response => {
@@ -310,6 +342,9 @@ onMounted(() => {
       .catch(error => {
         console.error('获取房源列表时发生错误:', error);
       });
+};
+onMounted(() => {
+  fetchMyListings()
 });
 </script>
 

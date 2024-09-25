@@ -91,7 +91,7 @@ const goUserMine = () => {
 
 // 房源列表数据
 interface House {
-  id: number;               // 房屋ID
+  id: string;               // 房屋ID
   title: string;            // 标题
   rent: number;             // 租金
   rentMethod: boolean;      // 租赁方式（true表示整租，false表示合租）
@@ -123,6 +123,7 @@ const fetchHouseList = async () => {
       // 从 data 中提取 records 数组
       if (data && Array.isArray(data.records)) {
         houses.value = data.records; // 将数据存入 houses
+        console.log('房源数据:', houses.value);
       } else {
         console.error('数据格式不正确:', data);
         houses.value = []; // 确保 houses 是数组

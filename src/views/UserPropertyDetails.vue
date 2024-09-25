@@ -78,7 +78,7 @@ const houseId = route.params.id; // 获取动态路由参数中的房源ID
 const userId = localStorage.getItem('userId'); // 获取用户ID
 // 模拟房源数据（可替换为从后端获取数据的逻辑）
 const house = ref({
-  id: 0,               // 房屋ID
+  id: '',               // 房屋ID
   title: '',           // 标题
   rent: 0,             // 租金
   rentMethod: false,   // 租赁方式（false表示合租，true表示整租）
@@ -102,7 +102,7 @@ const images = ref([]);
 
 
 
-const fetchHouseDetails = async (id: number) => {
+const fetchHouseDetails = async (id: string) => {
   console.log(`请求房源详情，ID: ${id}`); // 打印请求的 ID
   try {
     const response = await axios.get(`/fangyuan/property/${id}`, {
@@ -127,7 +127,7 @@ const fetchHouseDetails = async (id: number) => {
 
 onMounted(() => {
   // 获取房源详细信息
-  fetchHouseDetails(Number(houseId));
+  fetchHouseDetails(String(houseId));
 });
 
 // 返回上一页
