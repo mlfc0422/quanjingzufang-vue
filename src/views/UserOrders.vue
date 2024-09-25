@@ -16,7 +16,24 @@ interface Order {
   createTime: string;
 }
 
-const orders = ref<Order[]>([]);
+const orders = ref<Order[]>([
+    {
+      out_trade_no: '1234567890',
+    status: '已支付',
+    imageUrl: 'https://via.placeholder.com/100',
+    subject: '测试订单1',
+    total_amount: 100.00,
+    createTime: '2024-09-25 08:00:00'
+},
+{
+  out_trade_no: '0987654321',
+      status: '已创建',
+    imageUrl: 'https://via.placeholder.com/100',
+    subject: '测试订单2',
+    total_amount: 200.00,
+    createTime: '2024-09-25 09:00:00'
+}
+]);
 
 
 // Vue Router 实例
@@ -94,33 +111,32 @@ onMounted(() => {
                   <span :style="{ color: order.status === '已支付' ? '#28a745' : '#b80000' }">{{ order.status }}</span>
                 </el-col>
               </el-row>
-              <el-row style="padding: 10px 0 0 0;">
-                <el-col :span="6">
-                  <el-image
-                      style="height: 100px; border-radius: 5px; overflow: hidden;"
-                      :src="order.imageUrl"
-                      :fit="'cover'">
-                  </el-image>
-                </el-col>
-                <el-col :span="18">
-                  <el-row>
-                    <el-col :span="18" style="padding: 0 5px;">
+              <el-row style="padding: 10px 0 0 0;width: 100%">
+                <el-col :span="24">
+                  <el-row class="justify-content-between">
+                    <div>
                       <span style="font-size: 16px; font-weight: bold;">{{ order.subject }}</span> <!-- 订单标题 -->
-                    </el-col>
-                    <el-col :span="6" class="custom-col">
+                    </div>
+                    <div class="custom-col">
                       <div class="price-container">
                         <span class="price">{{ order.total_amount }}</span>
                         <span class="currency">元</span> <!-- 订单金额单位 -->
                       </div>
-                    </el-col>
+                    </div>
                   </el-row>
-                  <el-row style="margin-top: 5px; display: flex; align-items: flex-end;height: 65%">
-                    <el-col :span="20" style="display: flex; align-items: flex-end;">
-                      <span style="font-size: 12px; color: #999;padding: 0 0 0 5px">订单时间：{{ order.createTime }}</span> <!-- 订单时间 -->
-                    </el-col>
-                    <el-col :span="4" style="display: flex; align-items: flex-end; justify-content: flex-end;">
-                      <el-button v-if="order.status === '已创建'" @click="handleView(order)" size="small" class="custom-button">查看</el-button>
-                    </el-col>
+                  <el-row style="padding: 8px 0 0 0;width: 100%;"
+                          :style="{ marginBottom: order.status === '已支付' ? '24px' : '0' }"
+                          class="justify-content-between">
+                    <div>
+                      <span style="font-size: 12px; color: #999;">订单时间：{{ order.createTime }}</span> <!-- 订单时间 -->
+                    </div>
+                    <div>
+                      <el-button @click="handleView(order)" size="small" class="custom-button">查看</el-button>
+                    </div>
+                  </el-row>
+                  <el-row style="padding: 8px 0 0 0;width: 100%" class="justify-content-between">
+                    <el-button v-if="order.status === '已创建'" @click="" size="small" class="custom-button">取消订单</el-button>
+                    <el-button v-if="order.status === '已创建'" @click="" size="small" class="custom-button">继续支付</el-button>
                   </el-row>
                 </el-col>
               </el-row>

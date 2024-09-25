@@ -2,6 +2,7 @@
 
 import {onMounted, ref} from "vue";
 import axios from "axios";
+import router from "../router/router.ts";
 
 
 // 定义行数据的接口
@@ -11,12 +12,26 @@ interface Users {
   account: number;
   phone:number;
   createTime: Date;
-
 }
 
 const usersList = ref<Users[]>([]);
 const keyword = ref();
-const filteredUsersList = ref<Users[]>([]);
+const filteredUsersList = ref<Users[]>([
+  {
+    id: 1,
+    userName: '测试用户1',
+    account: 123456,
+    phone: 13800138000,
+    createTime: new Date('2024-09-25T08:00:00')
+  },
+  {
+    id: 2,
+    userName: '测试用户2',
+    account: 654321,
+    phone: 13800138001,
+    createTime: new Date('2024-09-25T09:00:00')
+  }
+]);
 
 onMounted(() => {
   getUsersList(); // 组件挂载时获取用户列表数据
@@ -34,7 +49,7 @@ function getUsersList() {
 }
 
 function deleteInformation() {
-
+  router.push('/rootIndex/rootUsersDetail');
 }
 
 function handleSearch() {
@@ -58,7 +73,7 @@ function handleSearch() {
       <!--在这里添加删除按钮 -->
       <el-table-column label="操作" style="width: 10%">
         <template v-slot="">
-          <el-button type="primary" @click="deleteInformation()">删除</el-button>
+          <el-button type="primary" @click="deleteInformation()">查看详情</el-button>
         </template>
       </el-table-column>
     </el-table>
