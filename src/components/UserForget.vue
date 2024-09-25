@@ -53,42 +53,44 @@
   </div>
 </div>
 </template>
+<script lang="ts">
 
-<script>
-document.getElementById("reset-password-form").addEventListener("submit", function (event) {
-  event.preventDefault(); // 阻止表单默认提交行为
-
-  const phoneNumber = document.getElementById("phoneNumber").value;
-  const verificationCode = document.getElementById("verificationCode").value;
-  const newPassword = document.getElementById("newPassword").value;
-  const confirmPassword = document.getElementById("confirmPassword").value;
-
-  if (!phoneNumber || !verificationCode) {
-    alert("请填写手机号码和验证码！");
-    return;
-  }
-
-  if (newPassword !== confirmPassword) {
-    alert("两次输入的密码不一致！");
-    return;
-  }
-
-  // 这里可以添加验证码验证逻辑以及密码重置逻辑
-  alert("密码重置成功！");
-  // location.href = 'login.html'; // 重定向到登录页面
-});
-
-// 模拟获取验证码功能
-document.getElementById("getCodeBtn").addEventListener("click", function () {
-  const phoneNumber = document.getElementById("phoneNumber").value;
-  if (!phoneNumber) {
-    alert("请先输入手机号码！");
-    return;
-  }
-
-  // 模拟验证码发送成功
-  alert("验证码已发送至您的手机！");
-});
+</script>
+<script setup>
+// document.getElementById("reset-password-form").addEventListener("submit", function (event) {
+//   event.preventDefault(); // 阻止表单默认提交行为
+//
+//   const phoneNumber = document.getElementById("phoneNumber").value;
+//   const verificationCode = document.getElementById("verificationCode").value;
+//   const newPassword = document.getElementById("newPassword").value;
+//   const confirmPassword = document.getElementById("confirmPassword").value;
+//
+//   if (!phoneNumber || !verificationCode) {
+//     alert("请填写手机号码和验证码！");
+//     return;
+//   }
+//
+//   if (newPassword !== confirmPassword) {
+//     alert("两次输入的密码不一致！");
+//     return;
+//   }
+//
+//   // 这里可以添加验证码验证逻辑以及密码重置逻辑
+//   alert("密码重置成功！");
+//   // location.href = 'login.html'; // 重定向到登录页面
+// });
+//
+// // 模拟获取验证码功能
+// document.getElementById("getCodeBtn").addEventListener("click", function () {
+//   const phoneNumber = document.getElementById("phoneNumber").value;
+//   if (!phoneNumber) {
+//     alert("请先输入手机号码！");
+//     return;
+//   }
+//
+//   // 模拟验证码发送成功
+//   alert("验证码已发送至您的手机！");
+// });
 </script>
 
 <style scoped>

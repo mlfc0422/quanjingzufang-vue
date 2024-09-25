@@ -27,7 +27,9 @@
     <div class="row">
       <div class="col-md-4 mb-4" v-for="house in userListings" :key="house.id">
         <el-card shadow="always" class="house-card">
-          <img :src="house.pic" alt="house-image" class="img-fluid rounded mb-2"/>
+          <img :src="house.pic" alt="house-image" class="img-fluid rounded mb-2" style="  width: 480px; /* 固定宽度 */
+            height: 220px; /* 固定高度 */
+            object-fit: cover; /* 保持长宽比，裁剪多余部分 */" />
           <h3>{{ house.title }}</h3>
           <p>价格: {{ house.rent }} 元/月</p>
           <p>使用面积: {{ house.useArea }}</p>
@@ -67,6 +69,7 @@
       <el-form-item label="朝向">
         <el-input v-model="form.orientation"/>
       </el-form-item>
+      <!-- 图片上传 -->
       <el-form-item label="上传图片">
         <el-upload
             class="upload-demo"

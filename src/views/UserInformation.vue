@@ -10,7 +10,7 @@
       <router-link to="UserIndex" style="text-decoration: none">
         <div class="logo">全景租房网</div>
       </router-link>
-      <el-menu-item index="2" @click="goUserMine">个人中心</el-menu-item>
+      <el-menu-item index="2" @click="goHome">个人中心</el-menu-item>
       <el-menu-item index="1">个人信息</el-menu-item>
     </el-menu>
     <div class="h-6"/>
@@ -95,6 +95,7 @@
 import { onMounted, reactive, ref } from 'vue';
 import axios from 'axios';
 import { ElMessage } from 'element-plus';
+import router from "../router/router.ts";
 
 // 定义用户信息接口
 interface UserInfo {
@@ -125,6 +126,16 @@ const userInfo = reactive<UserInfo>({
   address: '',
   idNumber: ''
 });
+
+// 导航栏相关逻辑
+const activeIndex = ref('1');
+const handleSelect = (key: string, keyPath: string[]) => {
+  console.log(key, keyPath);
+};
+
+const goHome = () => {
+  router.push('/UserMine');
+};
 
 // 是否编辑状态
 const isEditing = ref(false);
