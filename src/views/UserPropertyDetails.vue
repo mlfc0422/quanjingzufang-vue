@@ -50,6 +50,10 @@
           <div class="order-btn mt-4">
             <el-button type="success" @click="placeOrder">确认下单</el-button>
           </div>
+          <!-- 新增收藏按钮 -->
+          <div class="order-btn mt-4">
+            <el-button type="success" @click="">加入收藏</el-button>
+          </div>
         </div>
       </div>
     </div>
@@ -135,7 +139,7 @@ const goBack = () => {
 
 // 返回首页
 const goHome = () => {
-  router.push('/');
+  router.push('/UserMine');
 };
 
 

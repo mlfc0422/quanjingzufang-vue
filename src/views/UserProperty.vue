@@ -15,62 +15,67 @@
     </el-menu>
     <div class="h-6" />
   </el-affix>
+  <div style="height: calc(100vh - 140px)" >
+    <!-- 搜索框 -->
+    <div class="search-bar container mt-4">
+      <el-input
+          v-model="searchQuery"
+          placeholder="请输入房源标题或地址进行搜索"
+          clearable
+          prefix-icon="el-icon-search"
+          @input="handleSearch"
+      />
+    </div>
 
-  <!-- 搜索框 -->
-  <div class="search-bar container mt-4">
-    <el-input
-        v-model="searchQuery"
-        placeholder="请输入房源标题或地址进行搜索"
-        clearable
-        prefix-icon="el-icon-search"
-        @input="handleSearch"
-    />
+    <!--列表内容-->
+    <div class="house-list container mt-4">
+      <el-row
+          v-for="(house, index) in paginatedHouses"
+          :key="index"
+          class="house-item"
+          :gutter="20"
+      >
+        <!-- 左侧图片 -->
+        <el-col :xs="24" :sm="6" class="house-image" style="text-align: center">
+          <el-image
+              style=" height: 100px; object-fit: cover;"
+              :src="house.pic"
+              alt="house-image"
+          />
+        </el-col>
+
+        <!-- 中间的标题和信息 -->
+        <el-col :xs="24" :sm="10" class="house-details">
+          <h3 class="house-title">{{ house.title }}</h3>
+          <p class="house-info">{{ house.houseType }} / {{ house.useArea }}㎡ / {{ house.orientation }}</p>
+          <div class="house-tags">
+            <el-tag type="primary">VR房源</el-tag>
+            <el-tag type="success">随时看房</el-tag>
+          </div>
+        </el-col>
+
+        <!-- 右侧价格和查看详情按钮 -->
+        <el-col :xs="24" :sm="8" class="house-actions text-right">
+          <div class="house-price">{{ house.rent }}元/月 </div>
+          <el-button type="primary" class="mt-3" @click="goViewPropertyDetails(house)">查看详情</el-button>
+        </el-col>
+      </el-row>
+
+    </div>
   </div>
-
-  <!--列表内容-->
-  <div class="house-list container mt-4">
-    <el-row
-        v-for="(house, index) in paginatedHouses"
-        :key="index"
-        class="house-item"
-        :gutter="20"
-    >
-      <!-- 左侧图片 -->
-      <el-col :xs="24" :sm="6" class="house-image">
-        <el-image
-            style="width: 100%; height: auto; object-fit: cover;"
-            :src="house.pic"
-            alt="house-image"
-        />
-      </el-col>
-
-      <!-- 中间的标题和信息 -->
-      <el-col :xs="24" :sm="10" class="house-details">
-        <h3 class="house-title">{{ house.title }}</h3>
-        <p class="house-info">{{ house.houseType }} / {{ house.useArea }}㎡ / {{ house.orientation }}</p>
-        <div class="house-tags">
-          <el-tag type="primary">VR房源</el-tag>
-          <el-tag type="success">随时看房</el-tag>
-        </div>
-      </el-col>
-
-      <!-- 右侧价格和查看详情按钮 -->
-      <el-col :xs="24" :sm="8" class="house-actions text-right">
-        <div class="house-price">{{ house.rent }} </div>
-        <el-button type="primary" class="mt-3" @click="goViewPropertyDetails(house)">查看详情</el-button>
-      </el-col>
-    </el-row>
-
-    <!-- 分页 -->
-    <el-pagination
-        background
-        layout="prev, pager, next"
-        :total="filteredHouses.length"
-        :page-size="pageSize"
-        v-model:current-page="currentPage"
-        class="mt-4"
-    />
-  </div>
+  <!-- 分页 -->
+  <el-affix position="bottom" :offset="-8000" style="height: 32px">
+    <div style="display: flex; justify-content: center; align-items: center; height: 100%;">
+      <el-pagination
+          background
+          layout="prev, pager, next"
+          :total="filteredHouses.length"
+          :page-size="pageSize"
+          v-model:current-page="currentPage"
+          class="mt-4"
+      />
+    </div>
+  </el-affix>
 </template>
 
 <script lang="ts" setup>
@@ -107,10 +112,124 @@ interface House {
 }
 
 // 房源列表数据
-const houses = ref<House[]>([]); // 存放房源数据
+const houses = ref<House[]>([
+  {
+    id: 1,
+    title: "温馨一居室",
+    rent: 3000,
+    rentMethod: true,
+    houseType: "一居室",
+    useArea: "50㎡",
+    floor: "3/5",
+    orientation: "南",
+    pic: "src/assets/轮播图1.jpg",
+    houseDesc: "适合单身或者情侣居住，交通便利，周边配套齐全。",
+    contact: "张先生",
+    mobile: "13800000001",
+    time: Date.now(),
+  },
+  {
+    id: 2,
+    title: "现代合租房",
+    rent: 1500,
+    rentMethod: false,
+    houseType: "合租房",
+    useArea: "80㎡",
+    floor: "2/6",
+    orientation: "东",
+    pic: "src/assets/轮播图1.jpg",
+    houseDesc: "带阳台的合租房，适合年轻人居住，环境优雅。",
+    contact: "李小姐",
+    mobile: "13800000002",
+    time: Date.now(),
+  },
+  {
+    id: 3,
+    title: "豪华三居室",
+    rent: 6000,
+    rentMethod: true,
+    houseType: "三居室",
+    useArea: "120㎡",
+    floor: "5/10",
+    orientation: "西",
+    pic: "src/assets/轮播图1.jpg",
+    houseDesc: "高档小区，配套设施齐全，适合家庭居住。",
+    contact: "王先生",
+    mobile: "13800000003",
+    time: Date.now(),
+  },
+  {
+    id: 4,
+    title: "舒适两居室",
+    rent: 4000,
+    rentMethod: true,
+    houseType: "两居室",
+    useArea: "90㎡",
+    floor: "1/8",
+    orientation: "北",
+    pic: "src/assets/轮播图1.jpg",
+    houseDesc: "安静舒适，适合一家人，邻近公园。",
+    contact: "赵女士",
+    mobile: "13800000004",
+    time: Date.now(),
+  },
+  {
+    id: 5,
+    title: "时尚共享空间",
+    rent: 1800,
+    rentMethod: false,
+    houseType: "共享空间",
+    useArea: "70㎡",
+    floor: "4/6",
+    orientation: "南",
+    pic: "src/assets/轮播图1.jpg",
+    houseDesc: "年轻人的聚集地，适合喜欢社交的朋友。",
+    contact: "陈先生",
+    mobile: "13800000005",
+    time: Date.now(),
+  },
+  {
+    id: 6,
+    title: "时尚共享空间",
+    rent: 1800,
+    rentMethod: false,
+    houseType: "共享空间",
+    useArea: "70㎡",
+    floor: "4/6",
+    orientation: "南",
+    pic: "src/assets/轮播图2.jpg",
+    houseDesc: "年轻人的聚集地，适合喜欢社交的朋友。",
+    contact: "陈先生",
+    mobile: "13800000005",
+    time: Date.now(),
+  }
+]); // 存放房源数据
 const searchQuery = ref(''); // 搜索内容
 const currentPage = ref(1); // 当前页
-const pageSize = 5; // 每页显示数量
+const pageSize = ref(1); // 每页显示数量
+
+// 根据屏幕高度动态计算每页显示的条数
+const calculatePageSize = () => {
+  const availableHeight = window.innerHeight - 148; // 减去固定元素的高度
+  const itemHeight = 150; // 每个房源项的高度
+  const visibleItems = Math.floor(availableHeight / itemHeight); // 计算可以显示的房源数量
+  pageSize.value = visibleItems > 1 ? visibleItems : 1; // 至少显示一条数据
+};
+
+// 监听窗口大小变化
+window.addEventListener('resize', calculatePageSize);
+// 分页逻辑
+const paginatedHouses = computed(() => {
+  const start = (currentPage.value - 1) * pageSize.value;
+  const end = start + pageSize.value;
+  return filteredHouses.value.slice(start, end);
+});
+
+
+onMounted(() => {
+  fetchHouseList();
+  calculatePageSize(); // 页面加载时计算一次
+});
 
 const fetchHouseList = async () => {
   try {
@@ -156,12 +275,6 @@ const filteredHouses = computed(() => {
   );
 });
 
-// 分页逻辑
-const paginatedHouses = computed(() => {
-  const start = (currentPage.value - 1) * pageSize;
-  const end = start + pageSize;
-  return filteredHouses.value.slice(start, end);
-});
 
 
 // 页面挂载时获取房源数据

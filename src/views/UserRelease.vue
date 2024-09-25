@@ -27,7 +27,9 @@
     <div class="row">
       <div class="col-md-4 mb-4" v-for="house in userListings" :key="house.id">
         <el-card shadow="always" class="house-card">
-          <img :src="house.pic" alt="house-image" class="img-fluid rounded mb-2" />
+          <img :src="house.pic" alt="house-image" class="img-fluid rounded mb-2" style="  width: 480px; /* 固定宽度 */
+            height: 220px; /* 固定高度 */
+            object-fit: cover; /* 保持长宽比，裁剪多余部分 */" />
           <h3>{{ house.title }}</h3>
           <p>价格: {{ house.rent }} 元/月</p>
           <p>使用面积: {{ house.useArea }}</p>
@@ -172,7 +174,22 @@ const userListings = ref<House[]>([
     contact: '王女士',
     mobile: '13811111111',
     time: 5
-  }
+  },
+  {
+    id: 1,
+    title: '精装修单间',
+    rent: 2500,
+    rentMethod: true,
+    houseType: '单间',
+    useArea: '30m²',
+    floor: '5/10',
+    orientation: '南',
+    pic: 'src/assets/head.jpg',
+    houseDesc: '离地铁站非常近，适合单人居住。',
+    contact: '李先生',
+    mobile: '13800000000',
+    time: 3
+  },
 ])
 
 // 表单控制

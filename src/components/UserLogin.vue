@@ -15,7 +15,7 @@ const errorMessage = ref('');
 
 // 跳转到忘记密码页面
 const goToForgotPassword = () => {
-  router.push('/UserRegister');
+  router.push('/UserForget');
 };
 
 // 跳转到注册页面
