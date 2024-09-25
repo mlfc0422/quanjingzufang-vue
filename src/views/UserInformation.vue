@@ -42,49 +42,45 @@
               class="avatar-uploader"
               action="#"
               :show-file-list="false"
-              @change="handleAvatarChange"
               :disabled="!isEditing"
+              :before-upload="handleAvatarChange"
           >
-            <el-button size="small" type="primary">更换头像</el-button>
+            <el-button size="small" type="primary" :disabled="!isEditing">更换头像</el-button>
           </el-upload>
         </el-form-item>
 
         <el-form-item label="用户名" prop="userName">
           <el-input v-model="userInfo.userName" :disabled="!isEditing"></el-input>
         </el-form-item>
-
         <el-form-item label="邮箱" prop="email">
           <el-input v-model="userInfo.email" :disabled="!isEditing"></el-input>
         </el-form-item>
-
-        <el-form-item label="电话" prop="phone">
-          <el-input v-model="userInfo.phone" :disabled="!isEditing"></el-input>
+        <el-form-item label="电话" prop="phoneNumber">
+          <el-input v-model="userInfo.phoneNumber" :disabled="!isEditing"></el-input>
         </el-form-item>
-
         <el-form-item label="性别" prop="gender">
-          <el-select v-model="userInfo.gender" placeholder="请选择性别" :disabled="!isEditing">
+          <el-select v-model="userInfo.gender" :disabled="!isEditing">
             <el-option label="男" value="male"></el-option>
             <el-option label="女" value="female"></el-option>
           </el-select>
         </el-form-item>
-
-        <el-form-item label="真实姓名" prop="realName">
-          <el-input v-model="userInfo.realName" :disabled="!isEditing"></el-input>
-        </el-form-item>
-
         <el-form-item label="年龄" prop="age">
           <el-input v-model="userInfo.age" type="number" :disabled="!isEditing"></el-input>
         </el-form-item>
-
+        <el-form-item label="账号" prop="account">
+          <el-input v-model="userInfo.account" :disabled="!isEditing"></el-input>
+        </el-form-item>
+        <el-form-item label="真实姓名" prop="realName">
+          <el-input v-model="userInfo.realName" :disabled="!isEditing"></el-input>
+        </el-form-item>
         <el-form-item label="地址" prop="address">
           <el-input v-model="userInfo.address" :disabled="!isEditing"></el-input>
         </el-form-item>
-
         <el-form-item label="身份证号" prop="idNumber">
           <el-input v-model="userInfo.idNumber" :disabled="!isEditing"></el-input>
         </el-form-item>
 
-        <!-- 保存按钮，编辑状态下显示 -->
+        <!-- 保存按钮 -->
         <el-form-item v-if="isEditing">
           <el-button type="primary" @click="saveUserInfo">保存</el-button>
           <el-button @click="isEditing = false">取消</el-button>
@@ -103,11 +99,11 @@ import router from "../router/router.ts";
 
 // 定义用户信息接口
 interface UserInfo {
-  userId: string;
+  id: string;
   avatar: File | null; // 修改为 File 类型以便上传
   userName: string;
   email: string;
-  phone: string;
+  phoneNumber: string;
   gender: string;
   age: number;
   account: string;
@@ -118,11 +114,11 @@ interface UserInfo {
 
 // 表单数据
 const userInfo = reactive<UserInfo>({
-  userId: '',
+  id: '',
   avatar: null, // 初始为空
   userName: '',
   email: '',
-  phone: '',
+  phoneNumber: '',
   gender: '',
   age: 0,
   account: '',
@@ -143,10 +139,7 @@ const goHome = () => {
 
 // 是否编辑状态
 const isEditing = ref(false);
-const isUploading = ref(false); // 上传状态
-const id = localStorage.getItem('userId');
-// 用于存储上传的文件
-const avatarFile = ref<File | null>(null);
+const userId = localStorage.getItem('userId');
 
 
 
@@ -154,7 +147,7 @@ const avatarFile = ref<File | null>(null);
 const rules = {
   userName: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
   email: [{ required: true, message: '请输入邮箱', trigger: 'blur' }],
-  phone: [{ required: true, message: '请输入电话', trigger: 'blur' }],
+  phoneNumber: [{ required: true, message: '请输入电话', trigger: 'blur' }],
   gender: [{ required: true, message: '请选择性别', trigger: 'change' }],
   realName: [{ required: true, message: '请输入真实姓名', trigger: 'blur' }],
   age: [{ required: true, message: '请输入年龄', trigger: 'blur' }],
@@ -165,7 +158,7 @@ const rules = {
 // 模拟获取用户信息数据
 const fetchUserInfo = async () => {
   try {
-    const response = await axios.get(`/yonghu/user/${id}`); // 假设接口返回用户信息
+    const response = await axios.get(`/yonghu/user/${userId}`); // 假设接口返回用户信息
     if (response.data.code === 1) {
       Object.assign(userInfo, response.data.data); // 将数据赋值给 userInfo
     } else {
@@ -176,46 +169,44 @@ const fetchUserInfo = async () => {
   }
 };
 
-// 保存用户信息
 const saveUserInfo = async () => {
-  isUploading.value = true; // 开始上传状态
   try {
-    userInfo.userId = id;
-    const formData = new FormData();
-    formData.append('userInfo', new Blob([JSON.stringify(userInfo)], { type: 'application/json' }));
+    // 将用户 ID 添加到 userInfo 中
+    userInfo.id = userId;
 
-    // 只在有头像时添加头像到 formData
-    if (userInfo.avatar) {
-      formData.append('avatar', userInfo.avatar);
-    }
+    // 发送 PUT 请求更新用户信息
+    const response = await axios.put('/yonghu/user/update', userInfo);
 
-    const response = await axios.put(`/yonghu/user/update`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data' // 设置请求头为 multipart/form-data
-      }
-    });
-
+    // 检查返回的响应
     if (response.data.code === 1) {
-      ElMessage.success('用户信息保存成功');
-      isEditing.value = false; // 退出编辑模式
+      ElMessage.success('保存用户信息成功');
+      isEditing.value = false; // 保存成功后退出编辑状态
+      await fetchUserInfo(); // 重新获取用户信息
     } else {
       ElMessage.error('保存用户信息失败');
     }
   } catch (error) {
-    ElMessage.error('保存用户信息时出错');
-  } finally {
-    isUploading.value = false; // 结束上传状态
+    console.error('保存用户信息失败:', error);
+    ElMessage.error('保存用户信息失败，请重试。'); // 显示错误消息
   }
 };
 
-// 处理头像上传
-const handleAvatarChange = (file: File) => {
-  avatarFile.value = file;
-  const reader = new FileReader();
-  reader.onload = (e) => {
-    userInfo.avatar = e.target.result as string; // 更新头像预览
-  };
-  reader.readAsDataURL(file);
+
+const handleAvatarChange = async (file) => {
+  const formData = new FormData();
+  formData.append('avatar', file);
+
+  try {
+    const response = await axios.post(`/yonghu/user/userUpload/${userId}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
+    userInfo.value.avatar = response.data.avatarUrl; // 更新用户头像
+  } catch (error) {
+    console.error('头像上传失败:', error);
+    this.$message.error('头像上传失败，请重试。');
+  }
 };
 
 onMounted(() => {

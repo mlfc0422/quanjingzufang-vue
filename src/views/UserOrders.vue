@@ -91,7 +91,7 @@ onMounted(() => {
                   <span>订单号：{{ order.out_trade_no }}</span>
                 </el-col>
                 <el-col :span="12" style="text-align: right">
-                  <span :style="{ color: order.status === '已完成' ? '#28a745' : '#b80000' }">{{ order.status }}</span>
+                  <span :style="{ color: order.status === '已支付' ? '#28a745' : '#b80000' }">{{ order.status }}</span>
                 </el-col>
               </el-row>
               <el-row style="padding: 10px 0 0 0;">
@@ -119,7 +119,7 @@ onMounted(() => {
                       <span style="font-size: 12px; color: #999;padding: 0 0 0 5px">订单时间：{{ order.createTime }}</span> <!-- 订单时间 -->
                     </el-col>
                     <el-col :span="4" style="display: flex; align-items: flex-end; justify-content: flex-end;">
-                      <el-button @click="handleView(order)" size="small" class="custom-button">查看</el-button>
+                      <el-button v-if="order.status === '已创建'" @click="handleView(order)" size="small" class="custom-button">查看</el-button>
                     </el-col>
                   </el-row>
                 </el-col>

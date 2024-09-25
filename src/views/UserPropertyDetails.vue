@@ -20,8 +20,6 @@
             <img :src="image" alt="Carousel Image" class="carousel-image" />
           </el-carousel-item>
         </el-carousel>
-
-
       </div>
     </div>
 
@@ -81,7 +79,7 @@ const handleSelect = (key: string, keyPath: string[]) => {
 const route = useRoute();
 const router = useRouter();
 const houseId = route.params.id; // 获取动态路由参数中的房源ID
-
+const userId = localStorage.getItem('userId'); // 获取用户ID
 // 模拟房源数据（可替换为从后端获取数据的逻辑）
 const house = ref({
   id: 0,               // 房屋ID
@@ -99,26 +97,30 @@ const house = ref({
   time: 0,             // 看房时间
   created: new Date(), // 创建时间
   updated: new Date(), // 更新时间
-  statusCode: false    // 状态码（false表示无效，true表示有效）
+  statusCode: false,   // 状态码（false表示无效，true表示有效）
+  urls: []             // 图片数组
 });
 
 // 我的图片数组
-const images = ref([
-  'src/assets/轮播图1.jpg',
-  'src/assets/轮播图2.jpg',
-  'src/assets/img01.jpg',
-  'src/assets/login.jpg',
-  'src/assets/head.jpg'
-]);
+const images = ref([]);
 
 
 
 const fetchHouseDetails = async (id: number) => {
+  console.log(`请求房源详情，ID: ${id}`); // 打印请求的 ID
   try {
-    const response = await axios.get(`/fangyuan/property/${id}`);
+    const response = await axios.get(`/fangyuan/property/${id}`, {
+      params: {
+        UserId: userId,
+      }
+    });
+    console.log('响应数据:', response.data); // 打印响应数据
     const { code, msg, data } = response.data;
+
     if (code === 1 && data) {
-      house.value = data;
+      house.value = data.property; // 更新为 data.property
+      images.value = data.urls; // 更新图片数组
+      console.log('获取房源详情成功:', house.value); // 打印成功获取的数据
     } else {
       console.error('获取房源详情失败:', msg || '未知错误');
     }

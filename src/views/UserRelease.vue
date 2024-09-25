@@ -13,7 +13,7 @@
       <el-menu-item index="2" @click="goUserMine">个人中心</el-menu-item>
       <el-menu-item index="1">我的发布</el-menu-item>
     </el-menu>
-    <div class="h-6" />
+    <div class="h-6"/>
   </el-affix>
 
   <div class="container my-4">
@@ -47,10 +47,10 @@
   <el-dialog :title="isEditing ? '编辑房源' : '发布新房源'" v-model="dialogVisible">
     <el-form :model="form" label-width="100px">
       <el-form-item label="房源标题">
-        <el-input v-model="form.title" />
+        <el-input v-model="form.title"/>
       </el-form-item>
       <el-form-item label="租金">
-        <el-input v-model="form.rent" type="number" />
+        <el-input v-model="form.rent" type="number"/>
       </el-form-item>
       <el-form-item label="租赁方式">
         <el-select v-model="methodDisplay" placeholder="租赁方式">
@@ -58,45 +58,42 @@
         </el-select>
       </el-form-item>
       <el-form-item label="房屋类型">
-        <el-input v-model="form.houseType" />
+        <el-input v-model="form.houseType"/>
       </el-form-item>
       <el-form-item label="使用面积">
-        <el-input v-model="form.useArea" />
+        <el-input v-model="form.useArea"/>
       </el-form-item>
       <el-form-item label="所在楼层">
-        <el-input v-model="form.floor" />
+        <el-input v-model="form.floor"/>
       </el-form-item>
       <el-form-item label="朝向">
-        <el-input v-model="form.orientation" />
+        <el-input v-model="form.orientation"/>
       </el-form-item>
       <!-- 图片上传 -->
       <el-form-item label="上传图片">
         <el-upload
             class="upload-demo"
-            action="/upload"
-        list-type="picture-card"
-        :on-preview="handlePreview"
-        :on-remove="handleRemove"
-        :limit="5"
-        :auto-upload="true"
-        :file-list="fileList"
-        :on-success="handleSuccess"
+            list-type="picture-card"
+            :limit="5"
+            :auto-upload="false"
+            :file-list="fileList"
+            :on-change="handleChange"
         >
-        <i class="el-icon-plus"></i>
+          <i class="el-icon-plus"></i>
         </el-upload>
-      <el-dialog v-model="previewVisible" width="30%">
-        <img width="100%" :src="previewImage" alt="" />
-      </el-dialog>
+        <el-dialog v-model="previewVisible" width="30%">
+          <img width="100%" :src="previewImage" alt=""/>
+        </el-dialog>
       </el-form-item>
 
       <el-form-item label="房源描述">
-        <el-input type="textarea" v-model="form.houseDesc" />
+        <el-input type="textarea" v-model="form.houseDesc"/>
       </el-form-item>
       <el-form-item label="联系人姓名">
-        <el-input v-model="form.contact" />
+        <el-input v-model="form.contact"/>
       </el-form-item>
       <el-form-item label="联系人手机号">
-        <el-input v-model="form.mobile" />
+        <el-input v-model="form.mobile"/>
       </el-form-item>
       <el-form-item label="看房时间">
         <el-select v-model="timeDisplay" placeholder="选择看房时间">
@@ -114,10 +111,13 @@
 </template>
 
 <script lang="ts" setup>
-import {computed, ref} from 'vue'
+import {onMounted, ref,computed} from 'vue'
 
 //导航栏
 import router from "../router/router.ts";
+import {ElMessage, ElMessageBox} from 'element-plus'
+import axios from "axios";
+
 const activeIndex = ref('1')
 const handleSelect = (key: string, keyPath: string[]) => {
   console.log(key, keyPath)
@@ -126,13 +126,15 @@ const goUserMine = () => {
   router.push("/UserMine")
 }
 
+const id = localStorage.getItem('userId') // 获取当前登录用户的 ID
 // 房源列表数据
 interface House {
+  ownerId: string;          // 房东 ID
   id: number;               // 房源 ID
   title: string;            // 房源标题
   rent: number;             // 租金
   rentMethod: boolean;      // 租赁方式（如：整租或合租）
-  houseType: string;        // 房屋类型（如：公寓、别墅等）
+  houseType: string;        // 房屋类型
   useArea: string;          // 使用面积
   floor: string;            // 所在楼层
   orientation: string;      // 朝向
@@ -141,56 +143,14 @@ interface House {
   contact: string;          // 联系人姓名
   mobile: string;           // 联系人手机号码
   time: number;             // 看房时间 1是上午 2是中午 3是下午 4是晚上 5是全天
+  created: Date;            // 创建时间
+  updated: Date;            // 更新时间
+  statusCode: boolean;      // 状态码（如：是否有效）
+  leaseTerm: number;        // 租期
 }
 
 // 房源数据
-const userListings = ref<House[]>([
-  {
-    id: 1,
-    title: '精装修单间',
-    rent: 2500,
-    rentMethod: true,
-    houseType: '单间',
-    useArea: '30m²',
-    floor: '5/10',
-    orientation: '南',
-    pic: 'src/assets/img01.jpg',
-    houseDesc: '离地铁站非常近，适合单人居住。',
-    contact: '李先生',
-    mobile: '13800000000',
-    time: 3
-  },
-  {
-    id: 2,
-    title: '两室一厅出租',
-    rent: 4500,
-    rentMethod: false,
-    houseType: '两居室',
-    useArea: '60m²',
-    floor: '3/6',
-    orientation: '东',
-    pic: 'src/assets/轮播图1.jpg',
-    houseDesc: '环境好，交通方便，适合家庭居住。',
-    contact: '王女士',
-    mobile: '13811111111',
-    time: 5
-  },
-  {
-    id: 1,
-    title: '精装修单间',
-    rent: 2500,
-    rentMethod: true,
-    houseType: '单间',
-    useArea: '30m²',
-    floor: '5/10',
-    orientation: '南',
-    pic: 'src/assets/head.jpg',
-    houseDesc: '离地铁站非常近，适合单人居住。',
-    contact: '李先生',
-    mobile: '13800000000',
-    time: 3
-  },
-])
+const userListings = ref<House[]>([])
 
 // 表单控制
 const dialogVisible = ref(false)
@@ -199,32 +159,9 @@ const isEditing = ref(false) // 标识当前是编辑模式还是发布模式
 
 // 编辑房源
 const editListing = (house: House) => {
-  form.value = { ...house } // 复制当前房源信息到表单
+  form.value = {...house} // 复制当前房源信息到表单
   isEditing.value = true
   dialogVisible.value = true
-}
-
-// 图片上传相关控制
-const fileList = ref<any[]>([])  // 保存图片文件列表
-const previewImage = ref<string>('')  // 预览的图片链接
-const previewVisible = ref(false)  // 控制图片预览对话框的显示
-
-// 处理上传成功的回调
-const handleSuccess = (response: any) => {
-  form.value.pic = response.url // 假设上传接口返回的图片地址为 response.url
-  console.log('图片上传成功:', response)
-}
-
-// 处理图片预览
-const handlePreview = (file: any) => {
-  previewImage.value = file.url
-  previewVisible.value = true
-}
-
-// 处理图片移除
-const handleRemove = (file: any, fileList: any) => {
-  console.log('图片删除:', file, fileList)
-  form.value.pic = '' // 如果用户删除图片，则清空图片路径
 }
 
 
@@ -272,17 +209,7 @@ const timeDisplay = computed({
 const updateForm = () => {
   console.log(form.value.title)
 }
-// 提交表单
-const submitForm = () => {
-  if (isEditing.value) {
-    console.log('保存编辑后的房源信息:', form.value)
-    // 这里可以发送请求到后端保存更新
-  } else {
-    console.log('发布新房源:', form.value)
-    // 这里可以发送请求到后端保存新房源
-  }
-  dialogVisible.value = false
-}
+
 
 import { ElMessageBox, ElMessage } from 'element-plus'
 
@@ -311,6 +238,82 @@ const deleteListing = (id: number) => {
       })
 }
 
+const fileList = ref([]); // 上传的文件列表
+const handleChange = (file, newFileList) => {
+  fileList.value = newFileList;
+};
+
+const submitForm = async () => {
+  // 1. 构建房源数据对象
+  const HouseData = {
+    id: form.value.id,
+    ownerId: id,
+    title: form.value.title,
+    rent: form.value.rent,
+    rentMethod: form.value.rentMethod,
+    houseType: form.value.houseType,
+    useArea: form.value.useArea,
+    floor: form.value.floor,
+    orientation: form.value.orientation,
+    houseDesc: form.value.houseDesc,
+    contact: form.value.contact,
+    mobile: form.value.mobile,
+    time: form.value.time,
+    leaseTerm: "2"
+  };
+
+  // 2. 上传房源信息
+  try {
+    const response = await axios.post(`/fangyuan/property/add`, HouseData);
+    console.log('响应数据:', response.data); // 打印响应数据
+    const { code, msg, data } = response.data;
+
+    if (code === 1 && data) {
+      HouseData.id = data.id; // 更新为 data.id
+      console.log('发布房源成功:', HouseData); // 打印成功获取的数据
+      // 3. 上传图片
+      if (fileList.value.length > 0) {
+        console.log('开始上传图片', fileList.value);
+        const imageUploadPromises = fileList.value.map(file => {
+          const formData = new FormData();
+          formData.append('image', file.raw);
+
+          return axios.post(`fangyuan/property/addimg/${HouseData.id}`, formData, {
+            headers: {'Content-Type': 'multipart/form-data'}
+          });
+        });
+
+        await Promise.all(imageUploadPromises); // 等待所有图片上传完成
+        console.log('所有图片上传成功');
+      } else {
+        console.warn('没有文件需要上传');
+      }
+
+    } else {
+      console.error('发布房源失败:', msg || '未知错误');
+    }
+  } catch (error) {
+    console.error('发布房源过程中出现错误:', error);
+  } finally {
+    dialogVisible.value = false; // 无论成功与否，关闭对话框
+  }
+};
+
+onMounted(() => {
+  // 获取房源列表
+  axios.get(`/fangyuan/property/listMyProperty/${id}`)
+      .then(response => {
+        const { code, msg, data } = response.data;
+        if (code === 1 && data) {
+          userListings.value = data;
+        } else {
+          console.error('获取房源列表失败:', msg || '未知错误');
+        }
+      })
+      .catch(error => {
+        console.error('获取房源列表时发生错误:', error);
+      });
+});
 </script>
 
 <style scoped>

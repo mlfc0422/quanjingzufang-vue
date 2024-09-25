@@ -26,6 +26,7 @@
           <p class="text-truncate">描述: {{ house.description }}</p>
           <div class="d-flex justify-content-between mt-3">
             <el-button type="danger" size="small" @click="deleteListing(house.id)">取消收藏</el-button>
+            <el-button type="success" size="small" @click="goPropertyDetails(house.id)">查看详情</el-button>
           </div>
         </el-card>
       </div>
@@ -34,10 +35,11 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
-
-//导航栏
+import {onMounted, ref} from 'vue'
 import router from "../router/router.ts";
+import axios from "axios";
+
+const userId = localStorage.getItem('userId')
 const activeIndex = ref('1')
 const handleSelect = (key: string, keyPath: string[]) => {
   console.log(key, keyPath)
@@ -55,68 +57,49 @@ interface Listing {
   description: string;
 }
 
-const userListings = ref<Listing[]>([
-  {
-    id: 1,
-    image: 'src/assets/login.jpg',
-    title: '精装一居室出租',
-    price: 5000,
-    address: '北京市朝阳区',
-    description: '靠近地铁，配套设施齐全。'
-  },
-  {
-    id: 2,
-    image: 'src/assets/img01.jpg',
-    title: '两室一厅带阳台',
-    price: 8000,
-    address: '上海市浦东新区',
-    description: '采光充足，附近有超市、学校。'
-  },
-  {
-    id: 3,
-    image: 'src/assets/img01.jpg',
-    title: '三室两厅精装',
-    price: 12000,
-    address: '广州市天河区',
-    description: '环境优美，交通便利。'
-  },
-  {
-    id: 4,
-    image: 'src/assets/login.jpg',
-    title: '单身公寓出租',
-    price: 3000,
-    address: '深圳市福田区',
-    description: '配备家电，临近地铁站。'
-  },
-  {
-    id: 5,
-    image: 'src/assets/img01.jpg',
-    title: '温馨两居室',
-    price: 6500,
-    address: '杭州市西湖区',
-    description: '适合家庭，靠近公园。'
-  },
-  {
-    id: 6,
-    image: 'src/assets/login.jpg',
-    title: '豪华复式公寓',
-    price: 15000,
-    address: '南京市建邺区',
-    description: '视野开阔，设施完善。'
-  },
-  {
-    id: 7,
-    image: 'src/assets/img01.jpg',
-    title: '经济型一居室',
-    price: 4000,
-    address: '武汉市江汉区',
-    description: '租金合理，交通方便。'
-  },
-  // 添加更多房源数据
-])
+const userListings = ref<Listing[]>([])
 const deleteListing = (id: number) => {
   console.log(`取消收藏: ${id}`)
+const userListings = ref<Listing[]>([])
+const deleteListing = async (id: number) => {
+  try {
+    // 调用API删除收藏的房源
+    const response = await fetch(`/listings/${id}`, {
+      method: 'DELETE',
+    });
+    if (response.ok) {
+      // 更新userListings列表
+      userListings.value = userListings.value.filter(house => house.id !== id);
+      console.log(`取消收藏: ${id}`);
+    } else {
+      console.error(`删除房源失败: ${response.statusText}`);
+    }
+  } catch (error) {
+    console.error(`删除房源失败: ${error}`);
+  }
 }
+
+const goPropertyDetails = (id: number) => {
+  router.push({ name: 'UserPropertyDetails', params: { id } });
+  console.log(`查看详情: ${id}`);
+}
+
+onMounted(() => {
+  axios.get(`/fangyuan/property/favorite/${userId}`)
+      .then(response => {
+        const { code, msg, data } = response.data;
+        if (code === 1 && data) {
+          userListings.value = data;
+        } else {
+          console.error('获取房源列表失败:', msg || '未知错误');
+        }
+      })
+      .catch(error => {
+        console.error('获取房源列表时发生错误:', error);
+      });
+})
+}
+
 </script>
 
 <style scoped>
